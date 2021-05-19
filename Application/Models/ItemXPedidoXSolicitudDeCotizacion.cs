@@ -11,12 +11,12 @@ namespace Application.Models
     {
         public int Id { get; set; }
         [Column(TypeName = "decimal(9,2)")]
-        public decimal PrecioUnitario { get; set; }
+        public decimal? PrecioUnitario { get; set; }
         [Column(TypeName = "decimal(9,2)")]
-        public decimal PrecioTotal { get; set; }
-        public int ItemXPedidoId { get; set; }
+        public decimal? PrecioTotal { get; set; }
+        public int? ItemXPedidoId { get; set; }
         public ItemXPedido ItemXPedido { get; set; }
-        public int SolicitudDeCotizacionId { get; set; }
+        public int? SolicitudDeCotizacionId { get; set; }
         public SolicitudDeCotizacion SolicitudDeCotizacion { get; set; }
     }
 }

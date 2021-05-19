@@ -9,9 +9,9 @@ namespace Application.Models
     {
         public int Id { get; set; }
         public string Observaciones { get; set; }
-        public int PedidoId { get; set; }
+        public int? PedidoId { get; set; }
         public Pedido Pedido { get; set; }
-        public int SolicitudDeCotizacionId { get; set; }
+        public int? SolicitudDeCotizacionId { get; set; }
         public SolicitudDeCotizacion SolicitudDeCotizacion { get; set; }
     }
 }

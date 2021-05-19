@@ -13,9 +13,9 @@ namespace Application.Models
         public string EntregarA { get; set; }
         public string ActividadOperativa { get; set; }
         public string Motivo { get; set; }
-        public DateTime Fecha { get; set; }
-        public bool ValidacionDelSolicitante { get; set; }
-        public int PedidoEstadoId { get; set; }
+        public DateTime? Fecha { get; set; }
+        public bool? ValidacionDelSolicitante { get; set; }
+        public int? PedidoEstadoId { get; set; }
         public PedidoEstado PedidoEstado { get; set; }
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
         public ICollection<PedidoXSolicitudDeCotizacion> PedidoXSolicitudDeCotizacionS { get; set; }

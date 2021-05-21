@@ -20,5 +20,6 @@ namespace Application.Models
         public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<SolicitudDeCotizacion> SolicitudDeCotizacion { get; set; }
         public DbSet<SolicitudDeCotizacionEstado> SolicitudDeCotizacionEstado { get; set; }
+        public DbSet<Documento> Documento { get; set; }
     }
 }

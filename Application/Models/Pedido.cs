@@ -19,5 +19,6 @@ namespace Application.Models
         public PedidoEstado PedidoEstado { get; set; }
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
         public ICollection<PedidoXSolicitudDeCotizacion> PedidoXSolicitudDeCotizacionS { get; set; }
+        public ICollection<Documento> DocumentoS { get; set; }
     }
 }

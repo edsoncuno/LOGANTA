@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RsGmYtENdUI7+5Nqd6/PJdK2JPMEfnregbFFwKnXj33jm/NiA2NqyN94rXSJ02fXxnynFo98Rb7s2tU7R/Q0Vw==",
+  "dgSpecHash": "ii9SpZy+TsSyJH8kkj0SqAnsUp39/unb4d2VGlOahYK85F2xHZvVv5/pXsFyhouMDKJkRkvFBm519/MfLPo3Lw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Edson Cuno\\Downloads\\!\\LOGANTA\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Edson Cuno\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Edson Cuno\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

@@ -10,6 +10,7 @@ namespace Application.Models
         public int Id { get; set; }
         public string Descripcion { get; set; }
         public string UnidadDeMedida { get; set; }
+        public int? Predeterminado { get; set; }
         public ICollection<ItemXProveedor> ItemXProveedorS { get; set; }
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
     }

@@ -1,0 +1,167 @@
+﻿<div class="container h4 mb-3">Enviar Documentos</div>
+<div class="row">
+    <div class="col-6">
+        <div class="row mb-3">
+            <div class="col-6">
+                <input class="form-control" type="text" placeholder="Buscar Pedido" id="valorDelFiltro">
+            </div>
+            <div class="col-6">
+                <select class="custom-select" id="seleccionDeBusqueda">
+                    <option value="Código">Por Código</option>
+                    <option value="ActividadOperativa">Por Actividad Operativa</option>
+                    <option value="TipoDeUso">Por Tipo de Uso</option>
+                    <option value="Fecha">Por Fecha</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <button class="btn border-dark" onclick="seleccionarBusquedaDePedido()">Buscar</button>
+            </div>
+        </div>
+        <div class="h3 text-center">Pedido</div>
+        <div class="row">
+            <div class="col-9">
+                <label class="font-weight-bold">Código: </label>
+                <br />
+                <label id="codigo">1</label>
+                <br />
+                <label class="font-weight-bold">Dirección del Solicitante: </label>
+                <br />
+                <label id="direccionDeSolicitante">asdasd</label>
+                <br />
+                <label class="font-weight-bold">Entregar a: </label>
+                <br />
+                <label id="entregarA">asdasd</label>
+                <br />
+                <label class="font-weight-bold">Actividad Operativa: </label>
+                <br />
+                <label id="actividadOperativa">asdasd</label>
+                <br />
+                <label class="font-weight-bold">Motivo: </label>
+                <br />
+                <label id="motivo">asdasd</label>
+            </div>
+            <div class="col-3">
+                <label class="font-weight-bold">Fecha: </label>
+                <label id="fecha">1/1/2000</label>
+                <br />
+                <label class="font-weight-bold">Hora: </label>
+                <label id="hora">00:00:00 AM</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <form action="/Documento/Enviar" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Código del Pedido</label>
+                </div>
+                <select class="custom-select" onchange="mostrarPedido()" id="selectConListaDePedidos" name="pedidoId" required></select>
+            </div>
+            <div class="invalid-feedback" id="validacionPedidoId">Seleccione un Pedido</div>
+            <br />
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="archivos" id="archivos" multiple required>
+                    <label class="custom-file-label">Elegir Documentos</label>
+                </div>
+            </div>
+            <div class="invalid-feedback" id="validacionDocumento">Seleccione almenos un documento</div>
+            <br />
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Observaciones</span>
+                </div>
+                <textarea class="form-control" aria-label="With textarea" name="observaciones" placeholder="Este campo es opcional"></textarea>
+            </div>
+            <br />
+            <input class="btn btn-primary" type="submit" value="Enviar" onsubmit="return validacion()" />
+        </form>
+    </div>
+</div>
+<script>
+    listaDePedidos = null
+    selectConListaDePedidos = document.getElementById('selectConListaDePedidos');
+    codigo = document.getElementById('codigo');
+    direccionDeSolicitante = document.getElementById('direccionDeSolicitante');
+    entregarA = document.getElementById('entregarA');
+    actividadOperativa = document.getElementById('actividadOperativa');
+    motivo = document.getElementById('motivo');
+    fecha = document.getElementById('fecha');
+    hora = document.getElementById('hora');
+    fechahora = null
+    archivos = document.getElementById('archivos');
+    //
+    window.addEventListener('load', function () {
+        codigo.innerHTML = '';
+        direccionDeSolicitante.innerHTML = '';
+        entregarA.innerHTML = null;
+        actividadOperativa.innerHTML = null;
+        motivo.innerHTML = null;
+        fecha.innerHTML = null;
+        hora.innerHTML = null;
+    });
+    //
+    function seleccionarBusquedaDePedido() {
+        filtro = document.getElementById('seleccionDeBusqueda').value;
+        valorDelFiltroDeBusqueda = document.getElementById('valorDelFiltro').value;
+        buscarPedido(filtro, valorDelFiltroDeBusqueda);
+    }
+    function buscarPedido(filtro, valor) {
+        url = "/Pedido/ObtenerPedidos?" + "filtro=" + filtro + "&valor=" + valor;
+        this.fetch(url).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            listaDePedidos = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            llenarSelectConListaDePedidos();
+        });
+    }
+    function llenarSelectConListaDePedidos() {
+        while (selectConListaDePedidos.length != 0) {
+            selectConListaDePedidos.remove(0);
+        }
+        listaDePedidos.forEach(function (object) {
+            nuevaOption = document.createElement('option');
+            nuevaOption.value = object.id;
+            nuevaOption.innerHTML = object.id;
+            selectConListaDePedidos.add(nuevaOption);
+        });
+    }
+    function mostrarPedido() {
+        for (let i = 0; listaDePedidos.length; i++) {
+            if (listaDePedidos[i].id == selectConListaDePedidos.value) {
+                codigo.innerHTML = listaDePedidos[i].id;
+                direccionDeSolicitante.innerHTML = listaDePedidos[i].direccionDeSolicitante;
+                entregarA.innerHTML = listaDePedidos[i].entregarA;
+                actividadOperativa.innerHTML = listaDePedidos[i].actividadOperativa;
+                motivo.innerHTML = listaDePedidos[i].motivo;
+                temp = convertirFechaHora(listaDePedidos[i].fecha);
+                fecha.innerHTML = temp[0];
+                hora.innerHTML = temp[1];
+                break;
+            }
+        }
+    }
+    function convertirFechaHora(fechaJSON) {
+        let regexFecha = /^\d\d\d\d[-]\d\d[-]\d\d/;
+        let regexHora = /\d\d:\d\d:\d\d/;
+        let fecha = regexFecha.exec(fechaJSON);
+        let hora = regexHora.exec(fechaJSON);
+        var array = new Object();
+        array[0] = fecha;
+        array[1] = hora;
+        return array;
+    }
+    /*
+    archivos.addEventListener('invalid', function (evt) {
+        if (this.validity.valueMissing) {
+            this.setCustomValidity('Seleccione almenos un archivo');
+        }
+    })
+    selectConListaDePedidos.addEventListener('invalid', function (evt) {
+        if (this.validity.valueMissing) {
+            this.setCustomValidity('Seleccione un Pedido');
+        }
+    })*/
+</script>

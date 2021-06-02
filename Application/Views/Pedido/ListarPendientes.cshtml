@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Application.Models.Pedido>
+
+<div class="container w-100 text-center h1">Lista de Pedidos Pendientes</div>
+<hr>
+@using (Html.BeginForm("ListarPendientes","Pedido",FormMethod.Post))
+{
+    <div class="row align-items-center">
+        <div class="col-1">
+            <label class="form-label h5">Filtro: </label>
+        </div>
+        <div class="col-3 input-group">
+            <select class="form-control border rounded" aria-label="Default select example" type="text" name="filtro">
+                <option selected></option>
+                <option value="CÓDIGO">POR CÓDIGO</option>
+                <option value="ACTIVIDAD OPERATIVA">POR ACTIVIDAD OPERATIVA</option>
+                <option value="TIPO DE USO">POR TIPO DE USO</option>
+                <option value="FECHA">POR FECHA</option>
+            </select>
+        </div>
+        <div class="col-2 input-group">
+            <input class="form-control" type="text" name="valor"/>
+        </div>
+        <div class="col-2 form-group m-0">
+            <input class="btn border m-0" type="submit" value="Aplicar Filtro">
+        </div>
+        <div class="col"></div>
+    </div>
+}
+<hr>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>
+                CÓDIGO
+            </th>
+            <th>
+                ACTIVIDAD OPERATIVA
+            </th>
+            <th>
+                TIPO DE USO
+            </th>
+            <th>
+                FECHA Y HORA
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => pedido.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => pedido.ActividadOperativa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => pedido.TipoDeUso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => pedido.Fecha)
+                </td>
+                <td>
+                    <a asp-action="MostrarPendiente" asp-route-id="@pedido.Id">Ver Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

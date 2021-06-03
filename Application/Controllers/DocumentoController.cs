@@ -20,15 +20,17 @@ namespace Application.Controllers
         {
             _context = context;
         }
-        public IActionResult Enviar()
+        public IActionResult Enviar(int id)
         {
+            //id se refiere a PedidoId
+            ViewData["PedidoId"] = id; 
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Enviar([FromForm] List<IFormFile> archivos, string observaciones, int pedidoId)
         {
             List<Documento> documentos = new List<Documento>();
-            string rutaParaDocumento = "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\wwwroot\\documento\\";
+            string rutaParaDocumento = "..\\Application\\wwwroot\\documento\\";
             if (archivos.Count >0)
             {
                 foreach (IFormFile archivo in archivos) {

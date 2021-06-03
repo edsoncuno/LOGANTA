@@ -203,6 +203,11 @@ namespace Application.Controllers
                 }
             }
         }
+        public JsonResult ObtenerPedido(int pedidoId)
+        {
+            var pedidoQueBusco = from pedido in _context.Pedido where pedido.Id == pedidoId select pedido;
+            return Json(pedidoQueBusco);
+        }
         // GET: Pedido
         public async Task<IActionResult> Index()
         {

@@ -42,7 +42,9 @@
             <th>
                 FECHA Y HORA
             </th>
-            <th></th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -62,7 +64,7 @@
                     @Html.DisplayFor(modelItem => pedido.Fecha)
                 </td>
                 <td>
-                    <a asp-action="MostrarPendiente" asp-route-id="@pedido.Id">Ver Detalles</a>
+                    <a class="btn border-dark" asp-action="MostrarPendiente" asp-route-id="@pedido.Id">Ver Detalles</a>
                 </td>
             </tr>
         }

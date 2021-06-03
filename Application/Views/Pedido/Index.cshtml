@@ -1,81 +1,42 @@
 ﻿@model IEnumerable<Application.Models.Pedido>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="container text-center h1">Lista de Pedidos</div>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DireccionDeSolicitante)
+                CÓDIGO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoDeUso)
+                ACTIVIDAD OPERATIVA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EntregarA)
+                TIPO DE USO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActividadOperativa)
+                FECHA Y HORA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Motivo)
+
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observaciones1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observaciones2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PedidoEstado)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var pedido in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DireccionDeSolicitante)
+                @Html.DisplayFor(modelItem => pedido.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoDeUso)
+                @Html.DisplayFor(modelItem => pedido.ActividadOperativa)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EntregarA)
+                @Html.DisplayFor(modelItem => pedido.TipoDeUso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ActividadOperativa)
+                @Html.DisplayFor(modelItem => pedido.Fecha)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Motivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PedidoEstado.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn border-dark" asp-area="" asp-controller="Documento" asp-action="Enviar" asp-route-id="@pedido.Id">Añadir Documento</a>
             </td>
         </tr>
 }

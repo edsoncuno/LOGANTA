@@ -1,137 +1,143 @@
 ﻿@model Application.Models.Pedido
-<div class="container w-100 h1 text-center">Pedido</div>
-<div class="row">
-    <div class="col-8">
-        <div class="form-group">
-            <label class="control-label">Código: </label>
-            <label class="control-label" id="codigo">@Html.DisplayFor(model => model.Id)</label>
+    <div class="row">
+        <div class="col-1">
+            <a class="btn border-dark" asp-controller="Pedido" asp-action="ListarPendientes">Volver</a>
         </div>
-        <div class="form-group">
-            <label class="control-label">Dirección del Solicitante: </label>
-            <label class="control-label">@Html.DisplayFor(model => model.DireccionDeSolicitante)</label>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Entregar a: </label>
-            <label class="control-label">@Html.DisplayFor(model => model.EntregarA)</label>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Actividad Operativa: </label>
-            <label class="control-label">@Html.DisplayFor(model => model.ActividadOperativa)</label>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Motivo: </label>
-            <label class="control-label">@Html.DisplayFor(model => model.Motivo)</label>
-        </div>
+        <div class="col-11"></div>
     </div>
-    <div class="col-4">
-        <form class="form-group">
-            <label class="control-label">Fecha: </label>
-            <label class="control-label" id="fecha">@Html.DisplayFor(model => model.Fecha)</label>
-        </form>
-        <form class="form-group">
-            <label class="control-label">Hora: </label>
-            <label class="control-label" id="hora">@Html.DisplayFor(model => model.Fecha)</label>
-        </form>
-        <form class="form-group">
-            <button class="btn border-success" type="button" data-toggle="modal" data-target="#modalAprobar">Aprobar</button>
-        </form>
-        <form class="form-group">
-            <button class="btn border-danger" type="button" data-toggle="modal" data-target="#modalDesaprobar">Desaprobar</button>
-        </form>
-    </div>
-</div>
-<div id="modalAprobar" class="modal fate" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <label class="modal-title h5">¿ESTA SEGURO DE APROBAR EL PEDIDO?</label>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
+    <div class="container w-100 h1 text-center">Pedido</div>
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group">
+                <label class="control-label">Código: </label>
+                <label class="control-label" id="codigo">@Html.DisplayFor(model => model.Id)</label>
             </div>
-            <div class="modal-footer">
-                <form asp-action="AprobarPedidoSolicitante">
-                    <input type="hidden" asp-for="Id"/>
-                    <input class="btn btn-success" type="submit" value="SI">
-                </form>
-                <button class="btn-danger btn" data-dismiss="modal">NO</button>
+            <div class="form-group">
+                <label class="control-label">Dirección del Solicitante: </label>
+                <label class="control-label">@Html.DisplayFor(model => model.DireccionDeSolicitante)</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Entregar a: </label>
+                <label class="control-label">@Html.DisplayFor(model => model.EntregarA)</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Actividad Operativa: </label>
+                <label class="control-label">@Html.DisplayFor(model => model.ActividadOperativa)</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Motivo: </label>
+                <label class="control-label">@Html.DisplayFor(model => model.Motivo)</label>
             </div>
         </div>
+        <div class="col-4">
+            <form class="form-group">
+                <label class="control-label">Fecha: </label>
+                <label class="control-label" id="fecha">@Html.DisplayFor(model => model.Fecha)</label>
+            </form>
+            <form class="form-group">
+                <label class="control-label">Hora: </label>
+                <label class="control-label" id="hora">@Html.DisplayFor(model => model.Fecha)</label>
+            </form>
+            <form class="form-group">
+                <button class="btn border-success" type="button" data-toggle="modal" data-target="#modalAprobar">Aprobar</button>
+            </form>
+            <form class="form-group">
+                <button class="btn border-danger" type="button" data-toggle="modal" data-target="#modalDesaprobar">Desaprobar</button>
+            </form>
+        </div>
     </div>
-</div>
-<div id="modalDesaprobar" class="modal fate" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <label class="modal-title h5">OBSERVACIONES</label>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="DesaprobarPedidoSolicitante">
-                    <input type="hidden" asp-for="Id" />
-                    <textarea class="form-control" rows="3" asp-for="Observaciones1"></textarea>
-                    <br />
-                    <input class="btn btn-success" type="submit" value="DESAPROBAR">
-                    <button class="btn-danger btn" data-dismiss="modal">CANCELAR</button>
-                </form>
+    <div id="modalAprobar" class="modal fate" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label class="modal-title h5">¿ESTA SEGURO DE APROBAR EL PEDIDO?</label>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="AprobarPedidoSolicitante">
+                        <input type="hidden" asp-for="Id" />
+                        <input class="btn btn-success" type="submit" value="SI">
+                    </form>
+                    <button class="btn-danger btn" data-dismiss="modal">NO</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<hr />
-<table class="table table-hover">
-    <thead>
-        <tr class="align-items-center">
-            <th>
-                CÓDIGO
-            </th>
-            <th>
-                DESCRIPCION
-            </th>
-            <th>
-                CANTIDAD
-            </th>
-            <th>
-                UNIDAD DE MEDIDA
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="body-de-la-tabla">
-    </tbody>
-</table>
-<!--
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
--->
-<script>
-    const fechaHora = document.getElementById('fecha').innerHTML;
-    const regexFecha = /^(\d|\d\d)[/](\d|\d\d)[/]\d\d\d\d/;
-    const regexHora = /(\d|\d\d):\d\d:\d\d \w\w$/;
-    const fecha = regexFecha.exec(fechaHora);
-    const hora = regexHora.exec(fechaHora);
-    document.getElementById('fecha').innerHTML = fecha[0];
-    document.getElementById('hora').innerHTML = hora[0];
-    /**/
-    codigoDelPedido = this.document.getElementById("codigo").innerHTML;
-    url = "/Pedido/ObtenerItems/" +codigoDelPedido
-    window.addEventListener('load', function () {
-        this.fetch(url).then(function (respuestaDelControlador) {
-            return respuestaDelControlador.json();
-        }).then(function (respuestaDelControladorConvertidoToJSON) {
-            var jsonData = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
-            agregarDatos(jsonData);
-        });
-    });
-    function agregarDatos(data) {
-        var tablebody = document.getElementById('body-de-la-tabla');
-        data.forEach(function (object) {
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td>' + object.id + '</td>' + '<td>' + object.descripcion + '</td>' + '<td>' + object.cantidad + '</td>' + '<td>' + object.unidadDeMedida + '</td>';
-            tablebody.appendChild(tr);
-        });
+    <div id="modalDesaprobar" class="modal fate" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modal-title h5">OBSERVACIONES</label>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="DesaprobarPedidoSolicitante">
+                        <input type="hidden" asp-for="Id" />
+                        <textarea class="form-control" rows="3" asp-for="Observaciones1"></textarea>
+                        <br />
+                        <input class="btn btn-success" type="submit" value="DESAPROBAR">
+                        <button class="btn-danger btn" data-dismiss="modal">CANCELAR</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <table class="table table-hover">
+        <thead>
+            <tr class="align-items-center">
+                <th>
+                    CÓDIGO
+                </th>
+                <th>
+                    DESCRIPCION
+                </th>
+                <th>
+                    CANTIDAD
+                </th>
+                <th>
+                    UNIDAD DE MEDIDA
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="body-de-la-tabla">
+        </tbody>
+    </table>
+    <!--
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
-</script>
+    -->
+    <script>
+        const fechaHora = document.getElementById('fecha').innerHTML;
+        const regexFecha = /^(\d|\d\d)[/](\d|\d\d)[/]\d\d\d\d/;
+        const regexHora = /(\d|\d\d):\d\d:\d\d \w\w$/;
+        const fecha = regexFecha.exec(fechaHora);
+        const hora = regexHora.exec(fechaHora);
+        document.getElementById('fecha').innerHTML = fecha[0];
+        document.getElementById('hora').innerHTML = hora[0];
+        /**/
+        codigoDelPedido = this.document.getElementById("codigo").innerHTML;
+        url = "/Pedido/ObtenerItems/" + codigoDelPedido;
+        window.addEventListener('load', function () {
+            this.fetch(url).then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            }).then(function (respuestaDelControladorConvertidoToJSON) {
+                var jsonData = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+                agregarDatos(jsonData);
+            });
+        });
+        function agregarDatos(data) {
+            var tablebody = document.getElementById('body-de-la-tabla');
+            data.forEach(function (object) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + object.id + '</td>' + '<td>' + object.descripcion + '</td>' + '<td>' + object.cantidad + '</td>' + '<td>' + object.unidadDeMedida + '</td>';
+                tablebody.appendChild(tr);
+            });
+        }
+    </script>

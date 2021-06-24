@@ -41,7 +41,6 @@ C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win-
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.csprojAssemblyReference.cache
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.AssemblyInfoInputs.cache
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.AssemblyInfo.cs
@@ -56,7 +55,6 @@ C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.T
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.TagHelpers.output.cache
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.RazorCoreGenerate.cache
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -144,16 +142,9 @@ C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\zh-Hans\Micro
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Create.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Delete.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Details.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Edit.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Index.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\MostrarPendiente.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarPendientes.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Create.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Delete.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Details.cshtml.g.cs
-C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Edit.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Enviar.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Index.cshtml.g.cs
+C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.csproj.AssemblyReference.cache

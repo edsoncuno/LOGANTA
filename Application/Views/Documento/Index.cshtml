@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Application.Models.Documento>
-<div class="container h1 text-center">Lista de Documentos</div>
-<hr />
+﻿<div class="container h1 text-center mb-3">Lista de Documentos</div>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -8,38 +6,63 @@
                 Código
             </th>
             <th>
-                Fecha y Hora
+                Fecha
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ruta)
+                Hora
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observaciones)
+                Ruta
+            </th>
+            <th>
+                Observaciones
             </th>
             <th>
                 Código del Pedido
             </th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ruta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pedido.Id)
-            </td>
-        </tr>
-}
+    <tbody id="cuerpoDeLaTabla">
     </tbody>
 </table>
+<script>
+    var cuerpoDeLaTabla = document.getElementById('cuerpoDeLaTabla');
+    var json;
+    url = "/Documento/ObtenerTodosLosDocumentos/";
+    window.addEventListener('load', function () {
+        obtenerDocumentos();
+    });
+    function obtenerDocumentos() {
+        this.fetch(url).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            json = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            mostrar();
+        });
+    }
+    function mostrar() {
+        cuerpoDeLaTabla.innerHTML = '';
+        for (let i = json.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + json[i].id + '</td>' +
+                '<td>' + convertirFechaJsonEnFecha(json[i].fecha) + '</td>' +
+                '<td>' + convertirFechaJsonEnHora(json[i].fecha) + '</td>' +
+                '<td>' + json[i].ruta + '</td>' +
+                '<td>' + json[i].observaciones + '</td>' +
+                '<td>' + json[i].pedidoId + '</td>';
+            cuerpoDeLaTabla.appendChild(tr);
+        }
+    }
+    function convertirFechaJsonEnFecha(fechaJson) {
+        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
+        let año = /^[\d]+/.exec(fecha);
+        let mes = /-[\d]+-/.exec(fecha);
+        let dia = /[\d]+$/.exec(fecha);
+        return dia + mes + año;
+    }
+    function convertirFechaJsonEnHora(fechaJson) {
+        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
+        return /\d\d:\d\d/.exec(hora);
+    }
+</script>

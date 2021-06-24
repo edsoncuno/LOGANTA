@@ -18,12 +18,10 @@ namespace Application.Controllers
             _logger = logger;
         }
 
+        /*
+         * Esta es la vista del Home de la pagina web
+         */
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

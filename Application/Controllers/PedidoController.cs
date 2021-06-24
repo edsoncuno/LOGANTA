@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Models;
 
+using Newtonsoft.Json;
+
 namespace Application.Controllers
 {
     public class PedidoController : Controller
@@ -17,89 +19,72 @@ namespace Application.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> ListarPendientes()
+        public IActionResult ListarPendientes()
+        {
+            return View();
+        }
+        public IActionResult MostrarPendiente(int id)
+        {
+            return View();
+        }
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public JsonResult ObtenerTodosLosPedidosPendientes()
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 select pedido;
-            return View(await todosLosPedidosPendientes.ToListAsync());
+            return Json(todosLosPedidosPendientes);
+        }
+        public JsonResult ObtenerPedido(int id)
+        {
+            var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id == id select pedido;
+            return Json(todosLosPedidosPendientes);
+        }
+        public JsonResult ObtenerTodosLosPedidos()
+        {
+            var todosLosPedidos = from objPedido in _context.Pedido join objPedidoEstado in _context.PedidoEstado on objPedido.PedidoEstadoId equals objPedidoEstado.Id select new { objPedido.Id, objPedido.DireccionDeSolicitante, objPedido.TipoDeUso, objPedido.EntregarA, objPedido.ActividadOperativa, objPedido.Motivo, objPedido.Fecha, objPedidoEstado.Descripcion };
+            return Json(todosLosPedidos);
+        }
+        public JsonResult ObtenerItems(int id)
+        {
+            var itemsDelPedido = from objItem in _context.Item join objItemXPedido in _context.ItemXPedido on objItem.Id equals objItemXPedido.ItemId join objPedido in _context.Pedido on objItemXPedido.PedidoId equals objPedido.Id where objPedido.Id == id select new { ItemId = objItem.Id, objItem.Descripcion, objItemXPedido.Cantidad, objItemXPedido.Id, objItem.UnidadDeMedida };
+            return Json(itemsDelPedido);
+        }    
+        public async void actualizarItemsDelPedido(List<Cantidad> cantidades)
+        {
+            foreach (Cantidad obj in cantidades)
+            {
+                var id = obj.id;
+                var cantidad = obj.cantidad;
+            }
+            await _context.SaveChangesAsync();
+        }
+        public class ParametrosAprobarPendiente
+        {
+            public int id { get; set; }
+            public List<Cantidad> cantidades { get; set; }
+        }
+        public class ParametrosDesaprobarPendiente{
+            public int id { get; set; }
+            public string observacion { get; set; }
+            public List<Cantidad> cantidades { get; set; }
+        }
+        public class Cantidad
+        {
+            public string id { get; set; }
+            public string cantidad { get; set; }
         }
         [HttpPost]
-        public async Task<IActionResult> ListarPendientes(string filtro, string valor)
+        public async Task<JsonResult> AprobarPedidoPendiente([FromBody] ParametrosAprobarPendiente obj)
         {
-            var listaDePedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 select pedido;
-            if (filtro == null)
-            {
-                return View(await listaDePedidosPendientes.ToListAsync());
-            }
-            else
-            {
-                if (filtro == "CÓDIGO")
-                {
-                    try
-                    {
-                        int codigo = Convert.ToInt32(valor);
-                        listaDePedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 && pedido.Id >= codigo select pedido;
-                        return View(await listaDePedidosPendientes.ToListAsync());
-                    }
-                    catch
-                    {
-                        return View(await listaDePedidosPendientes.ToListAsync());
-                    }
-                }
-                else { 
-                    if(filtro == "ACTIVIDAD OPERATIVA")
-                    {
-                        listaDePedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 && pedido.ActividadOperativa == valor select pedido;
-                        return View(await listaDePedidosPendientes.ToListAsync());
-                    }
-                    else
-                    {
-                        if(filtro == "TIPO DE USO")
-                        {
-                            listaDePedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 && pedido.TipoDeUso == valor select pedido;
-                            return View(await listaDePedidosPendientes.ToListAsync());
-                        }
-                        else
-                        {
-                            try
-                            {
-                                DateTime fecha = Convert.ToDateTime(valor);
-                                listaDePedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 && pedido.Fecha >= fecha select pedido;
-                                return View(await listaDePedidosPendientes.ToListAsync());
-                            }
-                            catch
-                            {
-                                return View(await listaDePedidosPendientes.ToListAsync());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public async Task<IActionResult> MostrarPendiente(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedido
-                .Include(p => p.PedidoEstado)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            return View(pedido);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AprobarPedidoSolicitante(int id)
-        {
+            int id = obj.id;
+            List<Cantidad> cantidades = obj.cantidades;
             var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 2;
+            //actualizarItemsDelPedido(cantidades);
             try
             {
                 _context.Update(objPedido);
@@ -107,26 +92,29 @@ namespace Application.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PedidoExists(objPedido.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
-            return RedirectToAction(nameof(ListarPendientes));
+            /*
+            foreach (Cantidad obj in objCantidadAuxiliar.cantidades)
+            {
+                string cantidadId = obj.id;
+                string cantidadCantidad = obj.cantidad;
+            }
+            */
+            //return Json(new { newUrl = Url.Action("Edit", "Cotizacion", new { id = c.CotizacionesId }) });
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DesaprobarPedidoSolicitante(int id, string observaciones1)
+        public async Task<JsonResult> DesaprobarPedidoPendiente([FromBody] ParametrosDesaprobarPendiente obj)
         {
+            int id = obj.id;
+            string observacion = obj.observacion;
+            List<Cantidad> cantidades = obj.cantidades;
             var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 3;
-            objPedido.Observaciones1 = observaciones1;
+            objPedido.Observaciones1 = observacion;
+            //actualizarItemsDelPedido(cantidades);
             try
             {
                 _context.Update(objPedido);
@@ -134,216 +122,69 @@ namespace Application.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PedidoExists(objPedido.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
-            return RedirectToAction(nameof(ListarPendientes));
-        }
-        public JsonResult ObtenerItems(int id)
-        {
-            var itemsDelPedido = from objItem in _context.Item join objItemXPedido in _context.ItemXPedido on objItem.Id equals objItemXPedido.ItemId join objPedido in _context.Pedido on objItemXPedido.PedidoId equals objPedido.Id where objPedido.Id == id select new { objItem.Id, objItem.Descripcion, objItemXPedido.Cantidad, objItem.UnidadDeMedida };
-            return Json(itemsDelPedido);
-        }
-        public JsonResult ObtenerPedidos(string filtro, string valor)
-        {
-            var listaDePedidos = from pedido in _context.Pedido select pedido;
-            if (filtro == null)
+            /*
+            foreach (Cantidad obj in objCantidadAuxiliar.cantidades)
             {
-                return Json(listaDePedidos);
+                string cantidadId = obj.id;
+                string cantidadCantidad = obj.cantidad;
+            }
+            */
+            //return Json(new { newUrl = Url.Action("Edit", "Cotizacion", new { id = c.CotizacionesId }) });
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
+        }
+        public JsonResult ObtenerTodosLosPedidosPendientesConFiltro(string campo, string valor)
+        {
+            var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 select pedido;
+            if (campo == null)
+            {
+                return Json(todosLosPedidosPendientes);
             }
             else
             {
-                if (filtro == "Código")
+                if (campo == "id")
                 {
                     try
                     {
                         int codigo = Convert.ToInt32(valor);
-                        listaDePedidos = from pedido in _context.Pedido where pedido.Id >= codigo select pedido;
-                        return Json(listaDePedidos);
+                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id >= codigo && pedido.PedidoEstadoId == 1  select pedido;
+                        return Json(todosLosPedidosPendientes);
                     }
                     catch
                     {
-                        return Json(listaDePedidos);
+                        return Json(todosLosPedidosPendientes);
                     }
                 }
                 else
                 {
-                    if (filtro == "ActividadOperativa")
+                    if (campo == "actividadOperativa")
                     {
-                        listaDePedidos = from pedido in _context.Pedido where pedido.ActividadOperativa == valor select pedido;
-                        return Json(listaDePedidos);
+                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.ActividadOperativa == valor && pedido.PedidoEstadoId == 1  select pedido;
+                        return Json(todosLosPedidosPendientes);
                     }
                     else
                     {
-                        if (filtro == "TIPO DE USO")
+                        if (campo == "tipoDeUso")
                         {
-                            listaDePedidos = from pedido in _context.Pedido where pedido.TipoDeUso == valor select pedido;
-                            return Json(listaDePedidos);
+                            todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.TipoDeUso == valor && pedido.PedidoEstadoId == 1 select pedido;
+                            return Json(todosLosPedidosPendientes);
                         }
                         else
                         {
                             try
                             {
                                 DateTime fecha = Convert.ToDateTime(valor);
-                                listaDePedidos = from pedido in _context.Pedido where pedido.Fecha >= fecha select pedido;
-                                return Json(listaDePedidos);
+                                todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Fecha >= fecha && pedido.PedidoEstadoId == 1 select pedido;
+                                return Json(todosLosPedidosPendientes);
                             }
                             catch
                             {
-                                return Json(listaDePedidos);
+                                return Json(todosLosPedidosPendientes);
                             }
                         }
                     }
                 }
             }
-        }
-        public JsonResult ObtenerPedido(int pedidoId)
-        {
-            var pedidoQueBusco = from pedido in _context.Pedido where pedido.Id == pedidoId select pedido;
-            return Json(pedidoQueBusco);
-        }
-        // GET: Pedido
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Pedido.Include(p => p.PedidoEstado);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Pedido/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedido
-                .Include(p => p.PedidoEstado)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            return View(pedido);
-        }
-
-        // GET: Pedido/Create
-        public IActionResult Create()
-        {
-            ViewData["PedidoEstadoId"] = new SelectList(_context.PedidoEstado, "Id", "Id");
-            return View();
-        }
-
-        // POST: Pedido/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DireccionDeSolicitante,TipoDeUso,EntregarA,ActividadOperativa,Motivo,Fecha,Observaciones1,Observaciones2,PedidoEstadoId")] Pedido pedido)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(pedido);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PedidoEstadoId"] = new SelectList(_context.PedidoEstado, "Id", "Id", pedido.PedidoEstadoId);
-            return View(pedido);
-        }
-
-        // GET: Pedido/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedido.FindAsync(id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-            ViewData["PedidoEstadoId"] = new SelectList(_context.PedidoEstado, "Id", "Id", pedido.PedidoEstadoId);
-            return View(pedido);
-        }
-
-        // POST: Pedido/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DireccionDeSolicitante,TipoDeUso,EntregarA,ActividadOperativa,Motivo,Fecha,Observaciones1,Observaciones2,PedidoEstadoId")] Pedido pedido)
-        {
-            if (id != pedido.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pedido);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PedidoExists(pedido.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PedidoEstadoId"] = new SelectList(_context.PedidoEstado, "Id", "Id", pedido.PedidoEstadoId);
-            return View(pedido);
-        }
-
-        // GET: Pedido/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedido
-                .Include(p => p.PedidoEstado)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            return View(pedido);
-        }
-
-        // POST: Pedido/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var pedido = await _context.Pedido.FindAsync(id);
-            _context.Pedido.Remove(pedido);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PedidoExists(int id)
-        {
-            return _context.Pedido.Any(e => e.Id == id);
         }
     }
 }

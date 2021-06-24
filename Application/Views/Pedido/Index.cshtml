@@ -1,44 +1,72 @@
-﻿@model IEnumerable<Application.Models.Pedido>
-<div class="container text-center h1">Lista de Pedidos</div>
+﻿<div class="container text-center h1 mb-3">Lista de Pedidos</div>
 <table class="table table-hover">
     <thead>
         <tr>
             <th>
-                CÓDIGO
+                Código
             </th>
             <th>
-                ACTIVIDAD OPERATIVA
+                Actividad Operativa
             </th>
             <th>
-                TIPO DE USO
+                Tipo de Uso
             </th>
             <th>
-                FECHA Y HORA
+                Fecha
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+                Estado
             </th>
             <th>
 
             </th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var pedido in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => pedido.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => pedido.ActividadOperativa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => pedido.TipoDeUso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => pedido.Fecha)
-            </td>
-            <td>
-                <a class="btn border-dark" asp-area="" asp-controller="Documento" asp-action="Enviar" asp-route-id="@pedido.Id">Añadir Documento</a>
-            </td>
-        </tr>
-}
+    <tbody id="cuerpoDeLaTabla">
     </tbody>
 </table>
+<script>
+    var cuerpoDeLaTabla = document.getElementById('cuerpoDeLaTabla');
+    var jsonPedidos;
+    url = "/Pedido/ObtenerTodosLosPedidos/";
+    window.addEventListener('load', function () {
+        obtenerPedidos();
+    });
+    function obtenerPedidos() {
+        this.fetch(url).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonPedidos = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            mostrarPedidos();
+        });
+    }
+    function mostrarPedidos() {
+        cuerpoDeLaTabla.innerHTML = '';
+        for (let i = jsonPedidos.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonPedidos[i].id + '</td>' +
+                '<td>' + jsonPedidos[i].actividadOperativa + '</td>' +
+                '<td>' + jsonPedidos[i].tipoDeUso + '</td>' +
+                '<td>' + convertirFechaJsonEnFecha(jsonPedidos[i].fecha) + '</td>' +
+                '<td>' + convertirFechaJsonEnHora(jsonPedidos[i].fecha) + '</td>' +
+                '<td>' + jsonPedidos[i].descripcion + '</td>' +
+                '<td>' + '<a class="btn border-dark" href="/Documento/Enviar/' + jsonPedidos[i].id + '">Añadir Documento</a>' + '</td>';
+            cuerpoDeLaTabla.appendChild(tr);
+        }
+    }
+    function convertirFechaJsonEnFecha(fechaJson) {
+        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
+        let año = /^[\d]+/.exec(fecha);
+        let mes = /-[\d]+-/.exec(fecha);
+        let dia = /[\d]+$/.exec(fecha);
+        return dia + mes + año;
+    }
+    function convertirFechaJsonEnHora(fechaJson) {
+        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
+        return /\d\d:\d\d/.exec(hora);
+    }
+</script>

@@ -1,5 +1,4 @@
 ﻿<div class="container h1 mb-3 text-center">Enviar Documentos</div>
-<hr />
 <div class="row">
     <div class="col-6">
         <div class="h3 text-center">
@@ -9,7 +8,7 @@
             <div class="col-9">
                 <label class="font-weight-bold">Código: </label>
                 <br />
-                <label id="codigo"></label>
+                <label id="id"></label>
                 <br />
                 <label class="font-weight-bold">Dirección del Solicitante: </label>
                 <br />
@@ -38,10 +37,10 @@
     </div>
     <div class="col-6">
         <form action="/Documento/Enviar" method="post" enctype="multipart/form-data">
-            <input type="hidden" value="@ViewData["PedidoId"]" name="pedidoId"/>
+            <input type="hidden" name="pedidoId" id="inputPedidoId"/>
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="archivos" id="archivos" multiple required>
+                    <input type="file" class="custom-file-input" name="archivos" multiple required>
                     <label class="custom-file-label">Elegir Documentos</label>
                 </div>
             </div>
@@ -50,7 +49,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Observaciones</span>
                 </div>
-                <textarea class="form-control" aria-label="With textarea" name="observaciones" placeholder="Este campo es opcional"></textarea>
+                <textarea class="form-control" name="observaciones" placeholder="Este campo es opcional"></textarea>
             </div>
             <br />
             <input class="btn btn-primary" type="submit" value="Enviar"/>
@@ -58,54 +57,55 @@
     </div>
 </div>
 <script>
-    pedidoId = @ViewData["PedidoId"];
-    //
-    codigo = document.getElementById('codigo');
-    direccionDeSolicitante = document.getElementById('direccionDeSolicitante');
-    entregarA = document.getElementById('entregarA');
-    actividadOperativa = document.getElementById('actividadOperativa');
-    motivo = document.getElementById('motivo');
-    fecha = document.getElementById('fecha');
-    hora = document.getElementById('hora');
-    //
-    codigo.innerHTML = '';
-    direccionDeSolicitante.innerHTML = '';
-    entregarA.innerHTML = '';
-    actividadOperativa.innerHTML = '';
-    motivo.innerHTML = '';
-    fecha.innerHTML = '';
-    hora.innerHTML = '';
-    //
-    function obtenerPedido(pedidoId) {
-        url = "/Pedido/ObtenerPedido?pedidoId=" + pedidoId;
-        this.fetch(url).then(function (respuestaDelControlador) {
+    var pedidoId = obtenerIdDeUrl();
+    var jsonPedido;
+    var id = document.getElementById('id');
+    var direccionDeSolicitante = document.getElementById('direccionDeSolicitante');
+    var entregarA = document.getElementById('entregarA');
+    var actividadOperativa = document.getElementById('actividadOperativa');
+    var motivo = document.getElementById('motivo');
+    var fecha = document.getElementById('fecha');
+    var hora = document.getElementById('hora');
+    urlRequestObtenerPedido = "/Pedido/ObtenerPedido/" + pedidoId;
+    window.addEventListener('load', function () {
+        obtenerPedido();
+    });
+    function obtenerPedido() {
+        this.fetch(urlRequestObtenerPedido).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            pedido = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
-            mostrarPedido(pedido);
+            jsonPedido = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            mostrarPedido();
         });
     }
-    function convertirFechaHora(fechaJSON) {
-        let regexFecha = /^\d\d\d\d[-]\d\d[-]\d\d/;
-        let regexHora = /\d\d:\d\d:\d\d/;
-        let fecha = regexFecha.exec(fechaJSON);
-        let hora = regexHora.exec(fechaJSON);
-        var array = new Object();
-        array[0] = fecha;
-        array[1] = hora;
-        return array;
+    function mostrarPedido() {
+        id.innerHTML = jsonPedido[0].id;
+        direccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
+        entregarA.innerHTML = jsonPedido[0].entregarA;
+        actividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
+        motivo.innerHTML = jsonPedido[0].motivo;
+        fecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
+        hora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
     }
-    function mostrarPedido(pedido) {
-        codigo.innerHTML = pedido[0].id;
-        direccionDeSolicitante.innerHTML = pedido[0].direccionDeSolicitante;
-        entregarA.innerHTML = pedido[0].entregarA;
-        actividadOperativa.innerHTML = pedido[0].actividadOperativa;
-        motivo.innerHTML = pedido[0].motivo;
-        temp = convertirFechaHora(pedido[0].fecha);
-        fecha.innerHTML = temp[0];
-        hora.innerHTML = temp[1];
+    function convertirFechaJsonEnFecha(fechaJson) {
+        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
+        let año = /^[\d]+/.exec(fecha);
+        let mes = /-[\d]+-/.exec(fecha);
+        let dia = /[\d]+$/.exec(fecha);
+        return dia + mes + año;
     }
-    window.addEventListener('load', function () {
-        obtenerPedido(pedidoId);
-    });
+    function convertirFechaJsonEnHora(fechaJson) {
+        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
+        return /\d\d:\d\d/.exec(hora);
+    }
+    function obtenerIdDeUrl() {
+        url = window.location;
+        regexId = /[\d]+$/;
+        return regexId.exec(url)[0];
+    }
+    /*
+     * Seccione para el POST
+     */
+    inputPedidoId = document.getElementById('inputPedidoId');
+    inputPedidoId.value = pedidoId;
 </script>

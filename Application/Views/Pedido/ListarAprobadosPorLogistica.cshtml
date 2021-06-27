@@ -1,0 +1,68 @@
+﻿<div class="container w-100 text-center h1 mb-3">Lista de Pedidos Aprobados Por Logística</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Actividad Operativa
+            </th>
+            <th>
+                Tipo de Uso
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody id="cuerpoDeLaTabla">
+    </tbody>
+</table>
+<script>
+    var cuerpoDeLaTabla = document.getElementById('cuerpoDeLaTabla');
+    var jsonPedidos;
+    url = "/Pedido/ObtenerTodosLosPedidosAprobadosPorLogistica/"
+    window.addEventListener('load', function () {
+        obtenerPedidosPendientes();
+    });
+    function obtenerPedidosPendientes() {
+        fetch(url).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonPedidos = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            mostrarPedidos();
+        });
+    }
+    function mostrarPedidos() {
+        cuerpoDeLaTabla.innerHTML = '';
+        for (let i = jsonPedidos.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonPedidos[i].id + '</td>' +
+                '<td>' + jsonPedidos[i].actividadOperativa + '</td>' +
+                '<td>' + jsonPedidos[i].tipoDeUso + '</td>' +
+                '<td>' + convertirFechaJsonEnFecha(jsonPedidos[i].fecha) + '</td>' +
+                '<td>' + convertirFechaJsonEnHora(jsonPedidos[i].fecha) + '</td>' +
+            '<td>' + '<a class="btn border-dark" href="/Pedido/MostrarAprobadoPorLogistica/' + jsonPedidos[i].id+'">Ver Detalles</a>' +'</td>';
+            cuerpoDeLaTabla.appendChild(tr);
+        }
+    }
+    function convertirFechaJsonEnFecha(fechaJson) {
+        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
+        let año = /^[\d]+/.exec(fecha);
+        let mes = /-[\d]+-/.exec(fecha);
+        let dia = /[\d]+$/.exec(fecha);
+        return dia + mes + año;
+    }
+    function convertirFechaJsonEnHora(fechaJson) {
+        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
+        return /\d\d:\d\d/.exec(hora);
+    }
+</script>

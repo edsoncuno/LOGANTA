@@ -148,3 +148,7 @@ C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\P
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Enviar.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Index.cshtml.g.cs
 C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Application.csproj.AssemblyReference.cache
+C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarAprobadosPorElSolicitante.cshtml.g.cs
+C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\MostrarAprobadoPorElSolicitante.cshtml.g.cs
+C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarAprobadosPorLogistica.cshtml.g.cs
+C:\Users\Edson Cuno\Downloads\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\MostrarAprobadoPorLogistica.cshtml.g.cs

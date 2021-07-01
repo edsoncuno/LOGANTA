@@ -21,5 +21,6 @@ namespace Application.Models
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
         public ICollection<PedidoXSolicitudDeCotizacion> PedidoXSolicitudDeCotizacionS { get; set; }
         public ICollection<Documento> DocumentoS { get; set; }
+        public ICollection<CuadroComparativo> CuadroComparativoS { get; set; }
     }
 }

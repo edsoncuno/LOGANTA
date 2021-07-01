@@ -191,7 +191,7 @@ namespace Application.Controllers
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 5;
-            objPedido.Observaciones1 = observacion;
+            objPedido.Observaciones2 = observacion;
             actualizarItemsDelPedido(cantidades);
             try
             {

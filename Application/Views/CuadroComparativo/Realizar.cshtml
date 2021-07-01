@@ -1,0 +1,229 @@
+﻿<h1>Realizar Cuadro Comparativo</h1>
+<div class="row mt-4">
+    <div class="col-7 ">
+        <div class="row ">
+            <p class="alert-info mt-3 m-sm-2 font-weight-bold">Primero agregue productos y luego seleccione proveedores</p>
+            <div class="col-9">
+                <div class="row row-cols-2 mx-2 mt-4">
+                    <div class="col">
+                        <label class="font-weight-bold">Producto:</label>
+                    </div>
+                    <div class="col">
+                        <select class="form-control border border-dark rounded" name="selectProductos" aria-label="Default select example" id="selectItems">
+                            <option value="0" selected>Seleccione un Producto..</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row row-cols-2 mx-2 mt-3">
+                    <div class="col">
+                        <label class="font-weight-bold">Proveedor:</label>
+                    </div>
+                    <div class="col">
+                        <select class="form-control border border-dark rounded " aria-label="Default select example" type="text" disabled id="selectProveedores"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <input class="btn border mt-4" type="button" value="Agregar" id="botonAgregar" />
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered mx-2 mt-5">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Vendedor</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoDeLaTabla">
+                </tbody>
+            </table>
+        </div>
+        <div class="row my-4">
+            <div class="col-6">
+                <input class="btn border m-2" disabled type="button" value="Obtener Ganador" id="botonObtenerGanador" />
+            </div>
+            <div class="col-6">
+                <input class="btn border m-2" type="button" value="Nueva Comparación" id="botonNuevo" />
+            </div>
+        </div>
+    </div>
+    <div class="col-5 ">
+        <div class="row  m-2">
+            <div class="col-12">
+                <fieldset class="border border-info p-2">
+                    <legend class="w-auto text-info">Ganador de la Comparación</legend>
+                    <label class="font-weight-bold ">Proveedor:</label>
+                    <br />
+                    <label id="proveedor_ganador"></label>
+                    <br />
+                    <table class="table table-info">
+                        <tr>
+                            <th>Productos</th>
+                            <th>Precio</th>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div class="col-12">
+                <input class="btn border border-info my-2" type="button" value="Guardar" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var jsonTodosLosItems;
+    var jsonProveedores;
+    var selectItems = document.getElementById("selectItems");
+    var selectProveedores = document.getElementById("selectProveedores");
+    var botonAgregar = document.getElementById("botonAgregar");
+    var cuerpoDeLaTabla = document.getElementById("cuerpoDeLaTabla");
+    var botonNuevo = document.getElementById("botonNuevo");
+    var botonObtenerGanador = document.getElementById("botonObtenerGanador");
+    var json = [];
+    var jsonGanadores;
+    /*
+     * Aqui se comienza el codigo para llenar el selct con los items
+     */
+    window.addEventListener('load', function () {
+        obtenerTodosLosItems();
+    });
+    function obtenerTodosLosItems() {
+        fetch("/CuadroComparativo/ObtenerTodosLosItems/").then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonTodosLosItems = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            llenarSelectItems();
+        });
+    }
+    function llenarSelectItems() {
+        for (let i = 0; i < jsonTodosLosItems.length; i++) {
+            let option = document.createElement("option");
+            option.text = jsonTodosLosItems[i].descripcion;
+            option.value = jsonTodosLosItems[i].id;
+            selectItems.appendChild(option);
+        }
+    }
+    /*
+     * Aqui comienza el codigo para llenar el select con los proveedores
+     */
+    selectItems.onchange = cambiarItem;
+    function cambiarItem() {
+        if (selectItems.value != 0) {
+            selectProveedores.disabled = false;
+            obtenerProveedoresYLlenarSelectProveedores();
+        }
+        else {
+            selectProveedores.disabled = true;
+            limpiarSelectProveedores();
+        }
+    }
+    function obtenerProveedoresYLlenarSelectProveedores() {
+        fetch("/CuadroComparativo/ObtenerProveedorPorItemId/" + selectItems.value).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonProveedores = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            limpiarSelectProveedores();
+            llenarSelectProveedores();
+        });
+    }
+    function llenarSelectProveedores() {
+        for (let i = 0; i < jsonProveedores.length; i++) {
+            let option = document.createElement("option");
+            option.text = jsonProveedores[i].nombre;
+            option.value = jsonProveedores[i].id;
+            selectProveedores.appendChild(option);
+        }
+    }
+    function limpiarSelectProveedores() {
+        for (let i = selectProveedores.length - 1; i >= 0; i--) {
+            selectProveedores.remove(i);
+        }
+    }
+    /*
+     * Aqui comienza el codigo para agregar
+     */
+    botonAgregar.onclick = agregar;
+    function agregar() {
+        if (selectItems.value != 0) {
+            let existe = false;
+            for (let i = 0; i < json.length; i++) {
+                if (json[i].itemId == selectItems.value && json[i].proveedorId == selectProveedores.value) {
+                    existe = true;
+                }
+            }
+            if (existe == false) {
+                agregarAJson();
+            }
+            mostrarJson();
+            // aqui se usara la activacion del boton Obtener Ganador
+            botonObtenerGanador.disabled = validacionParaActivarBotonObtenerGanador();
+        }
+    }
+    function agregarAJson() {
+        let obj = {};
+        obj["itemId"] = selectItems.value;
+        obj["itemNombre"] = selectItems.options[selectItems.selectedIndex].text;
+        obj["proveedorId"] = selectProveedores.value;
+        obj["proveedorNombre"] = selectProveedores.options[selectProveedores.selectedIndex].text;
+        json.push(obj);
+    }
+    function mostrarJson() {
+        cuerpoDeLaTabla.innerHTML = '';
+        for (let i = 0; i < json.length; i++) {
+            let tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + json[i].itemNombre + '</td>' +
+                '<td>' + json[i].proveedorNombre + '</td>';
+            cuerpoDeLaTabla.appendChild(tr);
+        }
+    }
+    /*
+     * Aqui abajo se encuentra el codigo para nueva comparacion
+     */
+    botonNuevo.onclick = limpiarTabla;
+    function limpiarTabla() {
+        cuerpoDeLaTabla.innerHTML = '';
+        json = [];
+        botonObtenerGanador.disabled = true;
+    }
+    /*
+     * Aqui abajo se encuentra el codigo para la validacion de la activacion del boton
+     * boton Obtener Ganador
+     */
+    function validacionParaActivarBotonObtenerGanador() {
+        if (json.length >= 2) {
+            let unProveedor = json[0].proveedorId;
+            if (selectProveedores.value != json[0].proveedorId) {
+                return false;
+            }
+            return true;
+        }
+        else {
+            return true;
+        }
+    }
+    /*
+     * Aqui abajo estara el codigo de Obtener Ganador
+     */
+    /*
+    botonObtenerGanador.onclick = obtenerGanador;
+    function obtenerGanador() {
+        fetch("/CuadroComparativo/ObtenerGanador/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(json)
+        }).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonGanadores = respuestaDelControladorConvertidoToJSON;
+            mostrarGanadores();
+        });
+    }
+    function mostrarGanadores() {
+
+    }
+    */
+</script>

@@ -13,6 +13,8 @@ namespace Application.Models
         public Item Item { get; set; }
         public int? PedidoId { get; set; }
         public Pedido Pedido { get; set; }
+        public int? ProveedorGanadorId { get; set; }
+        public Proveedor ProveedorGanador { get; set; }
         public ICollection<ItemXPedidoXSolicitudDeCotizacion> ItemXPedidoXSolicitudDeCotizacionS { get; set; }
     }
 }

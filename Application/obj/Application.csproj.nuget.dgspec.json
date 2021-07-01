@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\Application.csproj": {}
+    "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\Application.csproj": {
+    "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\Edson Cuno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Edson Cuno\\Downloads\\LOGANTA\\Application\\obj\\",
+        "projectPath": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\Edson\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Edson Cuno\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Edson\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

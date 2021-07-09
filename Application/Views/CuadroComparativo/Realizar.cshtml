@@ -53,20 +53,21 @@
             <div class="col-12">
                 <fieldset class="border border-info p-2">
                     <legend class="w-auto text-info">Ganador de la Comparación</legend>
-                    <label class="font-weight-bold ">Proveedor:</label>
-                    <br />
-                    <label id="proveedor_ganador"></label>
-                    <br />
                     <table class="table table-info">
-                        <tr>
-                            <th>Productos</th>
-                            <th>Precio</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Vendedor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoDeLaTablaGanadores">
+                        </tbody>
                     </table>
                 </fieldset>
             </div>
             <div class="col-12">
-                <input class="btn border border-info my-2" type="button" value="Guardar" disabled />
+                <input class="btn border border-info my-2" type="button" value="Guardar" disabled id="botonGuardar"/>
             </div>
         </div>
     </div>
@@ -80,8 +81,11 @@
     var cuerpoDeLaTabla = document.getElementById("cuerpoDeLaTabla");
     var botonNuevo = document.getElementById("botonNuevo");
     var botonObtenerGanador = document.getElementById("botonObtenerGanador");
+    var pasoLaValidacionParaActivarElBotonActivarGanador = false;
     var json = [];
     var jsonGanadores;
+    var cuerpoDeLaTablaGanadores = document.getElementById("cuerpoDeLaTablaGanadores");
+    var botonGuardar = document.getElementById("botonGuardar");
     /*
      * Aqui se comienza el codigo para llenar el selct con los items
      */
@@ -184,8 +188,11 @@
     botonNuevo.onclick = limpiarTabla;
     function limpiarTabla() {
         cuerpoDeLaTabla.innerHTML = '';
+        cuerpoDeLaTablaGanadores.innerHTML = '';
         json = [];
         botonObtenerGanador.disabled = true;
+        botonGuardar.disabled = true;
+        pasoLaValidacionParaActivarElBotonActivarGanador = false;
     }
     /*
      * Aqui abajo se encuentra el codigo para la validacion de la activacion del boton
@@ -193,9 +200,16 @@
      */
     function validacionParaActivarBotonObtenerGanador() {
         if (json.length >= 2) {
-            let unProveedor = json[0].proveedorId;
-            if (selectProveedores.value != json[0].proveedorId) {
+            if (pasoLaValidacionParaActivarElBotonActivarGanador) {
                 return false;
+            }
+            else {
+                let unProveedor = json[0].proveedorId;
+                if (selectProveedores.value != json[0].proveedorId) {
+                    pasoLaValidacionParaActivarElBotonActivarGanador = true;
+                    return false;
+                }
+
             }
             return true;
         }
@@ -206,7 +220,6 @@
     /*
      * Aqui abajo estara el codigo de Obtener Ganador
      */
-    /*
     botonObtenerGanador.onclick = obtenerGanador;
     function obtenerGanador() {
         fetch("/CuadroComparativo/ObtenerGanador/", {
@@ -221,9 +234,34 @@
             jsonGanadores = respuestaDelControladorConvertidoToJSON;
             mostrarGanadores();
         });
+        botonGuardar.disabled = false;
     }
     function mostrarGanadores() {
-
+        cuerpoDeLaTablaGanadores.innerHTML = '';
+        for (let i = 0; i < json.length; i++) {
+            let tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonGanadores[i].itemDescripcion + '</td>' +
+                '<td>' + jsonGanadores[i].itemPrecio + '</td>' +
+                '<td>' + jsonGanadores[i].proveedorNombre + '</td>';
+            cuerpoDeLaTablaGanadores.appendChild(tr);
+        }
     }
-    */
+    /*
+     * Aqui abajo esta el codigo de el boton Guardar
+     */
+    botonGuardar.onclick = guardarGanador;
+    function guardarGanador() {
+        fetch("/CuadroComparativo/GuardarGanador/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonGanadores)
+        }).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+        });
+    }
 </script>

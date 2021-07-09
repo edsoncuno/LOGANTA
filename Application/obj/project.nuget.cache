@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "i+OgeuxE7KZKb+lPPVPQvIijpsWiH9kFw99U/fGNT7sZUY/vutP5jGy5xz5bxO06bwC3yjX1qa3GzKdcZwOP2w==",
+  "dgSpecHash": "q5k0dA8Ai1CZurl5akYaSTbJufqJstYeL6GFNlv/XSzZWKQ7ZscYlTDlUuq+fw0mD+RqUC12zqzUBchYK9L/rw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\Edson\\Downloads\\!\\TP\\LOGANTA\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Edson\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Edson\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

@@ -1,0 +1,887 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "3.10.0.0",
+        "fileVersion": "3.10.0-4.21269.26 (02984771)",
+        "semanticVersion": "3.10.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/CuadroComparativo/Index.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Home/Index.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Documento/Index.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarAprobadosPorLogistica.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarAprobadosPorElSolicitante.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/Index.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/_ViewStart.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/MostrarAprobadoPorLogistica.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/_ViewImports.cshtml.g.cs",
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 67,
+                  "endLine": 33,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/MostrarAprobadoPorElSolicitante.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/MostrarPendiente.cshtml.g.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 67,
+                  "endLine": 34,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/CuadroComparativo/Realizar.cshtml.g.cs",
+                "region": {
+                  "startLine": 71,
+                  "startColumn": 212,
+                  "endLine": 71,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarPendientes.cshtml.g.cs",
+                "region": {
+                  "startLine": 69,
+                  "startColumn": 212,
+                  "endLine": 69,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarPendientes.cshtml.g.cs",
+                "region": {
+                  "startLine": 87,
+                  "startColumn": 212,
+                  "endLine": 87,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarPendientes.cshtml.g.cs",
+                "region": {
+                  "startLine": 103,
+                  "startColumn": 212,
+                  "endLine": 103,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarPendientes.cshtml.g.cs",
+                "region": {
+                  "startLine": 119,
+                  "startColumn": 212,
+                  "endLine": 119,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Pedido/ListarPendientes.cshtml.g.cs",
+                "region": {
+                  "startLine": 135,
+                  "startColumn": 212,
+                  "endLine": 135,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs",
+                "region": {
+                  "startLine": 59,
+                  "startColumn": 212,
+                  "endLine": 59,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs",
+                "region": {
+                  "startLine": 73,
+                  "startColumn": 212,
+                  "endLine": 73,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Documento/Enviar.cshtml.g.cs",
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 210,
+                  "endLine": 101,
+                  "endColumn": 212
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 82,
+                  "startColumn": 209,
+                  "endLine": 82,
+                  "endColumn": 211
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 97,
+                  "startColumn": 209,
+                  "endLine": 97,
+                  "endColumn": 211
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 212,
+                  "endLine": 126,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 157,
+                  "startColumn": 212,
+                  "endLine": 157,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 178,
+                  "startColumn": 212,
+                  "endLine": 178,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 199,
+                  "startColumn": 212,
+                  "endLine": 199,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 220,
+                  "startColumn": 212,
+                  "endLine": 220,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 241,
+                  "startColumn": 212,
+                  "endLine": 241,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 262,
+                  "startColumn": 212,
+                  "endLine": 262,
+                  "endColumn": 214
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 291,
+                  "startColumn": 217,
+                  "endLine": 291,
+                  "endColumn": 219
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 305,
+                  "startColumn": 217,
+                  "endLine": 305,
+                  "endColumn": 219
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 319,
+                  "startColumn": 217,
+                  "endLine": 319,
+                  "endColumn": 219
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS0169",
+          "level": "warning",
+          "message": "The field 'Views_Shared__ValidationScriptsPartial.__tagHelperStringValueBuffer' is never used",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs",
+                "region": {
+                  "startLine": 41,
+                  "startColumn": 24,
+                  "endLine": 41,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "CS0169",
+          "level": "warning",
+          "message": "The field 'Views_Shared__Layout.__tagHelperStringValueBuffer' is never used",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 24,
+                  "endLine": 57,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "CS0169",
+          "level": "warning",
+          "message": "The field 'Views_Documento_Enviar.__tagHelperStringValueBuffer' is never used",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/obj/Debug/net5.0/Razor/Views/Documento/Enviar.cshtml.g.cs",
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 24,
+                  "endLine": 42,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        }
+      ],
+      "rules": {
+        "CS0169": {
+          "id": "CS0169",
+          "shortDescription": "Field is never used",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0169)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS1998": {
+          "id": "CS1998",
+          "shortDescription": "Async method lacks 'await' operators and will run synchronously",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1998)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

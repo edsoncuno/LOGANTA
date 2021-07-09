@@ -7153,11 +7153,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj",
+      "projectUniqueName": "C:\\Users\\Edson\\Downloads\\!\\TP\\LOGANTA\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\Application.csproj",
+      "projectPath": "C:\\Users\\Edson\\Downloads\\!\\TP\\LOGANTA\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\Edson\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Edson\\Downloads\\TP\\LOGANTA\\Application\\obj\\",
+      "outputPath": "C:\\Users\\Edson\\Downloads\\!\\TP\\LOGANTA\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Edson\\AppData\\Roaming\\NuGet\\NuGet.Config",

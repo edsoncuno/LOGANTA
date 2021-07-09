@@ -1,0 +1,726 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "3.10.0.0",
+        "fileVersion": "3.10.0-4.21269.26 (02984771)",
+        "semanticVersion": "3.10.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "S125",
+          "level": "warning",
+          "message": "Remove this commented out code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/CuadroComparativoController.cs",
+                "region": {
+                  "startLine": 192,
+                  "startColumn": 1,
+                  "endLine": 192,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S125",
+          "level": "warning",
+          "message": "Remove this commented out code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/DocumentoController.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 13,
+                  "endLine": 52,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S125",
+          "level": "warning",
+          "message": "Remove this commented out code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 139,
+                  "startColumn": 13,
+                  "endLine": 139,
+                  "endColumn": 109
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S125",
+          "level": "warning",
+          "message": "Remove this commented out code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 210,
+                  "startColumn": 13,
+                  "endLine": 210,
+                  "endColumn": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S125",
+          "level": "warning",
+          "message": "Remove this commented out code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 218,
+                  "startColumn": 17,
+                  "endLine": 218,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1118",
+          "level": "warning",
+          "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Program.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 18,
+                  "endLine": 12,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4487",
+          "level": "warning",
+          "message": "Remove this unread private field '_logger' or refactor the code to use its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/HomeController.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 50,
+                  "endLine": 14,
+                  "endColumn": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1854",
+          "level": "warning",
+          "message": "Remove this useless assignment to local variable 'objItemXPedidoEncontrado'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 54,
+                  "endLine": 89,
+                  "endColumn": 73
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1854",
+          "level": "warning",
+          "message": "Remove this useless assignment to local variable 'tempItemXProveedor'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/CuadroComparativoController.cs",
+                "region": {
+                  "startLine": 108,
+                  "startColumn": 51,
+                  "endLine": 108,
+                  "endColumn": 73
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 13,
+                  "endLine": 138,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 160,
+                  "startColumn": 13,
+                  "endLine": 161,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1822",
+          "level": "note",
+          "message": "Member 'elegirCandidatoGanadorPorItem' does not access instance data and can be marked as static",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/CuadroComparativoController.cs",
+                "region": {
+                  "startLine": 114,
+                  "startColumn": 40,
+                  "endLine": 114,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1822",
+          "level": "note",
+          "message": "Member 'obtenerIndexDeItem' does not access instance data and can be marked as static",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/CuadroComparativoController.cs",
+                "region": {
+                  "startLine": 81,
+                  "startColumn": 21,
+                  "endLine": 81,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1822",
+          "level": "note",
+          "message": "Member 'existeItemIdEnListaDeCandidatosPorItem' does not access instance data and can be marked as static",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/CuadroComparativoController.cs",
+                "region": {
+                  "startLine": 92,
+                  "startColumn": 22,
+                  "endLine": 92,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 180,
+                  "startColumn": 13,
+                  "endLine": 181,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 202,
+                  "startColumn": 13,
+                  "endLine": 203,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 13,
+                  "endLine": 223,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1481",
+          "level": "warning",
+          "message": "Remove the unused local variable 'id'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 209,
+                  "startColumn": 17,
+                  "endLine": 209,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3776",
+          "level": "warning",
+          "message": "Refactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 226,
+                  "startColumn": 27,
+                  "endLine": 226,
+                  "endColumn": 68
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 229,
+                  "startColumn": 13,
+                  "endLine": 229,
+                  "endColumn": 15
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 233,
+                  "startColumn": 13,
+                  "endLine": 233,
+                  "endColumn": 17
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 235,
+                  "startColumn": 17,
+                  "endLine": 235,
+                  "endColumn": 19
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 240,
+                  "startColumn": 110,
+                  "endLine": 240,
+                  "endColumn": 112
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 243,
+                  "startColumn": 21,
+                  "endLine": 243,
+                  "endColumn": 26
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 248,
+                  "startColumn": 17,
+                  "endLine": 248,
+                  "endColumn": 21
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 250,
+                  "startColumn": 21,
+                  "endLine": 250,
+                  "endColumn": 23
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 252,
+                  "startColumn": 125,
+                  "endLine": 252,
+                  "endColumn": 127
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 255,
+                  "startColumn": 21,
+                  "endLine": 255,
+                  "endColumn": 25
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 257,
+                  "startColumn": 25,
+                  "endLine": 257,
+                  "endColumn": 27
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 259,
+                  "startColumn": 120,
+                  "endLine": 259,
+                  "endColumn": 122
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 262,
+                  "startColumn": 25,
+                  "endLine": 262,
+                  "endColumn": 29
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 267,
+                  "startColumn": 120,
+                  "endLine": 267,
+                  "endColumn": 122
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Edson/Downloads/TP/LOGANTA/Application/Controllers/PedidoController.cs",
+                "region": {
+                  "startLine": 270,
+                  "startColumn": 29,
+                  "endLine": 270,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "+1",
+              "1": "+1",
+              "10": "+1",
+              "11": "+1",
+              "12": "+1",
+              "13": "+5 (incl 4 for nesting)",
+              "2": "+2 (incl 1 for nesting)",
+              "3": "+1",
+              "4": "+3 (incl 2 for nesting)",
+              "5": "+1",
+              "6": "+3 (incl 2 for nesting)",
+              "7": "+1",
+              "8": "+1",
+              "9": "+4 (incl 3 for nesting)"
+            }
+          }
+        }
+      ],
+      "rules": {
+        "CA1822": {
+          "id": "CA1822",
+          "shortDescription": "Mark members as static",
+          "fullDescription": "Members that do not access instance data or call instance methods can be marked as static. After you mark the methods as static, the compiler will emit nonvirtual call sites to these members. This can give you a measurable performance gain for performance-sensitive code.",
+          "defaultLevel": "note",
+          "helpUri": "https://docs.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "PortedFromFxCop",
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "S108": {
+          "id": "S108",
+          "shortDescription": "Nested blocks of code should not be left empty",
+          "fullDescription": "Most of the time a block of code is empty when a piece of code is really missing. So such empty block must be either filled or removed.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-108",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S1118": {
+          "id": "S1118",
+          "shortDescription": "Utility classes should not have public constructors",
+          "fullDescription": "Utility classes, which are collections of static members, are not meant to be instantiated.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1118",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S125": {
+          "id": "S125",
+          "shortDescription": "Sections of code should not be commented out",
+          "fullDescription": "Programmers should not comment out code as it bloats programs and reduces readability.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-125",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S1481": {
+          "id": "S1481",
+          "shortDescription": "Unused local variables should be removed",
+          "fullDescription": "If a local variable is declared but not used, it is dead code and should be removed. Doing so will improve maintainability because developers will not wonder what the variable is used for.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1481",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S1854": {
+          "id": "S1854",
+          "shortDescription": "Unused assignments should be removed",
+          "fullDescription": "A dead store happens when a local variable is assigned a value that is not read by any subsequent instruction. Calculating or retrieving a value only to then overwrite it or throw it away, could indicate a serious error in the code. Even if it's not an error, it is at best a waste of resources. Therefore all calculated values should be used.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1854",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S3776": {
+          "id": "S3776",
+          "shortDescription": "Cognitive Complexity of methods should not be too high",
+          "fullDescription": "Cognitive Complexity is a measure of how hard the control flow of a method is to understand. Methods with high Cognitive Complexity will be difficult to maintain.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3776",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": false,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S4487": {
+          "id": "S4487",
+          "shortDescription": "Unread \"private\" fields should be removed",
+          "fullDescription": "Private fields only used to store values without reading them later is a case of dead store. So changing the value of such field is useless and most probably indicates a serious error in the code.",
+          "defaultLevel": "note",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-4487",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope",
+              "Unnecessary"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

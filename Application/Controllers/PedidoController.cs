@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Models;
 
-using Newtonsoft.Json;
+using Application.DTO;
 
 namespace Application.Controllers
 {
     public class PedidoController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        /*
+         * Vistas
+         */
         public PedidoController(ApplicationDbContext context)
         {
             _context = context;
@@ -47,6 +49,9 @@ namespace Application.Controllers
         {
             return View();
         }
+        /*
+         * GET
+         */
         public JsonResult ObtenerTodosLosPedidosAprobadosPorElSolicitante()
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 2 select pedido;
@@ -62,166 +67,30 @@ namespace Application.Controllers
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 select pedido;
             return Json(todosLosPedidosPendientes);
         }
-        public JsonResult ObtenerPedido(int id)
-        {
-            var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            return Json(todosLosPedidosPendientes);
-        }
         public JsonResult ObtenerTodosLosPedidos()
         {
             var todosLosPedidos = from objPedido in _context.Pedido join objPedidoEstado in _context.PedidoEstado on objPedido.PedidoEstadoId equals objPedidoEstado.Id select new { objPedido.Id, objPedido.DireccionDeSolicitante, objPedido.TipoDeUso, objPedido.EntregarA, objPedido.ActividadOperativa, objPedido.Motivo, objPedido.Fecha, objPedidoEstado.Descripcion };
             return Json(todosLosPedidos);
         }
-        public JsonResult ObtenerItems(int id)
+        public JsonResult ObtenerPedidoConPedidoId(int id)
         {
-            var itemsDelPedido = from objItem in _context.Item join objItemXPedido in _context.ItemXPedido on objItem.Id equals objItemXPedido.ItemId join objPedido in _context.Pedido on objItemXPedido.PedidoId equals objPedido.Id where objPedido.Id == id select new { ItemId = objItem.Id, objItem.Descripcion, objItemXPedido.Cantidad, objItemXPedido.Id, objItem.UnidadDeMedida };
+            var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id == id select pedido;
+            return Json(todosLosPedidosPendientes);
+        }
+        public JsonResult ObtenerItemsConPedidoId(int id)
+        {
+            var itemsDelPedido = from objItem in _context.Item 
+                                 join objItemXPedido in _context.ItemXPedido on objItem.Id equals objItemXPedido.ItemId 
+                                 join objPedido in _context.Pedido on objItemXPedido.PedidoId equals objPedido.Id 
+                                 where objPedido.Id == id select new 
+                                 { 
+                                   itemId = objItem.Id, 
+                                   itemDescripcion = objItem.Descripcion, 
+                                   ipCantidad = objItemXPedido.Cantidad, 
+                                   ipId = objItemXPedido.Id, 
+                                   itemUnidadDeMedida = objItem.UnidadDeMedida 
+                                 };
             return Json(itemsDelPedido);
-        }    
-        public void actualizarItemsDelPedido(List<Cantidad> cantidades)
-        {
-            foreach (Cantidad obj in cantidades)
-            {
-                if (obj.cantidad == "")
-                {
-                    obj.cantidad = "0";
-                }
-                var objItemXPedidoQueBusco = from objItemXPedido in _context.ItemXPedido where objItemXPedido.Id == Int32.Parse(obj.id) select objItemXPedido;
-                ItemXPedido objItemXPedidoEncontrado = new ItemXPedido();
-                objItemXPedidoEncontrado = objItemXPedidoQueBusco.Single();
-                if (obj.cantidad == "0")
-                {
-                    _context.ItemXPedido.Remove(objItemXPedidoEncontrado);
-                }
-                else
-                {
-                    objItemXPedidoEncontrado.Cantidad = Int32.Parse(obj.cantidad);
-                    _context.Update(objItemXPedidoEncontrado);
-                }
-            }
-        }
-        public class ParametrosAprobarPendiente
-        {
-            public int id { get; set; }
-            public List<Cantidad> cantidades { get; set; }
-        }
-        public class ParametrosDesaprobarPendiente{
-            public int id { get; set; }
-            public string observacion { get; set; }
-            public List<Cantidad> cantidades { get; set; }
-        }
-        public class Cantidad
-        {
-            public string id { get; set; }
-            public string cantidad { get; set; }
-        }
-        public class ParametrosEnviar
-        {
-            public int id { get; set; }
-        }
-        [HttpPost]
-        public async Task<JsonResult> AprobarPedidoPendiente([FromBody] ParametrosAprobarPendiente obj)
-        {
-            int id = obj.id;
-            List<Cantidad> cantidades = obj.cantidades;
-            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            Pedido objPedido = new Pedido();
-            objPedido = pedidoQueQuiero.Single();
-            objPedido.PedidoEstadoId = 2;
-            actualizarItemsDelPedido(cantidades);
-            try
-            {
-                _context.Update(objPedido);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-            //return Json(new { newUrl = Url.Action("Edit", "Cotizacion", new { id = c.CotizacionesId }) });
-            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
-        }
-        [HttpPost]
-        public async Task<JsonResult> DesaprobarPedidoPendiente([FromBody] ParametrosDesaprobarPendiente obj)
-        {
-            int id = obj.id;
-            string observacion = obj.observacion;
-            List<Cantidad> cantidades = obj.cantidades;
-            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            Pedido objPedido = new Pedido();
-            objPedido = pedidoQueQuiero.Single();
-            objPedido.PedidoEstadoId = 3;
-            objPedido.Observaciones1 = observacion;
-            actualizarItemsDelPedido(cantidades);
-            try
-            {
-                _context.Update(objPedido);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
-        }
-        [HttpPost]
-        public async Task<JsonResult> AprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosAprobarPendiente obj)
-        {
-            int id = obj.id;
-            List<Cantidad> cantidades = obj.cantidades;
-            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            Pedido objPedido = new Pedido();
-            objPedido = pedidoQueQuiero.Single();
-            objPedido.PedidoEstadoId = 4;
-            actualizarItemsDelPedido(cantidades);
-            try
-            {
-                _context.Update(objPedido);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
-        }
-        [HttpPost]
-        public async Task<JsonResult> DesaprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosDesaprobarPendiente obj)
-        {
-            int id = obj.id;
-            string observacion = obj.observacion;
-            List<Cantidad> cantidades = obj.cantidades;
-            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            Pedido objPedido = new Pedido();
-            objPedido = pedidoQueQuiero.Single();
-            objPedido.PedidoEstadoId = 5;
-            objPedido.Observaciones2 = observacion;
-            actualizarItemsDelPedido(cantidades);
-            try
-            {
-                _context.Update(objPedido);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
-        }
-        [HttpPost]
-        public JsonResult EnviarPedidoATodosLosProveedores([FromBody] ParametrosEnviar obj)
-        {
-            int id = obj.id;
-            //List<Cantidad> cantidades = obj.cantidades;
-            //var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == id select pedido;
-            //Pedido objPedido = new Pedido();
-            //objPedido = pedidoQueQuiero.Single();
-            //objPedido.PedidoEstadoId = 4;
-            //actualizarItemsDelPedido(cantidades);
-            try
-            {
-                //_context.Update(objPedido);
-                //await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorLogistica", "Pedido") });
         }
         public JsonResult ObtenerTodosLosPedidosPendientesConFiltro(string campo, string valor)
         {
@@ -237,7 +106,7 @@ namespace Application.Controllers
                     try
                     {
                         int codigo = Convert.ToInt32(valor);
-                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id >= codigo && pedido.PedidoEstadoId == 1  select pedido;
+                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id >= codigo && pedido.PedidoEstadoId == 1 select pedido;
                         return Json(todosLosPedidosPendientes);
                     }
                     catch
@@ -249,7 +118,7 @@ namespace Application.Controllers
                 {
                     if (campo == "actividadOperativa")
                     {
-                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.ActividadOperativa == valor && pedido.PedidoEstadoId == 1  select pedido;
+                        todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.ActividadOperativa == valor && pedido.PedidoEstadoId == 1 select pedido;
                         return Json(todosLosPedidosPendientes);
                     }
                     else
@@ -273,6 +142,85 @@ namespace Application.Controllers
                             }
                         }
                     }
+                }
+            }
+        }
+        /*
+         * POST
+         */
+        [HttpPost]
+        public async Task<JsonResult> AprobarPedidoPendiente([FromBody] ParametrosAprobarPedido obj)
+        {
+            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == obj.pedidoId select pedido;
+            Pedido objPedido = new Pedido();
+            objPedido = pedidoQueQuiero.Single();
+            objPedido.PedidoEstadoId = 2;
+            actualizarItemsDelPedido(obj.items);
+            _context.Update(objPedido);
+             await _context.SaveChangesAsync();
+            //return Json(new { newUrl = Url.Action("Edit", "Cotizacion", new { id = c.CotizacionesId }) });
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
+        }
+        [HttpPost]
+        public async Task<JsonResult> DesaprobarPedidoPendiente([FromBody] ParametrosDesaprobarPedido obj)
+        {
+            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == obj.pedidoId select pedido;
+            Pedido objPedido = new Pedido();
+            objPedido = pedidoQueQuiero.Single();
+            objPedido.Observaciones1 = obj.observaciones;
+            objPedido.PedidoEstadoId = 3;
+            actualizarItemsDelPedido(obj.items);
+            _context.Update(objPedido);
+            await _context.SaveChangesAsync();
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
+        }
+        [HttpPost]
+        public async Task<JsonResult> AprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosAprobarPedido obj)
+        {
+            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == obj.pedidoId select pedido;
+            Pedido objPedido = new Pedido();
+            objPedido = pedidoQueQuiero.Single();
+            objPedido.PedidoEstadoId = 4;
+            actualizarItemsDelPedido(obj.items);
+            _context.Update(objPedido);
+            await _context.SaveChangesAsync();
+            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
+        }
+        [HttpPost]
+        public async Task<JsonResult> DesaprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosDesaprobarPedido obj)
+        {
+            var pedidoQueQuiero = from pedido in _context.Pedido where pedido.Id == obj.pedidoId select pedido;
+            Pedido objPedido = new Pedido();
+            objPedido = pedidoQueQuiero.Single();
+            objPedido.PedidoEstadoId = 5;
+            actualizarItemsDelPedido(obj.items);
+            _context.Update(objPedido);
+            await _context.SaveChangesAsync();
+            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
+        }
+        [HttpPost]
+        public JsonResult EnviarPedidoATodosLosProveedores([FromBody] int obj)
+        {
+            return Json(new { newUrl = Url.Action("ListarAprobadosPorLogistica", "Pedido") });
+        }
+        /*
+         * Auxiliar
+         */
+        public void actualizarItemsDelPedido(List<ParametroItemPedido> itemsDelPedido)
+        {
+            foreach (ParametroItemPedido item in itemsDelPedido)
+            {
+                var objItemXPedidoQueBusco = from objItemXPedido in _context.ItemXPedido where objItemXPedido.Id == item.ipId select objItemXPedido;
+                ItemXPedido objItemXPedidoEncontrado = new ItemXPedido();
+                objItemXPedidoEncontrado = objItemXPedidoQueBusco.Single();
+                if (item.ipCantidad == 0)
+                {
+                    _context.ItemXPedido.Remove(objItemXPedidoEncontrado);
+                }
+                else
+                {
+                    objItemXPedidoEncontrado.Cantidad = item.ipCantidad;
+                    _context.Update(objItemXPedidoEncontrado);
                 }
             }
         }

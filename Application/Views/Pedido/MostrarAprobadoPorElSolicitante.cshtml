@@ -47,7 +47,7 @@
             </th>
         </tr>
     </thead>
-    <tbody id="cuerpoDeLaTabla">
+    <tbody id="tablaConLosItems">
     </tbody>
 </table>
 <!--Modal para la aprobacion-->
@@ -93,48 +93,63 @@
         </div>
     </div>
 </div>
+<script src="~/js/site.js"></script>
 <script>
+    var pedidoId = obtenerIdDeUrl();
+    //
     var jsonPedido;
+    var labelId = document.getElementById('id');
+    var labelDireccionDeSolicitante = document.getElementById('direccionDeSolicitante');
+    var labelEntregarA = document.getElementById('entregarA');
+    var labelActividadOperativa = document.getElementById('actividadOperativa');
+    var labelMotivo = document.getElementById('motivo');
+    var labelFecha = document.getElementById('fecha');
+    var labelHora = document.getElementById('hora');
+    //
     var jsonItems;
-    var cuerpoDeLaTabla = document.getElementById('cuerpoDeLaTabla');
-    var id = document.getElementById('id');
-    var direccionDeSolicitante = document.getElementById('direccionDeSolicitante');
-    var entregarA = document.getElementById('entregarA');
-    var actividadOperativa = document.getElementById('actividadOperativa');
-    var motivo = document.getElementById('motivo');
-    var fecha = document.getElementById('fecha');
-    var hora = document.getElementById('hora');
-    var numeroId = obtenerIdDeUrl();
-    urlRequestObtenerPedido = "/Pedido/ObtenerPedido/" + numeroId;
-    urlRequestObtenerItems = "/Pedido/ObtenerItems/" + numeroId;
+    var tablaConLosItems = document.getElementById('tablaConLosItems');
+    var InputsConLaClaseInputItemPedidoCantidad;
+    //
+    var esEditableLasCantidades = false;
+    var botonEditarCantidad = document.getElementById('editarCantidades');
+    /*
+     * Inicializar
+     */
     window.addEventListener('load', function () {
-        obtenerPedido();
-        obtenerItems();
+        obtenerMostrarPedido();
+        obtenerMostrarItems();
     });
-    function mostrarPedido() {
-        id.innerHTML = jsonPedido[0].id;
-        direccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
-        entregarA.innerHTML = jsonPedido[0].entregarA;
-        actividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
-        motivo.innerHTML = jsonPedido[0].motivo;
-        fecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
-        hora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
-    }
-    function obtenerPedido() {
-        this.fetch(urlRequestObtenerPedido).then(function (respuestaDelControlador) {
+    /*
+     * Obtener y mostrar Pedido
+     */
+    async function obtenerMostrarPedido() {
+        await fetch("/Pedido/ObtenerPedidoConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            jsonPedido = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            jsonPedido = respuestaDelControladorConvertidoToJSON
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
             mostrarPedido();
         });
     }
-    function obtenerItems() {
-        this.fetch(urlRequestObtenerItems).then(function (respuestaDelControlador) {
+    function mostrarPedido() {
+        labelId.innerHTML = jsonPedido[0].id;
+        labelDireccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
+        labelEntregarA.innerHTML = jsonPedido[0].entregarA;
+        labelActividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
+        labelMotivo.innerHTML = jsonPedido[0].motivo;
+        labelFecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
+        labelHora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
+    }
+    /*
+     * Obtener y mostrar Items
+     */
+    async function obtenerMostrarItems() {
+        await fetch("/Pedido/ObtenerItemsConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            jsonItems = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            jsonItems = respuestaDelControladorConvertidoToJSON;
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
             mostrarItems();
-            agregarEventoDeCambioALasCantidades();
         });
     }
     function mostrarItems() {
@@ -142,35 +157,20 @@
             var tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + object.itemId + '</td>' +
-                '<td>' + object.descripcion + '</td>' +
-                '<td>' + '<input class="items" type="number" id="' + object.id + '" value="' + object.cantidad + '" disabled> ' + '</td>' +
-                '<td>' + object.unidadDeMedida + '</td>';
-            cuerpoDeLaTabla.appendChild(tr);
+                '<td>' + object.itemDescripcion + '</td>' +
+                '<td>' + '<input class="InputItemPedidoCantidad" type="number" id="' + object.ipId + '" value="' + object.ipCantidad + '" disabled> ' + '</td>' +
+                '<td>' + object.itemUnidadDeMedida + '</td>';
+            tablaConLosItems.appendChild(tr);
         });
-    }
-    function convertirFechaJsonEnFecha(fechaJson) {
-        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
-        let año = /^[\d]+/.exec(fecha);
-        let mes = /-[\d]+-/.exec(fecha);
-        let dia = /[\d]+$/.exec(fecha);
-        return dia + mes + año;
-    }
-    function convertirFechaJsonEnHora(fechaJson) {
-        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
-        return /\d\d:\d\d/.exec(hora);
-    }
-    function obtenerIdDeUrl() {
-        url = window.location;
-        regexId = /[\d]+$/;
-        return regexId.exec(url)[0];
+        // defino InputsConLaClaseInputItemPedidoCantidad cons los inputs generados en la tabla
+        InputsConLaClaseInputItemPedidoCantidad = document.getElementsByClassName('InputItemPedidoCantidad');
+        // agrego el evento de valiadocion de los datos que contienen los inputs
+        agregarEventoQueValidaLosInputsConLaClaseInputItemPedidoCantidad();
     }
     /*
-     * Aqui abajo esta el codigo para activar y desactivar la edicion de las cantidades
+     * Aqui abajo es el codigo que Activa y desactiva InputsConItemDelPedido
      */
-    var esEditableLasCantidades = false;
-    var cantidades = document.getElementsByClassName('items');
-    var botonEditarCantidad = document.getElementById('editarCantidades');
-    botonEditarCantidad.addEventListener('click',cambiarEstadoDeCantidades);
+    botonEditarCantidad.addEventListener('click', cambiarEstadoDeCantidades);
     function cambiarEstadoDeCantidades() {
         if (esEditableLasCantidades == false) {
             esEditableLasCantidades = true;
@@ -184,13 +184,13 @@
         }
     }
     function activarEdicionDeCantidades() {
-        for (let i = 0; i<cantidades.length;i++) {
-            cantidades[i].disabled = false;
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].disabled = false;
         }
     }
     function desactivarEdicionDeCantidades() {
-        for (let i = 0; i < cantidades.length; i++) {
-            cantidades[i].disabled = true;
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].disabled = true;
         }
     }
     /*
@@ -199,41 +199,38 @@
      * ya que es necesarios obtenerlos y mostrarlos para saber cuales son y agregar los eventos
      * a cada uno
      */
-    function agregarEventoDeCambioALasCantidades() {
-        for (let i = 0; i < cantidades.length; i++) {
-            cantidades[i].onchange = function () { validarQueElValorSeaUnNumeroEnteroPositivoIncluidoElCero(cantidades[i]) };
-        }
-    }
-    function validarQueElValorSeaUnNumeroEnteroPositivoIncluidoElCero(elementoHtml) {
-        if (elementoHtml.value == '' || elementoHtml.innerHTML == '') {
-            elementoHtml.value = 0;
-            elementoHtml.innerHTML == 0;
-        }
-        else {
-            var temp = elementoHtml.value;
-            temp = temp.replace(/^0+/, '');
-            elementoHtml.value = temp;
-            if (elementoHtml.value == '') {
-                elementoHtml.value == 0;
-            }
+    function agregarEventoQueValidaLosInputsConLaClaseInputItemPedidoCantidad() {
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].onchange = function () {
+                let resultadoDeLaValidacion = validarQueElValorSeaUnNumeroEnteroNoNegativo(InputsConLaClaseInputItemPedidoCantidad[i]);
+                InputsConLaClaseInputItemPedidoCantidad[i].value = resultadoDeLaValidacion[0];
+                if (resultadoDeLaValidacion[1] != null) {
+                    alert(resultadoDeLaValidacion[1]);
+                }
+            };
         }
     }
     /*
-     Aqui se combierte las cantidades en objeto json
+     * Aqui se combierte la variable
+     * InputsConLaClaseInputItemPedidoCantidad
+     * en un json con los datos que necesito
+     * para guardar los cambios en los items
+     * relacionados al pedido
      */
-    function obtenerJsonDeLasCantidades() {
-        let jsonConLasCantidades = [];
-        for (let i = 0; i < cantidades.length; i++) {
-            let objCantidad = {};
-            objCantidad["NombreProducto"] = "Caja de Herramientas";
-            objCantidad["id"] = cantidades[i].id;
-            objCantidad["cantidad"] = cantidades[i].value;
-            jsonConLasCantidades.push(objCantidad);
+    function obtenerJsonConLosCambiosEnLosItemsDelPedido() {
+        let json = [];
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            let obj = {};
+            // item x pedido Id
+            obj["ipId"] = InputsConLaClaseInputItemPedidoCantidad[i].id;
+            // item x pedido cantidad
+            obj["ipCantidad"] = InputsConLaClaseInputItemPedidoCantidad[i].value;
+            json.push(obj);
         }
-        return jsonConLasCantidades;
+        return json;
     }
     /*
-    POST
+     Post Aprobar
      */
     document.getElementById("botonAprobar").onclick = aprobar;
     function aprobar() {
@@ -242,13 +239,16 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: jsonPedido[0].id, cantidades: obtenerJsonDeLasCantidades() })
+            body: JSON.stringify({ pedidoId: jsonPedido[0].id, items: obtenerJsonConLosCambiosEnLosItemsDelPedido() })
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
             window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
         });
     }
+    /*
+     Post Desaprobar
+     */
     document.getElementById("botonDesaprobar").onclick = desaprobar;
     function desaprobar() {
         fetch("/Pedido/DesaprobarPedidoAprobadoPorElSolicitante/", {
@@ -256,7 +256,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: jsonPedido[0].id, observacion: document.getElementById("observaciones").value, cantidades: obtenerJsonDeLasCantidades() })
+            body: JSON.stringify({ pedidoId: jsonPedido[0].id, observaciones: document.getElementById("observaciones").value, items: obtenerJsonConLosCambiosEnLosItemsDelPedido() })
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {

@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAO\" />
     <Folder Include="wwwroot\documento\" />
   </ItemGroup>
 

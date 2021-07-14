@@ -1,7 +1,4 @@
-﻿<heah>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-</heah>
-<div class="container w-100 h1 text-center mb-3">Pedido Pendiente</div>
+﻿<div class="container w-100 h1 text-center mb-3">Pedido Pendiente</div>
 <div class="row mb-3">
     <div class="col-8">
         <label class="font-weight-bold">Código: </label>
@@ -50,7 +47,7 @@
             </th>
         </tr>
     </thead>
-    <tbody id="cuerpoDeLaTabla">
+    <tbody id="tablaConLosItems">
     </tbody>
 </table>
 <!--Modal para la aprobacion-->
@@ -96,11 +93,11 @@
         </div>
     </div>
 </div>
+<script src="~/js/site.js"></script>
 <script>
+    var pedidoId = obtenerIdDeUrl();
+    //
     var jsonPedido;
-    var jsonItems;
-    var objetosConLaClaseItemXPedido
-    var tablaConItems = document.getElementById('cuerpoDeLaTabla');
     var labelId = document.getElementById('id');
     var labelDireccionDeSolicitante = document.getElementById('direccionDeSolicitante');
     var labelEntregarA = document.getElementById('entregarA');
@@ -108,7 +105,13 @@
     var labelMotivo = document.getElementById('motivo');
     var labelFecha = document.getElementById('fecha');
     var labelHora = document.getElementById('hora');
-    var pedidoId = obtenerNumeroDeUrl();
+    //
+    var jsonItems;
+    var tablaConLosItems = document.getElementById('tablaConLosItems');
+    var InputsConLaClaseInputItemPedidoCantidad;
+    //
+    var esEditableLasCantidades = false;
+    var botonEditarCantidad = document.getElementById('editarCantidades');
     /*
      * Inicializar
      */
@@ -117,18 +120,10 @@
         obtenerMostrarItems();
     });
     /*
-     * obtener el id del pedido desde la url
-     */
-    function obtenerNumeroDeUrl() {
-        url = window.location;
-        regexId = /[\d]+$/;
-        return regexId.exec(url)[0];
-    }
-    /*
      * Obtener y mostrar Pedido
      */
     async function obtenerMostrarPedido() {
-        await fetch("/Pedido/ObtenerPedido/" + pedidoId).then(function (respuestaDelControlador) {
+        await fetch("/Pedido/ObtenerPedidoConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
             jsonPedido = respuestaDelControladorConvertidoToJSON
@@ -146,33 +141,15 @@
         labelHora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
     }
     /*
-     * Convertir Fecha Json en Fecha
-     */
-    function convertirFechaJsonEnFecha(fechaJson) {
-        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
-        let año = /^[\d]+/.exec(fecha);
-        let mes = /-[\d]+-/.exec(fecha);
-        let dia = /[\d]+$/.exec(fecha);
-        return dia + mes + año;
-    }
-    /*
-     * Convertir Fecha Json en Hora
-     */
-    function convertirFechaJsonEnHora(fechaJson) {
-        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
-        return /\d\d:\d\d/.exec(hora);
-    }
-    /*
      * Obtener y mostrar Items
      */
-    function obtenerMostrarItems() {
-        fetch("/Pedido/ObtenerItems/" + pedidoId).then(function (respuestaDelControlador) {
+    async function obtenerMostrarItems() {
+        await fetch("/Pedido/ObtenerItemsConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
             jsonItems = respuestaDelControladorConvertidoToJSON;
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
             mostrarItems();
-            cantidades = document.getElementsByClassName('items');
-            agregarEventoDeCambioALasCantidades();
         });
     }
     function mostrarItems() {
@@ -180,17 +157,19 @@
             var tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + object.itemId + '</td>' +
-                '<td>' + object.descripcion + '</td>' +
-                '<td>' + '<input class="ItemXPedido" type="number" id="' + object.id + '" value="' + object.cantidad + '" disabled> ' + '</td>' +
-                '<td>' + object.unidadDeMedida + '</td>';
-            cuerpoDeLaTabla.appendChild(tr);
+                '<td>' + object.itemDescripcion + '</td>' +
+                '<td>' + '<input class="InputItemPedidoCantidad" type="number" id="' + object.ipId + '" value="' + object.ipCantidad + '" disabled> ' + '</td>' +
+                '<td>' + object.itemUnidadDeMedida + '</td>';
+            tablaConLosItems.appendChild(tr);
         });
+        // defino InputsConLaClaseInputItemPedidoCantidad cons los inputs generados en la tabla
+        InputsConLaClaseInputItemPedidoCantidad = document.getElementsByClassName('InputItemPedidoCantidad');
+        // agrego el evento de valiadocion de los datos que contienen los inputs
+        agregarEventoQueValidaLosInputsConLaClaseInputItemPedidoCantidad();
     }
     /*
-     * Aqui abajo esta el codigo para activar y desactivar la edicion de las cantidades
+     * Aqui abajo es el codigo que Activa y desactiva InputsConItemDelPedido
      */
-    var esEditableLasCantidades = false;
-    var botonEditarCantidad = document.getElementById('editarCantidades');
     botonEditarCantidad.addEventListener('click',cambiarEstadoDeCantidades);
     function cambiarEstadoDeCantidades() {
         if (esEditableLasCantidades == false) {
@@ -205,13 +184,13 @@
         }
     }
     function activarEdicionDeCantidades() {
-        for (let i = 0; i<cantidades.length;i++) {
-            cantidades[i].disabled = false;
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length;i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].disabled = false;
         }
     }
     function desactivarEdicionDeCantidades() {
-        for (let i = 0; i < cantidades.length; i++) {
-            cantidades[i].disabled = true;
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].disabled = true;
         }
     }
     /*
@@ -220,40 +199,38 @@
      * ya que es necesarios obtenerlos y mostrarlos para saber cuales son y agregar los eventos
      * a cada uno
      */
-    function agregarEventoDeCambioALasCantidades() {
-        for (let i = 0; i < cantidades.length; i++) {
-            cantidades[i].onchange = function () { validarQueElValorSeaUnNumeroEnteroPositivoIncluidoElCero(cantidades[i]) };
-        }
-    }
-    function validarQueElValorSeaUnNumeroEnteroPositivoIncluidoElCero(elementoHtml) {
-        if (elementoHtml.value == '' || elementoHtml.innerHTML == '') {
-            elementoHtml.value = 0;
-            elementoHtml.innerHTML == 0;
-        }
-        else {
-            var temp = elementoHtml.value;
-            temp = temp.replace(/^0+/, '');
-            elementoHtml.value = temp;
-            if (elementoHtml.value == '') {
-                elementoHtml.value == 0;
-            }
+    function agregarEventoQueValidaLosInputsConLaClaseInputItemPedidoCantidad() {
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            InputsConLaClaseInputItemPedidoCantidad[i].onchange = function () {
+                let resultadoDeLaValidacion = validarQueElValorSeaUnNumeroEnteroNoNegativo(InputsConLaClaseInputItemPedidoCantidad[i]);
+                InputsConLaClaseInputItemPedidoCantidad[i].value = resultadoDeLaValidacion[0];
+                if (resultadoDeLaValidacion[1] != null) {
+                    alert(resultadoDeLaValidacion[1]);
+                }
+            };
         }
     }
     /*
-     Aqui se combierte las cantidades en objeto json
+     * Aqui se combierte la variable
+     * InputsConLaClaseInputItemPedidoCantidad
+     * en un json con los datos que necesito
+     * para guardar los cambios en los items
+     * relacionados al pedido
      */
-    function obtenerJsonDeLasCantidades() {
-        let jsonConLasCantidades = [];
-        for (let i = 0; i < cantidades.length; i++) {
-            let objCantidad = {};
-            objCantidad["id"] = cantidades[i].id;
-            objCantidad["cantidad"] = cantidades[i].value;
-            jsonConLasCantidades.push(objCantidad);
+    function obtenerJsonConLosCambiosEnLosItemsDelPedido() {
+        let json = [];
+        for (let i = 0; i < InputsConLaClaseInputItemPedidoCantidad.length; i++) {
+            let obj = {};
+            // item x pedido Id
+            obj["ipId"] = InputsConLaClaseInputItemPedidoCantidad[i].id;
+            // item x pedido cantidad
+            obj["ipCantidad"] = InputsConLaClaseInputItemPedidoCantidad[i].value;
+            json.push(obj);
         }
-        return jsonConLasCantidades;
+        return json;
     }
     /*
-    POST
+     Post Aprobar
      */
     document.getElementById("botonAprobar").onclick = aprobar;
     function aprobar() {
@@ -262,13 +239,16 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: jsonPedido[0].id, cantidades: obtenerJsonDeLasCantidades() })
+            body: JSON.stringify({ pedidoId: jsonPedido[0].id, items: obtenerJsonConLosCambiosEnLosItemsDelPedido() })
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
             window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
         });
     }
+    /*
+     Post Desaprobar
+     */
     document.getElementById("botonDesaprobar").onclick = desaprobar;
     function desaprobar() {
         fetch("/Pedido/DesaprobarPedidoPendiente/", {
@@ -276,7 +256,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: jsonPedido[0].id, observacion: document.getElementById("observaciones").value, cantidades: obtenerJsonDeLasCantidades() })
+            body: JSON.stringify({ pedidoId: jsonPedido[0].id, observaciones: document.getElementById('observaciones').value, items: obtenerJsonConLosCambiosEnLosItemsDelPedido() })
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {

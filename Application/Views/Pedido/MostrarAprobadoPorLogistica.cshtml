@@ -22,9 +22,59 @@
         <br />
         <label class="font-weight-bold">Hora: </label>
         <label id="hora"></label>
-        <br />
-        <button class="btn border-dark mb-1" type="button" data-toggle="modal" data-target="#modalEnviar">Enviar</button>
     </div>
+</div>
+<div class="mb-3">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text">Proveedores</label>
+        </div>
+        <select class="custom-select">
+            <option selected value="0">Elegir un proveedor...</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary">Añadir</button>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bold">Ruc: </label>
+                <label id="ruc"></label>
+                <br />
+                <label class="font-weight-bold">Teléfono: </label>
+                <label id="telefono"></label>
+                <br />
+            </div>
+            <div class="col">
+                <label class="font-weight-bold">Correo: </label>
+                <label id="correo"></label>
+                <br />
+            </div>
+        </div>
+        <label class="font-weight-bold">Nombre: </label>
+        <label id="nombre"></label>
+        <br />
+        <label class="font-weight-bold">Razon Social: </label>
+        <label id="razonSocial"></label>
+    </div>
+    <table class="table table-hover mb-3">
+        <thead>
+            <tr class="align-items-center">
+                <th>
+                    Ruc
+                </th>
+                <th>
+                    Nombre
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tablaConLosItems">
+        </tbody>
+    </table>
+    <button class="btn">Limpiar lista</button>
+    <button class="btn">Eliminar Ultimo Añadido</button>
+    <button class="btn border-dark mb-1" type="button" data-toggle="modal" data-target="#modalEnviar">Enviar</button>
 </div>
 <table class="table table-hover">
     <thead>
@@ -43,7 +93,7 @@
             </th>
         </tr>
     </thead>
-    <tbody id="cuerpoDeLaTabla">
+    <tbody id="tablaConLosItems">
     </tbody>
 </table>
 <!--Modal para la enviar-->
@@ -51,13 +101,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title h5">Enviar Pedido a los Proveedores</div>
+                <div class="modal-title h5">Enviar Solicitud de Cotización a los Proveedores</div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="">¿Esta seguro de realizar el envío a todos los proveedores?</div>
+                <div class="">¿Esta seguro de enviar la solicitud de cotización a los proveedores seleccionados?</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="botonEnviar">Si</button>
@@ -66,46 +116,58 @@
         </div>
     </div>
 </div>
+<script src="~/js/site.js"></script>
 <script>
+    var pedidoId = obtenerIdDeUrl();
+    //
     var jsonPedido;
+    var labelId = document.getElementById('id');
+    var labelDireccionDeSolicitante = document.getElementById('direccionDeSolicitante');
+    var labelEntregarA = document.getElementById('entregarA');
+    var labelActividadOperativa = document.getElementById('actividadOperativa');
+    var labelMotivo = document.getElementById('motivo');
+    var labelFecha = document.getElementById('fecha');
+    var labelHora = document.getElementById('hora');
+    //
     var jsonItems;
-    var cuerpoDeLaTabla = document.getElementById('cuerpoDeLaTabla');
-    var id = document.getElementById('id');
-    var direccionDeSolicitante = document.getElementById('direccionDeSolicitante');
-    var entregarA = document.getElementById('entregarA');
-    var actividadOperativa = document.getElementById('actividadOperativa');
-    var motivo = document.getElementById('motivo');
-    var fecha = document.getElementById('fecha');
-    var hora = document.getElementById('hora');
-    var numeroId = obtenerIdDeUrl();
-    urlRequestObtenerPedido = "/Pedido/ObtenerPedido/" + numeroId;
-    urlRequestObtenerItems = "/Pedido/ObtenerItems/" + numeroId;
+    var tablaConLosItems = document.getElementById('tablaConLosItems');
+    /*
+     * Inicializar
+     */
     window.addEventListener('load', function () {
-        obtenerPedido();
-        obtenerItems();
+        obtenerMostrarPedido();
+        obtenerMostrarItems();
     });
-    function mostrarPedido() {
-        id.innerHTML = jsonPedido[0].id;
-        direccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
-        entregarA.innerHTML = jsonPedido[0].entregarA;
-        actividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
-        motivo.innerHTML = jsonPedido[0].motivo;
-        fecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
-        hora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
-    }
-    function obtenerPedido() {
-        this.fetch(urlRequestObtenerPedido).then(function (respuestaDelControlador) {
+    /*
+     * Obtener y mostrar Pedido
+     */
+    async function obtenerMostrarPedido() {
+        await fetch("/Pedido/ObtenerPedidoConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            jsonPedido = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            jsonPedido = respuestaDelControladorConvertidoToJSON
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
             mostrarPedido();
         });
     }
-    function obtenerItems() {
-        this.fetch(urlRequestObtenerItems).then(function (respuestaDelControlador) {
+    function mostrarPedido() {
+        labelId.innerHTML = jsonPedido[0].id;
+        labelDireccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
+        labelEntregarA.innerHTML = jsonPedido[0].entregarA;
+        labelActividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
+        labelMotivo.innerHTML = jsonPedido[0].motivo;
+        labelFecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
+        labelHora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
+    }
+    /*
+     * Obtener y mostrar Items
+     */
+    async function obtenerMostrarItems() {
+        await fetch("/Pedido/ObtenerItemsConPedidoId/" + pedidoId).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            jsonItems = JSON.parse(JSON.stringify(respuestaDelControladorConvertidoToJSON));
+            jsonItems = respuestaDelControladorConvertidoToJSON;
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
             mostrarItems();
         });
     }
@@ -114,31 +176,16 @@
             var tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + object.itemId + '</td>' +
-                '<td>' + object.descripcion + '</td>' +
-                '<td>' + object.cantidad + '</td>' +
-                '<td>' + object.unidadDeMedida + '</td>';
-            cuerpoDeLaTabla.appendChild(tr);
+                '<td>' + object.itemDescripcion + '</td>' +
+                '<td>' + object.ipCantidad + '</td>' +
+                '<td>' + object.itemUnidadDeMedida + '</td>';
+            tablaConLosItems.appendChild(tr);
         });
-    }
-    function convertirFechaJsonEnFecha(fechaJson) {
-        let fecha = /^\d\d\d\d[-]\d\d[-]\d\d/.exec(fechaJson);
-        let año = /^[\d]+/.exec(fecha);
-        let mes = /-[\d]+-/.exec(fecha);
-        let dia = /[\d]+$/.exec(fecha);
-        return dia + mes + año;
-    }
-    function convertirFechaJsonEnHora(fechaJson) {
-        let hora = /\d\d:\d\d:\d\d/.exec(fechaJson);
-        return /\d\d:\d\d/.exec(hora);
-    }
-    function obtenerIdDeUrl() {
-        url = window.location;
-        regexId = /[\d]+$/;
-        return regexId.exec(url)[0];
     }
     /*
     POST
      */
+    /*
     document.getElementById("botonEnviar").onclick = enviar;
     function enviar() {
         fetch("/Pedido/EnviarPedidoATodosLosProveedores/", {
@@ -153,4 +200,5 @@
             window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
         });
     }
+    */
 </script>

@@ -198,11 +198,6 @@ namespace Application.Controllers
             await _context.SaveChangesAsync();
             return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
         }
-        [HttpPost]
-        public JsonResult EnviarPedidoATodosLosProveedores([FromBody] int obj)
-        {
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorLogistica", "Pedido") });
-        }
         /*
          * Auxiliar
          */

@@ -24,19 +24,20 @@
         <label id="hora"></label>
     </div>
 </div>
-<div class="mb-3">
+<div class="mb-3 border border-dark rounded p-5">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <label class="input-group-text">Proveedores</label>
         </div>
-        <select class="custom-select">
+        <select class="custom-select" id="selectProveedores">
             <option selected value="0">Elegir un proveedor...</option>
         </select>
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary">Añadir</button>
+            <button class="btn btn-outline-secondary" id="botonAgregar">Agregar</button>
         </div>
     </div>
     <div class="mb-3">
+        <div class="h2 text-center mb-3">Proveedor</div>
         <div class="row">
             <div class="col">
                 <label class="font-weight-bold">Ruc: </label>
@@ -58,7 +59,7 @@
         <label class="font-weight-bold">Razon Social: </label>
         <label id="razonSocial"></label>
     </div>
-    <table class="table table-hover mb-3">
+    <table class="table table-hover mb-1">
         <thead>
             <tr class="align-items-center">
                 <th>
@@ -69,12 +70,13 @@
                 </th>
             </tr>
         </thead>
-        <tbody id="tablaConLosItems">
+        <tbody id="tablaConProveedores">
         </tbody>
     </table>
-    <button class="btn">Limpiar lista</button>
-    <button class="btn">Eliminar Ultimo Añadido</button>
-    <button class="btn border-dark mb-1" type="button" data-toggle="modal" data-target="#modalEnviar">Enviar</button>
+    <button class="btn border-dark mb-1" id="botonLimpiarLista">Limpiar lista</button>
+    <button class="btn border-dark mb-1" id="botonEliminarElUltimoAgregado">Eliminar el último agregado</button>
+    <br />
+    <button class="btn border-dark" data-toggle="modal" data-target="#modalEnviar">Enviar</button>
 </div>
 <table class="table table-hover">
     <thead>
@@ -118,6 +120,9 @@
 </div>
 <script src="~/js/site.js"></script>
 <script>
+    /*
+     * Variables
+     */
     var pedidoId = obtenerIdDeUrl();
     //
     var jsonPedido;
@@ -131,12 +136,25 @@
     //
     var jsonItems;
     var tablaConLosItems = document.getElementById('tablaConLosItems');
+    //
+    var jsonProveedores;
+    var selectProveedores = document.getElementById('selectProveedores');
+    var jsonProveedoresEnSelect;
+    var jsonProveedoresEnLista;
+    var tablaConProveedores = document.getElementById('tablaConProveedores');
+    var botonAgregar = document.getElementById('botonAgregar');
+    var botonLimpiarLista = document.getElementById('botonLimpiarLista');
+    var botonEliminarElUlitmoEnLaLista = document.getElementById('botonEliminarElUltimoAgregado');
+    //
+    var jsonParametrosParaEnviar;
+    var jsonResultadDeEnviar;
     /*
      * Inicializar
      */
     window.addEventListener('load', function () {
         obtenerMostrarPedido();
         obtenerMostrarItems();
+        obtenerMostrarProveedoresEnElSelect();
     });
     /*
      * Obtener y mostrar Pedido
@@ -183,22 +201,118 @@
         });
     }
     /*
-    POST
+     * Obtener y mostrar Proveedores en un select
      */
+    async function obtenerMostrarProveedoresEnElSelect() {
+        await fetch("/Proveedor/ObtenerTodosLosProveedores/").then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonProveedores = respuestaDelControladorConvertidoToJSON;
+            // se coloca mostrar aqui ya que si se coloca afuera por la asincronia no tendria efecto
+            llenarSelectConJson(selectProveedores, jsonProveedores);
+            jsonProveedoresEnSelect = jsonProveedores;
+            jsonProveedoresEnLista = [];
+        });
+    }
+    function llenarSelectConJson(select, json) {
+        for (let i = 0; i < json.length; i++) {
+            let option = document.createElement("option");
+            option.value = json[i].ruc;
+            option.text = json[i].nombre;
+            select.appendChild(option);
+        }
+    }
     /*
+     * Aqui el codigo para ver los datos del proveedor
+     */
+    selectProveedores.onchange = function () {
+        for (let i = 0; i<jsonProveedores.length;i++) {
+            if (selectProveedores.value == jsonProveedores[i].ruc) {
+                document.getElementById('ruc').innerHTML = jsonProveedores[i].ruc;
+                document.getElementById('telefono').innerHTML = jsonProveedores[i].telefono;
+                document.getElementById('correo').innerHTML = jsonProveedores[i].correo;
+                document.getElementById('nombre').innerHTML = jsonProveedores[i].nombre;
+                document.getElementById('razonSocial').innerHTML = jsonProveedores[i].razonSocial;
+                break;
+            }
+        }
+    }
+    /*
+     * Aqui esta el codigo para añadir proveedores a la lista
+     */
+    botonAgregar.onclick = function () {
+        jsonProveedoresEnLista = agregarDeSelectAUnaLista(selectProveedores, jsonProveedoresEnLista);
+        mostrarProveedoresEnLaLista(jsonProveedoresEnLista);
+    }
+    function agregarDeSelectAUnaLista(select, json) {
+        // si el valo der select es diferente de 0, osea que se selecciona algo
+        if (select.value != 0) {
+            let existe = false;
+            for (let i = 0; i < json.length; i++) {
+                if (json[i].ruc == select.value) {
+                    existe = true;
+                }
+            }
+            if (existe == false) {
+                let obj = {};
+                obj["ruc"] = select.value;
+                obj["nombre"] = select.options[select.selectedIndex].text;
+                json.push(obj);
+            }
+            return json;
+        }
+    }
+    function mostrarProveedoresEnLaLista(json) {
+        tablaConProveedores.innerHTML = '';
+        for (let i = 0; i < json.length; i++) {
+            let tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + json[i].ruc + '</td>' +
+                '<td>' + json[i].nombre + '</td>';
+            tablaConProveedores.appendChild(tr);
+        }
+    }
+    /*
+     * Aqui esta el codigo para limpiar la lista de proveedores con la tabla
+     */
+    botonLimpiarLista.onclick = limpiarListaDeProveedores;
+    function limpiarListaDeProveedores() {
+        jsonProveedoresEnLista = [];
+        mostrarProveedoresEnLaLista(jsonProveedoresEnLista);
+    }
+    /*
+     * Aqui esta el codigo para eliminar el ultimo elemento en la lista
+     */
+    botonEliminarElUlitmoEnLaLista.onclick = eliminarElUltimoEnLaLista;
+    function eliminarElUltimoEnLaLista() {
+        jsonProveedoresEnLista.pop();
+        mostrarProveedoresEnLaLista(jsonProveedoresEnLista);
+    }
+    /*
+     * POST
+     */
     document.getElementById("botonEnviar").onclick = enviar;
     function enviar() {
-        fetch("/Pedido/EnviarPedidoATodosLosProveedores/", {
+        fetch("/SolicitudDeCotizacion/EnviarSolicitudDeCotizacion/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: jsonPedido[0].id })
+            body: JSON.stringify({ pedidoId: jsonPedido[0].id , rucs: obtenerRucsDeLaListaDeProveedores()})
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
+            alert(respuestaDelControladorConvertidoToJSON.mensaje);
             window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
         });
     }
-    */
+    function obtenerRucsDeLaListaDeProveedores() {
+        let json = [];
+        for (let i = 0; i < jsonProveedoresEnLista.length; i++) {
+            let object = {};
+            object["ruc"] = jsonProveedoresEnLista[i].ruc
+            json.push(object);
+        }
+        return json;
+    }
 </script>

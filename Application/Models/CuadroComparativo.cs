@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.Models
 {
@@ -9,7 +7,7 @@ namespace Application.Models
     {
         public int Id { get; set; }
         public DateTime? Fecha { get; set; }
-        public int? PedidoId { get; set; }
-        public Pedido Pedido { get; set; }
+        public ICollection<SolicitudDeCotizacion> SolicitudDeCotizacionS { get; set; }
+        public ICollection<OrdenDeCompra> OrdenDeCompraS { get; set; }
     }
 }

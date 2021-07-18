@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210630211411_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210718042637_inicio")]
+    partial class inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,12 +31,7 @@ namespace Application.Migrations
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
 
                     b.ToTable("CuadroComparativo");
                 });
@@ -80,8 +75,8 @@ namespace Application.Migrations
                     b.Property<string>("Marca")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProveedorPredeterminado")
-                        .HasColumnType("int");
+                    b.Property<long?>("ProveedorRucPredeterminado")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("UnidadDeMedida")
                         .HasColumnType("nvarchar(max)");
@@ -107,46 +102,13 @@ namespace Application.Migrations
                     b.Property<int?>("PedidoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProveedorGanadorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
                     b.HasIndex("PedidoId");
 
-                    b.HasIndex("ProveedorGanadorId");
-
                     b.ToTable("ItemXPedido");
-                });
-
-            modelBuilder.Entity("Application.Models.ItemXPedidoXSolicitudDeCotizacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ItemXPedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("PrecioTotal")
-                        .HasColumnType("decimal(9,2)");
-
-                    b.Property<decimal?>("PrecioUnitario")
-                        .HasColumnType("decimal(9,2)");
-
-                    b.Property<int?>("SolicitudDeCotizacionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemXPedidoId");
-
-                    b.HasIndex("SolicitudDeCotizacionId");
-
-                    b.ToTable("ItemXPedidoXSolicitudDeCotizacion");
                 });
 
             modelBuilder.Entity("Application.Models.ItemXProveedor", b =>
@@ -159,6 +121,9 @@ namespace Application.Migrations
                     b.Property<decimal?>("FactorDeConversion")
                         .HasColumnType("decimal(2,2)");
 
+                    b.Property<DateTime?>("Fecha")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
@@ -168,6 +133,9 @@ namespace Application.Migrations
                     b.Property<int?>("ProveedorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UnidadDeMedida")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
@@ -175,6 +143,23 @@ namespace Application.Migrations
                     b.HasIndex("ProveedorId");
 
                     b.ToTable("ItemXProveedor");
+                });
+
+            modelBuilder.Entity("Application.Models.OrdenDeCompra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CuadroComparativoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CuadroComparativoId");
+
+                    b.ToTable("OrdenDeCompra");
                 });
 
             modelBuilder.Entity("Application.Models.Pedido", b =>
@@ -233,31 +218,6 @@ namespace Application.Migrations
                     b.ToTable("PedidoEstado");
                 });
 
-            modelBuilder.Entity("Application.Models.PedidoXSolicitudDeCotizacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Observaciones")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SolicitudDeCotizacionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("SolicitudDeCotizacionId");
-
-                    b.ToTable("PedidoXSolicitudDeCotizacion");
-                });
-
             modelBuilder.Entity("Application.Models.Proveedor", b =>
                 {
                     b.Property<int>("Id")
@@ -295,8 +255,14 @@ namespace Application.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CuadroComparativoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("PedidoId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ProveedorId")
                         .HasColumnType("int");
@@ -308,6 +274,10 @@ namespace Application.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CuadroComparativoId");
+
+                    b.HasIndex("PedidoId");
 
                     b.HasIndex("ProveedorId");
 
@@ -331,15 +301,6 @@ namespace Application.Migrations
                     b.ToTable("SolicitudDeCotizacionEstado");
                 });
 
-            modelBuilder.Entity("Application.Models.CuadroComparativo", b =>
-                {
-                    b.HasOne("Application.Models.Pedido", "Pedido")
-                        .WithMany("CuadroComparativoS")
-                        .HasForeignKey("PedidoId");
-
-                    b.Navigation("Pedido");
-                });
-
             modelBuilder.Entity("Application.Models.Documento", b =>
                 {
                     b.HasOne("Application.Models.Pedido", "Pedido")
@@ -359,30 +320,9 @@ namespace Application.Migrations
                         .WithMany("ItemXPedidoS")
                         .HasForeignKey("PedidoId");
 
-                    b.HasOne("Application.Models.Proveedor", "ProveedorGanador")
-                        .WithMany("ItemXPedidoS")
-                        .HasForeignKey("ProveedorGanadorId");
-
                     b.Navigation("Item");
 
                     b.Navigation("Pedido");
-
-                    b.Navigation("ProveedorGanador");
-                });
-
-            modelBuilder.Entity("Application.Models.ItemXPedidoXSolicitudDeCotizacion", b =>
-                {
-                    b.HasOne("Application.Models.ItemXPedido", "ItemXPedido")
-                        .WithMany("ItemXPedidoXSolicitudDeCotizacionS")
-                        .HasForeignKey("ItemXPedidoId");
-
-                    b.HasOne("Application.Models.SolicitudDeCotizacion", "SolicitudDeCotizacion")
-                        .WithMany("ItemXPedidoXSolicitudDeCotizacionS")
-                        .HasForeignKey("SolicitudDeCotizacionId");
-
-                    b.Navigation("ItemXPedido");
-
-                    b.Navigation("SolicitudDeCotizacion");
                 });
 
             modelBuilder.Entity("Application.Models.ItemXProveedor", b =>
@@ -400,6 +340,15 @@ namespace Application.Migrations
                     b.Navigation("Proveedor");
                 });
 
+            modelBuilder.Entity("Application.Models.OrdenDeCompra", b =>
+                {
+                    b.HasOne("Application.Models.CuadroComparativo", "CuadroComparativo")
+                        .WithMany("OrdenDeCompraS")
+                        .HasForeignKey("CuadroComparativoId");
+
+                    b.Navigation("CuadroComparativo");
+                });
+
             modelBuilder.Entity("Application.Models.Pedido", b =>
                 {
                     b.HasOne("Application.Models.PedidoEstado", "PedidoEstado")
@@ -409,23 +358,16 @@ namespace Application.Migrations
                     b.Navigation("PedidoEstado");
                 });
 
-            modelBuilder.Entity("Application.Models.PedidoXSolicitudDeCotizacion", b =>
-                {
-                    b.HasOne("Application.Models.Pedido", "Pedido")
-                        .WithMany("PedidoXSolicitudDeCotizacionS")
-                        .HasForeignKey("PedidoId");
-
-                    b.HasOne("Application.Models.SolicitudDeCotizacion", "SolicitudDeCotizacion")
-                        .WithMany("PedidoXSolicitudDeCotizacionS")
-                        .HasForeignKey("SolicitudDeCotizacionId");
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("SolicitudDeCotizacion");
-                });
-
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>
                 {
+                    b.HasOne("Application.Models.CuadroComparativo", "CuadroComparativo")
+                        .WithMany("SolicitudDeCotizacionS")
+                        .HasForeignKey("CuadroComparativoId");
+
+                    b.HasOne("Application.Models.Pedido", "Pedido")
+                        .WithMany("SolicitudDeCotizacionS")
+                        .HasForeignKey("PedidoId");
+
                     b.HasOne("Application.Models.Proveedor", "Proveedor")
                         .WithMany("SolicitudDeCotizacionS")
                         .HasForeignKey("ProveedorId");
@@ -434,9 +376,20 @@ namespace Application.Migrations
                         .WithMany("SolicitudDeCotizacionS")
                         .HasForeignKey("SolicitudDeCotizacionEstadoId");
 
+                    b.Navigation("CuadroComparativo");
+
+                    b.Navigation("Pedido");
+
                     b.Navigation("Proveedor");
 
                     b.Navigation("SolicitudDeCotizacionEstado");
+                });
+
+            modelBuilder.Entity("Application.Models.CuadroComparativo", b =>
+                {
+                    b.Navigation("OrdenDeCompraS");
+
+                    b.Navigation("SolicitudDeCotizacionS");
                 });
 
             modelBuilder.Entity("Application.Models.Item", b =>
@@ -446,20 +399,13 @@ namespace Application.Migrations
                     b.Navigation("ItemXProveedorS");
                 });
 
-            modelBuilder.Entity("Application.Models.ItemXPedido", b =>
-                {
-                    b.Navigation("ItemXPedidoXSolicitudDeCotizacionS");
-                });
-
             modelBuilder.Entity("Application.Models.Pedido", b =>
                 {
-                    b.Navigation("CuadroComparativoS");
-
                     b.Navigation("DocumentoS");
 
                     b.Navigation("ItemXPedidoS");
 
-                    b.Navigation("PedidoXSolicitudDeCotizacionS");
+                    b.Navigation("SolicitudDeCotizacionS");
                 });
 
             modelBuilder.Entity("Application.Models.PedidoEstado", b =>
@@ -469,18 +415,9 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Application.Models.Proveedor", b =>
                 {
-                    b.Navigation("ItemXPedidoS");
-
                     b.Navigation("ItemXProceedorS");
 
                     b.Navigation("SolicitudDeCotizacionS");
-                });
-
-            modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>
-                {
-                    b.Navigation("ItemXPedidoXSolicitudDeCotizacionS");
-
-                    b.Navigation("PedidoXSolicitudDeCotizacionS");
                 });
 
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacionEstado", b =>

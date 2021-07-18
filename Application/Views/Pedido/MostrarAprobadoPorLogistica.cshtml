@@ -293,18 +293,28 @@
      */
     document.getElementById("botonEnviar").onclick = enviar;
     function enviar() {
-        fetch("/SolicitudDeCotizacion/EnviarSolicitudDeCotizacion/", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ pedidoId: jsonPedido[0].id , rucs: obtenerRucsDeLaListaDeProveedores()})
-        }).then(function (respuestaDelControlador) {
-            return respuestaDelControlador.json();
-        }).then(function (respuestaDelControladorConvertidoToJSON) {
-            alert(respuestaDelControladorConvertidoToJSON.mensaje);
-            window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
-        });
+        if (esValidaLaListaDeProveedores()[0]) {
+            fetch("/SolicitudDeCotizacion/EnviarSolicitudDeCotizacion/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pedidoId: jsonPedido[0].id, rucs: obtenerRucsDeLaListaDeProveedores() })
+            }).then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            }).then(function (respuestaDelControladorConvertidoToJSON) {
+                if (respuestaDelControladorConvertidoToJSON.estado == 0) {
+                    alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                    window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+                }
+                else {
+                    alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                }
+            });
+        }
+        else {
+            alert(esValidaLaListaDeProveedores()[1]);
+        }
     }
     function obtenerRucsDeLaListaDeProveedores() {
         let json = [];
@@ -314,5 +324,13 @@
             json.push(object);
         }
         return json;
+    }
+    function esValidaLaListaDeProveedores() {
+        if (jsonProveedoresEnLista.length <= 1) {
+            return [false, "La lista de proveedores debe contener al menos dos de ellos"];
+        }
+        else {
+            return [true, null];
+        }
     }
 </script>

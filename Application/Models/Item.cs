@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Application.Models
 {
@@ -11,7 +8,7 @@ namespace Application.Models
         public string Descripcion { get; set; }
         public string Marca { get; set; }
         public string UnidadDeMedida { get; set; }
-        public int? ProveedorPredeterminado { get; set; }
+        public long? ProveedorRucPredeterminado { get; set; }
         public ICollection<ItemXProveedor> ItemXProveedorS { get; set; }
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
     }

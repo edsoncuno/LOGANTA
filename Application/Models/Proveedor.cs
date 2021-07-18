@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Application.Models
 {
@@ -16,6 +13,5 @@ namespace Application.Models
         public string Correo { get; set; }
         public ICollection<ItemXProveedor> ItemXProceedorS { get; set; }
         public ICollection<SolicitudDeCotizacion> SolicitudDeCotizacionS { get; set; }
-        public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
     }
 }

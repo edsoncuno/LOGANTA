@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CuadroComparativo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CuadroComparativo", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Item",
                 columns: table => new
@@ -16,7 +29,7 @@ namespace Application.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Marca = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnidadDeMedida = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProveedorPredeterminado = table.Column<int>(type: "int", nullable: true)
+                    ProveedorRucPredeterminado = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,6 +81,25 @@ namespace Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrdenDeCompra",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CuadroComparativoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdenDeCompra", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrdenDeCompra_CuadroComparativo_CuadroComparativoId",
+                        column: x => x.CuadroComparativoId,
+                        principalTable: "CuadroComparativo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pedido",
                 columns: table => new
                 {
@@ -102,6 +134,8 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FactorDeConversion = table.Column<decimal>(type: "decimal(2,2)", nullable: true),
                     Precio = table.Column<decimal>(type: "decimal(5,2)", nullable: true),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UnidadDeMedida = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ItemId = table.Column<int>(type: "int", nullable: true),
                     ProveedorId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -118,54 +152,6 @@ namespace Application.Migrations
                         name: "FK_ItemXProveedor_Proveedor_ProveedorId",
                         column: x => x.ProveedorId,
                         principalTable: "Proveedor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SolicitudDeCotizacion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ValidacionDelJefeDeLogistica = table.Column<bool>(type: "bit", nullable: true),
-                    ProveedorId = table.Column<int>(type: "int", nullable: true),
-                    SolicitudDeCotizacionEstadoId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SolicitudDeCotizacion", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SolicitudDeCotizacion_Proveedor_ProveedorId",
-                        column: x => x.ProveedorId,
-                        principalTable: "Proveedor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SolicitudDeCotizacion_SolicitudDeCotizacionEstado_SolicitudDeCotizacionEstadoId",
-                        column: x => x.SolicitudDeCotizacionEstadoId,
-                        principalTable: "SolicitudDeCotizacionEstado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CuadroComparativo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PedidoId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CuadroComparativo", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CuadroComparativo_Pedido_PedidoId",
-                        column: x => x.PedidoId,
-                        principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -200,8 +186,7 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cantidad = table.Column<int>(type: "int", nullable: true),
                     ItemId = table.Column<int>(type: "int", nullable: true),
-                    PedidoId = table.Column<int>(type: "int", nullable: true),
-                    ProveedorGanadorId = table.Column<int>(type: "int", nullable: true)
+                    PedidoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,73 +203,49 @@ namespace Application.Migrations
                         principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemXPedido_Proveedor_ProveedorGanadorId",
-                        column: x => x.ProveedorGanadorId,
-                        principalTable: "Proveedor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PedidoXSolicitudDeCotizacion",
+                name: "SolicitudDeCotizacion",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Observaciones = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ValidacionDelJefeDeLogistica = table.Column<bool>(type: "bit", nullable: true),
+                    ProveedorId = table.Column<int>(type: "int", nullable: true),
+                    SolicitudDeCotizacionEstadoId = table.Column<int>(type: "int", nullable: true),
                     PedidoId = table.Column<int>(type: "int", nullable: true),
-                    SolicitudDeCotizacionId = table.Column<int>(type: "int", nullable: true)
+                    CuadroComparativoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PedidoXSolicitudDeCotizacion", x => x.Id);
+                    table.PrimaryKey("PK_SolicitudDeCotizacion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PedidoXSolicitudDeCotizacion_Pedido_PedidoId",
+                        name: "FK_SolicitudDeCotizacion_CuadroComparativo_CuadroComparativoId",
+                        column: x => x.CuadroComparativoId,
+                        principalTable: "CuadroComparativo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SolicitudDeCotizacion_Pedido_PedidoId",
                         column: x => x.PedidoId,
                         principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PedidoXSolicitudDeCotizacion_SolicitudDeCotizacion_SolicitudDeCotizacionId",
-                        column: x => x.SolicitudDeCotizacionId,
-                        principalTable: "SolicitudDeCotizacion",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ItemXPedidoXSolicitudDeCotizacion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PrecioUnitario = table.Column<decimal>(type: "decimal(9,2)", nullable: true),
-                    PrecioTotal = table.Column<decimal>(type: "decimal(9,2)", nullable: true),
-                    ItemXPedidoId = table.Column<int>(type: "int", nullable: true),
-                    SolicitudDeCotizacionId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemXPedidoXSolicitudDeCotizacion", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemXPedidoXSolicitudDeCotizacion_ItemXPedido_ItemXPedidoId",
-                        column: x => x.ItemXPedidoId,
-                        principalTable: "ItemXPedido",
+                        name: "FK_SolicitudDeCotizacion_Proveedor_ProveedorId",
+                        column: x => x.ProveedorId,
+                        principalTable: "Proveedor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ItemXPedidoXSolicitudDeCotizacion_SolicitudDeCotizacion_SolicitudDeCotizacionId",
-                        column: x => x.SolicitudDeCotizacionId,
-                        principalTable: "SolicitudDeCotizacion",
+                        name: "FK_SolicitudDeCotizacion_SolicitudDeCotizacionEstado_SolicitudDeCotizacionEstadoId",
+                        column: x => x.SolicitudDeCotizacionEstadoId,
+                        principalTable: "SolicitudDeCotizacionEstado",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CuadroComparativo_PedidoId",
-                table: "CuadroComparativo",
-                column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documento_PedidoId",
@@ -302,21 +263,6 @@ namespace Application.Migrations
                 column: "PedidoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemXPedido_ProveedorGanadorId",
-                table: "ItemXPedido",
-                column: "ProveedorGanadorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemXPedidoXSolicitudDeCotizacion_ItemXPedidoId",
-                table: "ItemXPedidoXSolicitudDeCotizacion",
-                column: "ItemXPedidoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemXPedidoXSolicitudDeCotizacion_SolicitudDeCotizacionId",
-                table: "ItemXPedidoXSolicitudDeCotizacion",
-                column: "SolicitudDeCotizacionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ItemXProveedor_ItemId",
                 table: "ItemXProveedor",
                 column: "ItemId");
@@ -327,19 +273,24 @@ namespace Application.Migrations
                 column: "ProveedorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrdenDeCompra_CuadroComparativoId",
+                table: "OrdenDeCompra",
+                column: "CuadroComparativoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pedido_PedidoEstadoId",
                 table: "Pedido",
                 column: "PedidoEstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PedidoXSolicitudDeCotizacion_PedidoId",
-                table: "PedidoXSolicitudDeCotizacion",
-                column: "PedidoId");
+                name: "IX_SolicitudDeCotizacion_CuadroComparativoId",
+                table: "SolicitudDeCotizacion",
+                column: "CuadroComparativoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PedidoXSolicitudDeCotizacion_SolicitudDeCotizacionId",
-                table: "PedidoXSolicitudDeCotizacion",
-                column: "SolicitudDeCotizacionId");
+                name: "IX_SolicitudDeCotizacion_PedidoId",
+                table: "SolicitudDeCotizacion",
+                column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SolicitudDeCotizacion_ProveedorId",
@@ -355,28 +306,25 @@ namespace Application.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CuadroComparativo");
-
-            migrationBuilder.DropTable(
                 name: "Documento");
 
             migrationBuilder.DropTable(
-                name: "ItemXPedidoXSolicitudDeCotizacion");
+                name: "ItemXPedido");
 
             migrationBuilder.DropTable(
                 name: "ItemXProveedor");
 
             migrationBuilder.DropTable(
-                name: "PedidoXSolicitudDeCotizacion");
-
-            migrationBuilder.DropTable(
-                name: "ItemXPedido");
+                name: "OrdenDeCompra");
 
             migrationBuilder.DropTable(
                 name: "SolicitudDeCotizacion");
 
             migrationBuilder.DropTable(
                 name: "Item");
+
+            migrationBuilder.DropTable(
+                name: "CuadroComparativo");
 
             migrationBuilder.DropTable(
                 name: "Pedido");

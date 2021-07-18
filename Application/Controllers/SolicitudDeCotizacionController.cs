@@ -29,7 +29,8 @@ namespace Application.Controllers
             }
             return Json(new { 
                 newUrl = Url.Action("ListarAprobadosPorLogistica", "Pedido"), 
-                mensaje = "Se enviaron las solicitudes a los proveedores." 
+                mensaje = "Se enviaron las solicitudes a los proveedores",
+                estado = 0
             });
         }
     }

@@ -1,0 +1,58 @@
+﻿<div class="container w-100 text-center h1 mb-3">Crear Cuadro Comparativo</div>
+<div class="h3">Datos del Pedido</div>
+<div class="row mb-3">
+    <div class="col-8">
+        <label class="font-weight-bold">Código: </label>
+        <label id="pedidoCodigo"></label>
+        <br />
+        <label class="font-weight-bold">Dirección de Solicitante: </label>
+        <label id="pedidoDireccionDeSolicitante"></label>
+        <br />
+        <label class="font-weight-bold">Entregar a: </label>
+        <label id="pedidoEntregarA"></label>
+        <br />
+        <label class="font-weight-bold">Actividad Operativa: </label>
+        <label id="pedidoActividadOperativa"></label>
+        <br />
+        <label class="font-weight-bold">Motivo: </label>
+        <label id="pedidoMotivo"></label>
+    </div>
+    <div class="col-4">
+        <label class="font-weight-bold">Fecha: </label>
+        <label id="pedidoFecha"></label>
+        <br />
+        <label class="font-weight-bold">Hora: </label>
+        <label id="pedidoHora"></label>
+    </div>
+</div>
+<div class="mb-3">
+    <button class="btn">Obtener Ganador</button>
+    <button class="btn">Guardar</button>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Código de Item
+            </th>
+            <th>
+                Nombre de Item
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                Ruc
+            </th>
+            <th>
+                Proveedor Ganador
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tabla">
+    </tbody>
+</table>
+<script src="~/js/site.js"></script>
+<script>
+    // el proveedor es un select de proveedores
+</script>

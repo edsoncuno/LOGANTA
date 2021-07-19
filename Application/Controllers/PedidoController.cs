@@ -49,6 +49,14 @@ namespace Application.Controllers
         {
             return View();
         }
+        public IActionResult ListarConSolicitudesDeCotizacion()
+        {
+            return View();
+        }
+        public IActionResult ListarConSolicitudesDeCotizacionCompletadas()
+        {
+            return View();
+        }
         /*
          * GET
          */

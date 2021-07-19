@@ -438,8 +438,6 @@ C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\scopedcss\bun
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.TagHelpers.input.cache
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.TagHelpers.output.cache
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.RazorCoreGenerate.cache
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Index.cshtml.g.cs
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Realizar.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Enviar.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Index.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
@@ -462,3 +460,10 @@ C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.d
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\ref\Application.dll
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.pdb
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.genruntimeconfig.cache
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarConSolicitudesDeCotizacion.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarConSolicitudesDeCotizacionCompletadas.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\SolicitudDeCotizacion\Editar.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\SolicitudDeCotizacion\ListarPorPedido.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Crear.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Listar.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\OrdenDeCompra\Crear.cshtml.g.cs

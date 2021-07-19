@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Application.Models;
 
 namespace Application.Models
 {
@@ -16,5 +17,6 @@ namespace Application.Models
         public DbSet<SolicitudDeCotizacionEstado> SolicitudDeCotizacionEstado { get; set; }
         public DbSet<Documento> Documento { get; set; }
         public DbSet<Application.Models.CuadroComparativo> CuadroComparativo { get; set; }
+        public DbSet<Application.Models.OrdenDeCompra> OrdenDeCompra { get; set; }
     }
 }

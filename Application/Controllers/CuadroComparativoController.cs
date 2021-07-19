@@ -17,14 +17,20 @@ namespace Application.Controllers
         {
             _context = context;
         }
-        public IActionResult Realizar()
+        /*
+         * VIEW
+         */
+        public IActionResult Crear(int pedidoId)
         {
             return View();
         }
-        public IActionResult Index()
+        public IActionResult Listar()
         {
             return View();
         }
+        /*
+         * GET
+         */
         public JsonResult ObtenerTodosLosItems()
         {
             var todosLosItems = from objItem in _context.Item select objItem;
@@ -167,6 +173,9 @@ namespace Application.Controllers
             }
             return listaDeGanadorPorItem;
         }
+        /*
+         * POST
+         */
         [HttpPost]
         public JsonResult ObtenerGanador([FromBody] List<CandidatoAGanador> candidatosAGanador)
         {

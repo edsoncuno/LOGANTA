@@ -18,6 +18,23 @@ namespace Application.Controllers
         {
             _context = context;
         }
+        /*
+         * VIEW
+         */
+        public IActionResult ListarPorPedido(int pedidoId)
+        {
+            return View();
+        }
+        public IActionResult Editar(int id)
+        {
+            return View();
+        }
+        /*
+         * GET
+         */
+        /*
+         * POST
+         */
         [HttpPost]
         public JsonResult EnviarSolicitudDeCotizacion([FromBody] ParametrosEnviarSolicitudDeCotizacion parametro)
         {

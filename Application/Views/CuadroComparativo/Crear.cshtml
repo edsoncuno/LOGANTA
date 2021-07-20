@@ -39,13 +39,13 @@
                 Nombre de Item
             </th>
             <th>
-                Precio
+                Proveedor Ganador
             </th>
             <th>
                 Ruc
             </th>
             <th>
-                Proveedor Ganador
+                Precio
             </th>
         </tr>
     </thead>
@@ -127,9 +127,9 @@
             tr.innerHTML =
                 '<td>' + jsonItems[i].itemId + '</td>' +
                 '<td>' + jsonItems[i].itemDescripcion + '</td>' +
-                '<td>' + '<select></select>' + '</td>' +
-                '<td>' + '' + '</td>' +
-                '<td>' + '' + '</td>';
+                '<td>' + '<select id="proveedor' + i + '"></select>' + '</td>' +
+                '<td>' + '<label id="ruc' + i + '"></label>' + '</td>' +
+                '<td>' + '<label id="precio' + i +'"></label>' + '</td>';
                 //'<td>' + '<a class="btn border-dark" href="/Pedido/MostrarAprobadoPorElSolicitante/' + jsonPedidos[i].id + '">Ver Detalles</a>' + '</td>';
             tabla.appendChild(tr);
         }

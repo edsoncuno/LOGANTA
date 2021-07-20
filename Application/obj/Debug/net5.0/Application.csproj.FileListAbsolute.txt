@@ -466,7 +466,4 @@ C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\S
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Crear.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Listar.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\OrdenDeCompra\Crear.cshtml.g.cs
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\AgregarItem.cshtml.g.cs
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Edit.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Listar.cshtml.g.cs
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Nuevo.cshtml.g.cs

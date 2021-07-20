@@ -252,6 +252,7 @@ namespace Application.Controllers
          *
          */
         //LEO
+        /*
         public ActionResult Nuevo()
         {
             ViewData["AreaUsuariaId"] = new SelectList(_context.AreaUsuaria, "Id", "Name");
@@ -387,5 +388,6 @@ namespace Application.Controllers
             var applicationDbContext = _context.Pedido.Include(p => p.AreaUsuaria).Include(p => p.PedidoEstado).Include(p => p.Proyecto);
             return View(await applicationDbContext.ToListAsync());
         }
+        */
     }
 }

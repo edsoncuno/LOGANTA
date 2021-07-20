@@ -68,11 +68,12 @@ namespace Application.Controllers
                                       on objProveedor.Id equals objSolicitudDeCotizacion.ProveedorId
                                       join objPedido in _context.Pedido
                                       on objSolicitudDeCotizacion.PedidoId equals objPedido.Id
-                                      where objSolicitudDeCotizacion.Id == id
-                                      //&& objSolicitudDeCotizacion.SolicitudDeCotizacionEstadoId == 2
+                                      where objPedido.Id == id
+                                      && objSolicitudDeCotizacion.SolicitudDeCotizacionEstadoId == 2
                                       select new
                                       {
                                           proveedorId = objProveedor.Id,
+                                          proveedorRuc = objProveedor.Ruc,
                                           proveedorNombre = objProveedor.Nombre
                                       };
             return Json(resultadoDeBusqueda);

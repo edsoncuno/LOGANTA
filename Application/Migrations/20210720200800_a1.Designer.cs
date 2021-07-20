@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210720185851_inicial")]
-    partial class inicial
+    [Migration("20210720200800_a1")]
+    partial class a1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace Application.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Application.Models.AreaUsuaria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AreaUsuaria");
-                });
 
             modelBuilder.Entity("Application.Models.CuadroComparativo", b =>
                 {
@@ -193,10 +178,6 @@ namespace Application.Migrations
                     b.Property<string>("ActividadOperativa")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("AreaUsuariaId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("DireccionDeSolicitante")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,24 +199,12 @@ namespace Application.Migrations
                     b.Property<int?>("PedidoEstadoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prioridad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProyectoId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("TipoDeUso")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaUsuariaId");
-
                     b.HasIndex("PedidoEstadoId");
-
-                    b.HasIndex("ProyectoId");
 
                     b.ToTable("Pedido");
                 });
@@ -283,21 +252,6 @@ namespace Application.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proveedor");
-                });
-
-            modelBuilder.Entity("Application.Models.Proyecto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Proyectos");
                 });
 
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>
@@ -400,27 +354,11 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Application.Models.Pedido", b =>
                 {
-                    b.HasOne("Application.Models.AreaUsuaria", "AreaUsuaria")
-                        .WithMany()
-                        .HasForeignKey("AreaUsuariaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Application.Models.PedidoEstado", "PedidoEstado")
                         .WithMany("PedidoS")
                         .HasForeignKey("PedidoEstadoId");
 
-                    b.HasOne("Application.Models.Proyecto", "Proyecto")
-                        .WithMany()
-                        .HasForeignKey("ProyectoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AreaUsuaria");
-
                     b.Navigation("PedidoEstado");
-
-                    b.Navigation("Proyecto");
                 });
 
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>

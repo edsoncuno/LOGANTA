@@ -25,5 +25,12 @@ namespace Application.Controllers
             var todosLosProveedores = from proveedor in _context.Proveedor select proveedor;
             return Json(todosLosProveedores);
         }
+        public JsonResult ObtenerProveedorConProveedorId(int id)
+        {
+            var resultadoDeBusqueda = from objProveedor in _context.Proveedor
+                                      where objProveedor.Id == id
+                                      select objProveedor;
+            return Json(resultadoDeBusqueda);
+        }
     }
 }

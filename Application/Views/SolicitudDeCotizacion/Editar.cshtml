@@ -1,4 +1,4 @@
-﻿<div class="container w-100 text-center h1 mb-3">Solicitude de Cotización</div>
+﻿<div class="container w-100 text-center h1 mb-3">Solicitud de Cotización</div>
 <div class="mb-3">
     <label class="font-weight-bold">Código: </label>
     <label id="solicitudCodigo"></label>
@@ -9,7 +9,7 @@
 </div>
 <div class="h3">Proveedor</div>
 <div class=" row mb-3">
-    <div class="col">
+    <div class="col border border-dark rounded">
         <label class="font-weight-bold">Ruc: </label>
         <label id="proveedorRuc"></label>
         <br />
@@ -26,7 +26,7 @@
         <label id="proveedorCorreo"></label>
     </div>
     <div class="col-3">
-        <boton>Registrar</boton>
+        <boton class="btn btn-success border-dark" id="botonActualizar">Actualizar Estado de los Items del Proveedor</boton>
     </div>
 </div>
 <table class="table table-hover">
@@ -60,4 +60,83 @@
 </table>
 <script src="~/js/site.js"></script>
 <script>
+    /*
+     * Variables
+     */
+    var solicitudCodigo = document.getElementById('solicitudCodigo');
+    var solicitudFecha = document.getElementById('solicitudFecha');
+    var proveedorRuc = document.getElementById('proveedorRuc');
+    var proveedorNombre = document.getElementById('proveedorNombre');
+    var proveedorDireccion = document.getElementById('proveedorDireccion');
+    var proveedorTelefono = document.getElementById('proveedorTelefono');
+    var proveedorCorreo = document.getElementById('proveedorCorreo');
+    var jsonSolicitudDeCotizacion;
+    var jsonProveedor;
+    /*
+     * Inicializar
+     */
+    // este fetch es diferente a los otros
+    // ya que se tiene que cocolar un fechar sobre otro
+    // ya no se debe colocar el async await
+    // sino no funciona
+    // la clave esta en el tiempo
+    window.addEventListener('load', function () {
+        obtenerMostrarSolicitudDeCotizacion();
+    });
+    function obtenerMostrarSolicitudDeCotizacion() {
+        fetch("/SolicitudDeCotizacion/ObtenerSolicitudesDeCotizacionConSolicitudesDeCotizacionId/" + obtenerIdDeUrl())
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonSolicitudDeCotizacion = respuestaDelControladorConvertidoToJSON
+                mostrarSolicitudDeCotizacion();
+                obtenerMostrarProveedor();
+            });
+    }
+    function mostrarSolicitudDeCotizacion() {
+        solicitudCodigo.innerHTML = jsonSolicitudDeCotizacion[0].id;
+        solicitudFecha.innerHTML = convertirFechaJsonEnFecha(jsonSolicitudDeCotizacion[0].fecha);
+    }
+    function obtenerMostrarProveedor() {
+        console.log(jsonSolicitudDeCotizacion[0].proveedorId);
+        fetch("/Proveedor/ObtenerProveedorConProveedorId/" + jsonSolicitudDeCotizacion[0].proveedorId)
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonProveedor = respuestaDelControladorConvertidoToJSON
+                mostrarProveedor();
+            });
+    }
+    function mostrarProveedor() {
+        proveedorRuc.innerHTML = jsonProveedor[0].ruc;
+        proveedorNombre.innerHTML = jsonProveedor[0].nombre;
+        proveedorDireccion.innerHTML = jsonProveedor[0].direccion;
+        proveedorTelefono.innerHTML = jsonProveedor[0].telefono;
+        proveedorCorreo.innerHTML = jsonProveedor[0].correo;
+    }
+    /*
+     * POST
+     */
+    document.getElementById("botonActualizar").onclick = actualizar;
+    function actualizar() {
+        fetch("/SolicitudDeCotizacion/CambiarEstadoRecivido/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ solicitudDeCotizacionId : jsonSolicitudDeCotizacion[0].id})
+        }).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            if (respuestaDelControladorConvertidoToJSON.estado == 0) {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            }
+            else {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+            }
+        });
+    }
 </script>

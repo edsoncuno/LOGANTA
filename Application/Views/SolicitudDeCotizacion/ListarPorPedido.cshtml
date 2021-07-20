@@ -24,6 +24,51 @@
     // el nombre de editar del boton no es el adecuado, debe ser uno que describa
     // el proceso se realizara
     // solo en caso de que el estado es en espera, sino no muestra nada
+    /*
+     * Variables
+     */
     var divTitulo = document.getElementById('titulo');
-    divTitulo.innerHTML = 'Solicitudes de Cotización del Pedido '+obtenerIdDeUrl();
+    var pedidoId;
+    var tabla = document.getElementById('tabla');
+    var jsonSolicitudesDeCotizacion;
+    /*
+     * Inicializar
+     */
+    window.addEventListener('load', function () {
+        // colocando el titulo de la pagina
+        pedidoId = obtenerIdDeUrl();
+        divTitulo.innerHTML = 'Solicitudes de Cotización del Pedido ' + pedidoId;
+        // obtener y mostrar solicitudes
+        obtenerMostrarSolicitudesDeCotizacionEnviadas();
+    });
+    async function obtenerMostrarSolicitudesDeCotizacionEnviadas() {
+        await fetch("/SolicitudDeCotizacion/ObtenerTodasLasSolicitudesDeCotizacionConPedidoId/"+pedidoId)
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonSolicitudesDeCotizacion = respuestaDelControladorConvertidoToJSON;
+                mostrarSolicitudesDeCotizacion();
+            });
+    }
+    function mostrarSolicitudesDeCotizacion() {
+        tabla.innerHTML = '';
+        for (let i = jsonSolicitudesDeCotizacion.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            if (jsonSolicitudesDeCotizacion[i].sceDescripcion == 'ESPERA') {
+                tr.innerHTML =
+                    '<td>' + jsonSolicitudesDeCotizacion[i].scId + '</td>' +
+                    '<td>' + convertirFechaJsonEnFecha(jsonSolicitudesDeCotizacion[i].scFecha) + '</td>' +
+                    '<td>' + jsonSolicitudesDeCotizacion[i].sceDescripcion + '</td>' +
+                    '<td>' + '<a class="btn border-dark" href="/SolicitudDeCotizacion/Editar/' + jsonSolicitudesDeCotizacion[i].scId + '">Editar</a>' + '</td>';
+            }
+            else {
+                tr.innerHTML =
+                    '<td>' + jsonSolicitudesDeCotizacion[i].scId + '</td>' +
+                    '<td>' + convertirFechaJsonEnFecha(jsonSolicitudesDeCotizacion[i].scFecha) + '</td>' +
+                    '<td>' + jsonSolicitudesDeCotizacion[i].sceDescripcion + '</td>';
+            }
+            tabla.appendChild(tr);
+        }
+    }
 </script>

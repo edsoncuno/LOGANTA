@@ -24,5 +24,30 @@
 </table>
 <script src="~/js/site.js"></script>
 <script>
-    // en el espacio de la tabla, agregar un a con la clase btn Crear Cuadro Comparativo
+    var tabla = document.getElementById('tabla');
+    var jsonPedidos;
+    window.addEventListener('load', function () {
+        obtenerMostrarPedidosConSolicitudesEnviadas();
+    });
+    function obtenerMostrarPedidosConSolicitudesEnviadas() {
+        this.fetch('/Pedido/ObtenerTodosLosPedidosConSolicitudesDeCotizacionCompletas').then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonPedidos = respuestaDelControladorConvertidoToJSON;
+            mostrarPedidos();
+        });
+    }
+    function mostrarPedidos() {
+        tabla.innerHTML = '';
+        for (let i = jsonPedidos.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonPedidos[i].id + '</td>' +
+                '<td>' + jsonPedidos[i].actividadOperativa + '</td>' +
+                '<td>' + jsonPedidos[i].tipoDeUso + '</td>' +
+                '<td>' + convertirFechaJsonEnFecha(jsonPedidos[i].fecha) + '</td>' +
+            '<td>' + '<a class="btn border-dark" href="/CuadroComparativo/Crear/' + jsonPedidos[i].id + '">Crear Cuadro Comparativo</a>' + '</td>';
+            tabla.appendChild(tr);
+        }
+    }
 </script>

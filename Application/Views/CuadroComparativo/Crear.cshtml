@@ -1,6 +1,6 @@
 ﻿<div class="container w-100 text-center h1 mb-3">Crear Cuadro Comparativo</div>
 <div class="h3">Datos del Pedido</div>
-<div class="row mb-3">
+<div class="row mb-3 border border-dark rounded">
     <div class="col-8">
         <label class="font-weight-bold">Código: </label>
         <label id="pedidoCodigo"></label>
@@ -26,8 +26,8 @@
     </div>
 </div>
 <div class="mb-3">
-    <button class="btn">Obtener Ganador</button>
-    <button class="btn">Guardar</button>
+    <button class="btn border-dark" id="botonObtenerGanador">Obtener Ganador</button>
+    <button class="btn border-dark">Guardar</button>
 </div>
 <table class="table table-hover">
     <thead>
@@ -54,5 +54,84 @@
 </table>
 <script src="~/js/site.js"></script>
 <script>
-    // el proveedor es un select de proveedores
+    /*
+     * Variables
+     */
+    var pedidoCodigo = document.getElementById('pedidoCodigo');
+    var pedidoDireccionDeSolicitante = document.getElementById('pedidoDireccionDeSolicitante');
+    var pedidoEntregarA = document.getElementById('pedidoEntregarA');
+    var pedidoActividadOperativa = document.getElementById('pedidoActividadOperativa');
+    var pedidoMotivo = document.getElementById('pedidoMotivo');
+    var pedidoFecha = document.getElementById('pedidoFecha');
+    var pedidoHora = document.getElementById('pedidoHora');
+    var jsonPedido;
+    var jsonItems;
+    var jsonSolicitudesDeCotizacionRecividas;
+    var tabla = document.getElementById('tabla');
+    /*
+    * Inicializar
+    */
+    window.addEventListener('load', function () {
+        obtenerPedido();
+    });
+    /*
+     * Obtener y mostrar datos del pedido
+     */
+    function obtenerPedido() {
+        fetch("/Pedido/ObtenerPedidoConPedidoId/" + obtenerIdDeUrl())
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonPedido = respuestaDelControladorConvertidoToJSON
+                mostrarPedido();
+            });
+    }
+    function mostrarPedido() {
+        pedidoCodigo.innerHTML = jsonPedido[0].id;
+        pedidoDireccionDeSolicitante.innerHTML = jsonPedido[0].direccionDeSolicitante;
+        pedidoEntregarA.innerHTML = jsonPedido[0].entregarA;
+        pedidoActividadOperativa.innerHTML = jsonPedido[0].actividadOperativa;
+        pedidoMotivo.innerHTML = jsonPedido[0].motivo;
+        pedidoFecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
+        pedidoHora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
+    }
+    /*
+     * Llenar tabla con el formato para obtener y seleccionar el ganador
+     */
+    document.getElementById("botonObtenerGanador").onclick = obtenerListaConFormatoParaElGanador;
+    function obtenerListaConFormatoParaElGanador() {
+        obtenerListaDeItemsDelPedido();
+        obtenerSolicitudesDeCotizacionRecividasConPedidoId();
+        setTimeout(completarTabla, 500);
+    }
+    function obtenerListaDeItemsDelPedido() {
+        fetch("/Pedido/ObtenerItemsConPedidoId/" + obtenerIdDeUrl()).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonItems = respuestaDelControladorConvertidoToJSON;
+        });
+    }
+    function obtenerSolicitudesDeCotizacionRecividasConPedidoId() {
+        fetch("/SolicitudDeCotizacion/ObtenerSolicitudesDeCotizacionRecividasConPedidoId/" + obtenerIdDeUrl()
+        ).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonSolicitudesDeCotizacionRecividas = respuestaDelControladorConvertidoToJSON;
+        });
+    }
+    function completarTabla() {
+        tabla.innerHTML = '';
+        for (let i = 0; i< jsonItems.length; i++) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonItems[i].itemId + '</td>' +
+                '<td>' + jsonItems[i].itemDescripcion + '</td>' +
+                '<td>' + '' + '</td>' +
+                '<td>' + '' + '</td>' +
+                '<td>' + '' + '</td>';
+                //'<td>' + '<a class="btn border-dark" href="/Pedido/MostrarAprobadoPorElSolicitante/' + jsonPedidos[i].id + '">Ver Detalles</a>' + '</td>';
+            tabla.appendChild(tr);
+        }
+    }
 </script>

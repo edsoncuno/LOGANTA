@@ -80,6 +80,16 @@ namespace Application.Controllers
             var todosLosPedidos = from objPedido in _context.Pedido join objPedidoEstado in _context.PedidoEstado on objPedido.PedidoEstadoId equals objPedidoEstado.Id select new { objPedido.Id, objPedido.DireccionDeSolicitante, objPedido.TipoDeUso, objPedido.EntregarA, objPedido.ActividadOperativa, objPedido.Motivo, objPedido.Fecha, objPedidoEstado.Descripcion };
             return Json(todosLosPedidos);
         }
+        public JsonResult ObtenerTodosLosPedidosConSolicitudesDeCotizacionEnviadas()
+        {
+            var todosLosPedidosConSolicitudesDeCotizacionEnviadas = from pedido in _context.Pedido where pedido.PedidoEstadoId == 6 select pedido;
+            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas);
+        }
+        public JsonResult ObtenerTodosLosPedidosConSolicitudesDeCotizacionCompletas()
+        {
+            var todosLosPedidosConSolicitudesDeCotizacionEnviadas = from pedido in _context.Pedido where pedido.PedidoEstadoId == 7 select pedido;
+            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas);
+        }
         public JsonResult ObtenerPedidoConPedidoId(int id)
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.Id == id select pedido;
@@ -163,11 +173,11 @@ namespace Application.Controllers
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 2;
-            actualizarItemsDelPedido(obj.items);
             _context.Update(objPedido);
-             await _context.SaveChangesAsync();
+            actualizarItemsDelPedido(obj.items);
+            await _context.SaveChangesAsync();
             //return Json(new { newUrl = Url.Action("Edit", "Cotizacion", new { id = c.CotizacionesId }) });
-            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido"), mensaje = "El pedido ha sido aprobado por el jefe del área usuario", estado = 0 });
         }
         [HttpPost]
         public async Task<JsonResult> DesaprobarPedidoPendiente([FromBody] ParametrosDesaprobarPedido obj)
@@ -177,10 +187,10 @@ namespace Application.Controllers
             objPedido = pedidoQueQuiero.Single();
             objPedido.Observaciones1 = obj.observaciones;
             objPedido.PedidoEstadoId = 3;
-            actualizarItemsDelPedido(obj.items);
             _context.Update(objPedido);
+            actualizarItemsDelPedido(obj.items);
             await _context.SaveChangesAsync();
-            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") });
+            return Json(new { newUrl = Url.Action("ListarPendientes", "Pedido") , mensaje = "El pedido ha sido desaprobado por el jefe del área usuario", estado = 0 });
         }
         [HttpPost]
         public async Task<JsonResult> AprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosAprobarPedido obj)
@@ -189,10 +199,10 @@ namespace Application.Controllers
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 4;
-            actualizarItemsDelPedido(obj.items);
             _context.Update(objPedido);
+            actualizarItemsDelPedido(obj.items);
             await _context.SaveChangesAsync();
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
+            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido"), mensaje = "El pedido ha sido aprobado por logística", estado = 0 });
         }
         [HttpPost]
         public async Task<JsonResult> DesaprobarPedidoAprobadoPorElSolicitante([FromBody] ParametrosDesaprobarPedido obj)
@@ -201,10 +211,10 @@ namespace Application.Controllers
             Pedido objPedido = new Pedido();
             objPedido = pedidoQueQuiero.Single();
             objPedido.PedidoEstadoId = 5;
-            actualizarItemsDelPedido(obj.items);
             _context.Update(objPedido);
+            actualizarItemsDelPedido(obj.items);
             await _context.SaveChangesAsync();
-            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido") });
+            return Json(new { newUrl = Url.Action("ListarAprobadosPorElSolicitante", "Pedido"), mensaje = "El pedido ha sido desaprobado por logistica", estado = 0 });
         }
         /*
          * Auxiliar
@@ -213,9 +223,9 @@ namespace Application.Controllers
         {
             foreach (ParametroItemPedido item in itemsDelPedido)
             {
-                var objItemXPedidoQueBusco = from objItemXPedido in _context.ItemXPedido where objItemXPedido.Id == item.ipId select objItemXPedido;
+                var objItemXPedidoQueEncontre = from objItemXPedido in _context.ItemXPedido where objItemXPedido.Id == item.ipId select objItemXPedido;
                 ItemXPedido objItemXPedidoEncontrado = new ItemXPedido();
-                objItemXPedidoEncontrado = objItemXPedidoQueBusco.Single();
+                objItemXPedidoEncontrado = objItemXPedidoQueEncontre.Single();
                 if (item.ipCantidad == 0)
                 {
                     _context.ItemXPedido.Remove(objItemXPedidoEncontrado);

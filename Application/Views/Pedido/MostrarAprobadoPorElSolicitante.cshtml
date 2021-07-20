@@ -243,7 +243,13 @@
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            if (respuestaDelControladorConvertidoToJSON.estado == 0) {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            }
+            else {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+            }
         });
     }
     /*
@@ -260,7 +266,13 @@
         }).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            if (respuestaDelControladorConvertidoToJSON.estado == 0) {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            }
+            else {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+            }
         });
     }
 </script>

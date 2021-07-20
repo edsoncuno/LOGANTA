@@ -12,6 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Migrations\20210720002537_inicio.cs" />
+    <Compile Include="Migrations\20210720002537_inicio.Designer.cs" />
+    <Compile Include="Migrations\20210720033607_2.cs" />
+    <Compile Include="Migrations\20210720033607_2.Designer.cs" />
+    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -21,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\documento\" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿<div class="container w-100 text-center h1 mb-3">Lista de Pedidos con Solicitudes de Cotizaciones</div>
+﻿<div class="container w-100 text-center h1 mb-3">Lista de Pedidos con Solicitudes de Cotizaciones Enviadas</div>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -27,5 +27,31 @@
 </table>
 <script src="~/js/site.js"></script>
 <script>
-    // en el espacio de la tabla, agregar un a con la clase btn Ver solicitudes
+    var tabla = document.getElementById('tabla');
+    var jsonPedidos;
+    window.addEventListener('load', function () {
+        obtenerMostrarPedidosConSolicitudesEnviadas();
+    });
+    function obtenerMostrarPedidosConSolicitudesEnviadas() {
+        this.fetch('/Pedido/ObtenerTodosLosPedidosConSolicitudesDeCotizacionEnviadas').then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonPedidos = respuestaDelControladorConvertidoToJSON;
+            mostrarPedidos();
+        });
+    }
+    function mostrarPedidos() {
+        tabla.innerHTML = '';
+        for (let i = jsonPedidos.length - 1; 0 <= i; i--) {
+            tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + jsonPedidos[i].id + '</td>' +
+                '<td>' + jsonPedidos[i].actividadOperativa + '</td>' +
+                '<td>' + jsonPedidos[i].tipoDeUso + '</td>' +
+                '<td>' + convertirFechaJsonEnFecha(jsonPedidos[i].fecha) + '</td>' +
+                '<td>' + convertirFechaJsonEnHora(jsonPedidos[i].fecha) + '</td>' +
+                '<td>' + '<a class="btn border-dark" href="/SolicitudDeCotizacion/ListarPorPedido/' + jsonPedidos[i].id + '">Ver Solicitudes</a>' + '</td>';
+            tabla.appendChild(tr);
+        }
+    }
 </script>

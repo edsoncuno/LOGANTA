@@ -1,0 +1,137 @@
+﻿@model Application.Models.Pedido
+
+<h4>Nuevo Pedido</h4>
+<hr />
+
+<form asp-action="Nuevo">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="DireccionDeSolicitante" class="control-label"></label>
+                <select asp-for="DireccionDeSolicitante" class="form-control">
+                    <option value="">Seleccione una Area Usuaria</option>
+                    <option value="">MEDICO</option>
+                    <option value="">CIVIL</option>
+                    <option value="">TRANSPORTE</option>
+                </select>
+                <span asp-validation-for="DireccionDeSolicitante" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="TipoDeUso" class="control-label"></label>
+                <select asp-for="TipoDeUso" class="form-control">
+                    <option value="">Seleccione una Area Usuaria</option>
+                    <option value="">MEDICO</option>
+                    <option value="">CIVIL</option>
+                    <option value="">TRANSPORTE</option>
+                </select>
+                <span asp-validation-for="TipoDeUso" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EntregarA" class="control-label"></label>
+                <select asp-for="EntregarA" class="form-control" >
+                    <option value="">Seleccione una Area Usuaria</option>
+                    <option value="">MARTJA</option>
+                    <option value="">LEO</option>
+                    <option value="">COLOMBO</option>
+                </select>
+                <span asp-validation-for="TipoDeUso" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ActividadOperativa" class="control-label"></label>
+                <select asp-for="ActividadOperativa" class="form-control">
+                    <option value="">Seleccione una Area Usuaria</option>
+                    <option value="">MARTJA</option>
+                    <option value="">LEO</option>
+                    <option value="">COLOMBO</option>
+                </select>
+                <span asp-validation-for="ActividadOperativa" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Motivo" class="control-label"></label>
+                <select asp-for="Motivo" class="form-control">
+                    <option value="">Seleccione una Area Usuaria</option>
+                    <option value="">MARTJA</option>
+                    <option value="">LEO</option>
+                    <option value="">COLOMBO</option>
+                </select>
+                <span asp-validation-for="Motivo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" value="@DateTime.Today"/>
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Observaciones1" class="control-label"></label>
+                <input asp-for="Observaciones1" class="form-control" />
+                <span asp-validation-for="Observaciones1" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Observaciones2" class="control-label"></label>
+                <input asp-for="Observaciones2" class="form-control" />
+                <span asp-validation-for="Observaciones2" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="AreaUsuariaId" class="control-label"></label>
+                <select asp-for="AreaUsuariaId" class="form-control" asp-items="ViewBag.AreaUsuariaId">
+                    <option value="">Seleccione una Area Usuaria</option>
+                </select>
+                <span asp-validation-for="AreaUsuariaId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ProyectoId" class="control-label"></label>
+                <select asp-for="ProyectoId" class="form-control" asp-items="ViewBag.ProyectoId">
+                    <option value="">Seleccione un Proyecto</option>
+                </select>
+                <span asp-validation-for="ProyectoId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Prioridad" class="control-label"></label>
+            <select asp-for="Prioridad" class="form-control">
+                <option value="">Seleccione una Prioridad</option>
+                <option>NORMAL</option>
+                <option>URGENTE</option>
+            </select>
+            <span asp-validation-for="Prioridad" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" value="Agregar Item" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="ListaPedido">Regresar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

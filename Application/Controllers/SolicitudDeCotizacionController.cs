@@ -56,9 +56,25 @@ namespace Application.Controllers
         }
         public JsonResult ObtenerSolicitudesDeCotizacionConSolicitudesDeCotizacionId(int id)
         {
-            var resultadoDeBusqueda = from objSolicitudDeCotizacion in _context.SolicitudDeCotizacion 
-                                      where objSolicitudDeCotizacion.Id == id 
+            var resultadoDeBusqueda = from objSolicitudDeCotizacion in _context.SolicitudDeCotizacion
+                                      where objSolicitudDeCotizacion.Id == id
                                       select objSolicitudDeCotizacion;
+            return Json(resultadoDeBusqueda);
+        }
+        public JsonResult ObtenerProveedoresDeLaSolicitudDecoticacionConPedidoId(int id)
+        {
+            var resultadoDeBusqueda = from objProveedor in _context.Proveedor
+                                      join objSolicitudDeCotizacion in _context.SolicitudDeCotizacion
+                                      on objProveedor.Id equals objSolicitudDeCotizacion.ProveedorId
+                                      join objPedido in _context.Pedido
+                                      on objSolicitudDeCotizacion.PedidoId equals objPedido.Id
+                                      where objSolicitudDeCotizacion.Id == id
+                                      //&& objSolicitudDeCotizacion.SolicitudDeCotizacionEstadoId == 2
+                                      select new
+                                      {
+                                          proveedorId = objProveedor.Id,
+                                          proveedorNombre = objProveedor.Nombre
+                                      };
             return Json(resultadoDeBusqueda);
         }
         public JsonResult ObtenerSolicitudesDeCotizacionRecividasConPedidoId(int id)

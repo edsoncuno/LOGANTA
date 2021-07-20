@@ -441,7 +441,6 @@ C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Application.R
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Enviar.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Documento\Index.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Index.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarAprobadosPorElSolicitante.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarAprobadosPorLogistica.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\ListarPendientes.cshtml.g.cs
@@ -467,3 +466,7 @@ C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\S
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Crear.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\CuadroComparativo\Listar.cshtml.g.cs
 C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\OrdenDeCompra\Crear.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\AgregarItem.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Edit.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Listar.cshtml.g.cs
+C:\Users\Edson\Downloads\!\TP\LOGANTA\Application\obj\Debug\net5.0\Razor\Views\Pedido\Nuevo.cshtml.g.cs

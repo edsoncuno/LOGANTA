@@ -33,7 +33,7 @@ namespace Application.Controllers
         {
             return View();
         }
-        public IActionResult Index()
+        public IActionResult Listar()
         {
             return View();
         }
@@ -236,6 +236,156 @@ namespace Application.Controllers
                     _context.Update(objItemXPedidoEncontrado);
                 }
             }
+        }
+        /*
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         */
+        //LEO
+        public ActionResult Nuevo()
+        {
+            ViewData["AreaUsuariaId"] = new SelectList(_context.AreaUsuaria, "Id", "Name");
+            ViewData["ProyectoId"] = new SelectList(_context.Proyectos, "Id", "Name");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Nuevo(Pedido pedido)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(pedido);
+                await _context.SaveChangesAsync();
+                return Redirect("https://localhost:44348/Pedido/AgregarItem/" + pedido.Id);
+            }
+            ViewData["AreaUsuariaId"] = new SelectList(_context.AreaUsuaria, "Id", "Name", pedido.AreaUsuariaId);
+            ViewData["ProyectoId"] = new SelectList(_context.Proyectos, "Id", "Name", pedido.ProyectoId);
+            return View(pedido);
+        }
+        public ActionResult AgregarItem(int? id)
+        {
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Descripcion");
+            ViewData["PedidoId"] = id;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> AgregarItem([Bind("Cantidad,ItemId,PedidoId")] ItemXPedido itemXPedido)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(itemXPedido);
+                await _context.SaveChangesAsync();
+                return Redirect("https://localhost:44348/Pedido/ListaItem/" + itemXPedido.PedidoId);
+            }
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Descripcion", itemXPedido.ItemId);
+            return View(itemXPedido);
+        }
+        public async Task<IActionResult> ListaItem(int? id)
+        {
+            var applicationDbContext = _context.ItemXPedido.Include(i => i.Item).Include(i => i.Pedido).Where(m => m.PedidoId == id);
+            ViewData["PedidoId"] = id;
+            return View(await applicationDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var itemXPedido = await _context.ItemXPedido.FindAsync(id);
+            if (itemXPedido == null)
+            {
+                return NotFound();
+            }
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id", itemXPedido.ItemId);
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Id", itemXPedido.PedidoId);
+            return View(itemXPedido);
+        }
+
+        // POST: ItemXPedidoes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Cantidad,ItemId,PedidoId")] ItemXPedido itemXPedido)
+        {
+            if (id != itemXPedido.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(itemXPedido);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ItemXPedidoExists(itemXPedido.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return Redirect("https://localhost:44348/Pedido/ListaItem/" + itemXPedido.PedidoId);
+            }
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id", itemXPedido.ItemId);
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Id", itemXPedido.PedidoId);
+            return View(itemXPedido);
+        }
+        private bool ItemXPedidoExists(int id)
+        {
+            return _context.ItemXPedido.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var itemXPedido = await _context.ItemXPedido
+                .Include(i => i.Item)
+                .Include(i => i.Pedido)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (itemXPedido == null)
+            {
+                return NotFound();
+            }
+
+            return View(itemXPedido);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var itemXPedido = await _context.ItemXPedido.FindAsync(id);
+            _context.ItemXPedido.Remove(itemXPedido);
+            await _context.SaveChangesAsync();
+            return Redirect("https://localhost:44348/Pedido/ListaItem/" + itemXPedido.PedidoId);
+        }
+        public async Task<IActionResult> ListaPedido()
+        {
+            var applicationDbContext = _context.Pedido.Include(p => p.AreaUsuaria).Include(p => p.PedidoEstado).Include(p => p.Proyecto);
+            return View(await applicationDbContext.ToListAsync());
         }
     }
 }

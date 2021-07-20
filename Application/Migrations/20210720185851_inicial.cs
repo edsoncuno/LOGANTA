@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.Migrations
 {
-    public partial class inicio : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AreaUsuaria",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AreaUsuaria", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "CuadroComparativo",
                 columns: table => new
@@ -68,6 +81,19 @@ namespace Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Proyectos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Proyectos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SolicitudDeCotizacionEstado",
                 columns: table => new
                 {
@@ -101,33 +127,6 @@ namespace Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pedido",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DireccionDeSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoDeUso = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EntregarA = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActividadOperativa = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Motivo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Observaciones1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Observaciones2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PedidoEstadoId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pedido", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pedido_PedidoEstado_PedidoEstadoId",
-                        column: x => x.PedidoEstadoId,
-                        principalTable: "PedidoEstado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ItemXProveedor",
                 columns: table => new
                 {
@@ -155,6 +154,48 @@ namespace Application.Migrations
                         principalTable: "Proveedor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pedido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DireccionDeSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoDeUso = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EntregarA = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActividadOperativa = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Motivo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Observaciones1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Observaciones2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PedidoEstadoId = table.Column<int>(type: "int", nullable: true),
+                    AreaUsuariaId = table.Column<int>(type: "int", nullable: false),
+                    ProyectoId = table.Column<int>(type: "int", nullable: false),
+                    Prioridad = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pedido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pedido_AreaUsuaria_AreaUsuariaId",
+                        column: x => x.AreaUsuariaId,
+                        principalTable: "AreaUsuaria",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pedido_PedidoEstado_PedidoEstadoId",
+                        column: x => x.PedidoEstadoId,
+                        principalTable: "PedidoEstado",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pedido_Proyectos_ProyectoId",
+                        column: x => x.ProyectoId,
+                        principalTable: "Proyectos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,9 +320,19 @@ namespace Application.Migrations
                 column: "CuadroComparativoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pedido_AreaUsuariaId",
+                table: "Pedido",
+                column: "AreaUsuariaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pedido_PedidoEstadoId",
                 table: "Pedido",
                 column: "PedidoEstadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pedido_ProyectoId",
+                table: "Pedido",
+                column: "ProyectoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SolicitudDeCotizacion_CuadroComparativoId",
@@ -337,7 +388,13 @@ namespace Application.Migrations
                 name: "SolicitudDeCotizacionEstado");
 
             migrationBuilder.DropTable(
+                name: "AreaUsuaria");
+
+            migrationBuilder.DropTable(
                 name: "PedidoEstado");
+
+            migrationBuilder.DropTable(
+                name: "Proyectos");
         }
     }
 }

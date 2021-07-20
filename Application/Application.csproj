@@ -12,10 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\20210720002537_inicio.cs" />
-    <Compile Include="Migrations\20210720002537_inicio.Designer.cs" />
-    <Compile Include="Migrations\20210720033607_2.cs" />
-    <Compile Include="Migrations\20210720033607_2.Designer.cs" />
+    <Compile Include="Migrations\20210720185851_inicial.cs" />
+    <Compile Include="Migrations\20210720185851_inicial.Designer.cs" />
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
   </ItemGroup>
 

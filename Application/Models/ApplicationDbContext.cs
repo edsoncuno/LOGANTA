@@ -16,7 +16,9 @@ namespace Application.Models
         public DbSet<SolicitudDeCotizacion> SolicitudDeCotizacion { get; set; }
         public DbSet<SolicitudDeCotizacionEstado> SolicitudDeCotizacionEstado { get; set; }
         public DbSet<Documento> Documento { get; set; }
-        public DbSet<Application.Models.CuadroComparativo> CuadroComparativo { get; set; }
-        public DbSet<Application.Models.OrdenDeCompra> OrdenDeCompra { get; set; }
+        public DbSet<CuadroComparativo> CuadroComparativo { get; set; }
+        public DbSet<OrdenDeCompra> OrdenDeCompra { get; set; }
+        public DbSet<Proyecto> Proyectos { get; set; }
+        public DbSet<AreaUsuaria> AreaUsuaria { get; set; }
     }
 }

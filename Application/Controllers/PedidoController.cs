@@ -237,26 +237,11 @@ namespace Application.Controllers
                 }
             }
         }
-        /*
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         */
         //LEO
-        /*
         public ActionResult Nuevo()
         {
             ViewData["AreaUsuariaId"] = new SelectList(_context.AreaUsuaria, "Id", "Name");
-            ViewData["ProyectoId"] = new SelectList(_context.Proyectos, "Id", "Name");
+            ViewData["ProyectoId"] = new SelectList(_context.Proyecto, "Id", "Name");
             return View();
         }
         [HttpPost]
@@ -265,12 +250,15 @@ namespace Application.Controllers
         {
             if (ModelState.IsValid)
             {
+                DateTime today = DateTime.Today;
+                pedido.Fecha = today;
+                pedido.TipoDeUso = "CONSUMO";
                 _context.Add(pedido);
                 await _context.SaveChangesAsync();
                 return Redirect("https://localhost:44348/Pedido/AgregarItem/" + pedido.Id);
             }
             ViewData["AreaUsuariaId"] = new SelectList(_context.AreaUsuaria, "Id", "Name", pedido.AreaUsuariaId);
-            ViewData["ProyectoId"] = new SelectList(_context.Proyectos, "Id", "Name", pedido.ProyectoId);
+            ViewData["ProyectoId"] = new SelectList(_context.Proyecto, "Id", "Name", pedido.ProyectoId);
             return View(pedido);
         }
         public ActionResult AgregarItem(int? id)
@@ -388,6 +376,5 @@ namespace Application.Controllers
             var applicationDbContext = _context.Pedido.Include(p => p.AreaUsuaria).Include(p => p.PedidoEstado).Include(p => p.Proyecto);
             return View(await applicationDbContext.ToListAsync());
         }
-        */
     }
 }

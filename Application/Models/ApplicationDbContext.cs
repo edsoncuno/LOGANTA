@@ -18,9 +18,7 @@ namespace Application.Models
         public DbSet<Documento> Documento { get; set; }
         public DbSet<CuadroComparativo> CuadroComparativo { get; set; }
         public DbSet<OrdenDeCompra> OrdenDeCompra { get; set; }
-        /*
         public DbSet<Proyecto> Proyecto { get; set; }
         public DbSet<AreaUsuaria> AreaUsuaria { get; set; }
-        */
     }
 }

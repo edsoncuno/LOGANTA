@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Application.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>Lista de Pedidos</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActividadOperativa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDeUso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActividadOperativa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoDeUso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

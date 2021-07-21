@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Application.Models.ItemXPedido>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Lista Items a Pedir</h4>
+<hr />  
+<p>
+    <a asp-action="AgregarItem" asp-route-id="@ViewBag.PedidoId">Agregar nuevo Item</a>|
+    <a asp-action="ListaPedido">Terminar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item.UnidadDeMedida)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.UnidadDeMedida)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>|
+                <a asp-action="ListaItem" asp-route-id="@item.Id">Borrar</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

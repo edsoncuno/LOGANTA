@@ -9,8 +9,13 @@ namespace Application.Models
         public int Id { get; set; }
         public string DireccionDeSolicitante { get; set; }
         public string TipoDeUso { get; set; }
+        [Required(ErrorMessage = "Seleccione un campo valido")]
+        [Display(Name = "Entregar A")]
         public string EntregarA { get; set; }
+        [Required(ErrorMessage = "Seleccione un Actividad Operativa")]
+        [Display(Name = "Actividad Operativa")]
         public string ActividadOperativa { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string Motivo { get; set; }
         public DateTime? Fecha { get; set; }
         public string Observaciones1 { get; set; }
@@ -20,8 +25,8 @@ namespace Application.Models
         public ICollection<ItemXPedido> ItemXPedidoS { get; set; }
         public ICollection<SolicitudDeCotizacion> SolicitudDeCotizacionS { get; set; }
         public ICollection<Documento> DocumentoS { get; set; }
+
         //LEO
-        /*
         [Required(ErrorMessage = "Seleccione un Area Usuaria valida")]
         [Display(Name = "Area Usuaria")]
         public int? AreaUsuariaId { get; set; }
@@ -32,6 +37,5 @@ namespace Application.Models
         public Proyecto Proyecto { get; set; }
         [Required(ErrorMessage = "Seleccione una {0} valida")]
         public string Prioridad { get; set; }
-        */
     }
 }

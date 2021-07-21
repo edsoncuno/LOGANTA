@@ -1,0 +1,89 @@
+﻿@model Application.Models.Pedido
+
+<h4>Nuevo Pedido</h4>
+<hr />
+
+<form asp-action="Nuevo">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EntregarA" class="control-label"></label>
+                <select asp-for="EntregarA" class="form-control">
+                    <option value="">Seleccione una Persona</option>
+                    <option>AGUILAR	NAVARRO	SARA GLORIA</option>
+                    <option>BARRERA	SALDAÑA	HUGO ALBERTO</option>
+                    <option>CAMPOS	NAVARRO	ROBERTO</option>
+                    <option>DOMÍNGUEZ	MALAGÓN	HUGO RICARDO</option>
+                    <option>ESTRADA	GARCÍA	MARÍA TERESA</option>
+                    <option>FLORES	SUÁREZ	LUIS FELIPE</option>
+                </select>
+                <span asp-validation-for="EntregarA" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ActividadOperativa" class="control-label"></label>
+                <select asp-for="ActividadOperativa" class="form-control">
+                    <option value="">Seleccione una Actividad Operativa</option>
+                    <option>GERENCIA PERMANENTE DE PROYECTOS</option>
+                    <option>OBRAS</option>
+                    <option>ALCANTARILLADO</option>
+                    <option>SANEAMIENTO</option>
+                </select>
+                <span asp-validation-for="ActividadOperativa" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Motivo" class="control-label"></label>
+                <input asp-for="Motivo" class="form-control" />
+                <span asp-validation-for="Motivo" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="AreaUsuariaId" class="control-label"></label>
+                <select asp-for="AreaUsuariaId" class="form-control" asp-items="ViewBag.AreaUsuariaId">
+                    <option value="">Seleccione una Area Usuaria</option>
+                </select>
+                <span asp-validation-for="AreaUsuariaId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ProyectoId" class="control-label"></label>
+                <select asp-for="ProyectoId" class="form-control" asp-items="ViewBag.ProyectoId">
+                    <option value="">Seleccione un Proyecto</option>
+                </select>
+                <span asp-validation-for="ProyectoId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Prioridad" class="control-label"></label>
+            <select asp-for="Prioridad" class="form-control">
+                <option value="">Seleccione una Prioridad</option>
+                <option>NORMAL</option>
+                <option>URGENTE</option>
+            </select>
+            <span asp-validation-for="Prioridad" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" value="Agregar Item" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="ListaPedido">Regresar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

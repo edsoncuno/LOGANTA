@@ -19,6 +19,21 @@ namespace Application.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Application.Models.AreaUsuaria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AreaUsuaria");
+                });
+
             modelBuilder.Entity("Application.Models.CuadroComparativo", b =>
                 {
                     b.Property<int>("Id")
@@ -92,9 +107,11 @@ namespace Application.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("Cantidad")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ItemId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PedidoId")
@@ -174,18 +191,25 @@ namespace Application.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActividadOperativa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AreaUsuariaId")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<string>("DireccionDeSolicitante")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EntregarA")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Motivo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observaciones1")
@@ -197,12 +221,24 @@ namespace Application.Migrations
                     b.Property<int?>("PedidoEstadoId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Prioridad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProyectoId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<string>("TipoDeUso")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AreaUsuariaId");
+
                     b.HasIndex("PedidoEstadoId");
+
+                    b.HasIndex("ProyectoId");
 
                     b.ToTable("Pedido");
                 });
@@ -250,6 +286,21 @@ namespace Application.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proveedor");
+                });
+
+            modelBuilder.Entity("Application.Models.Proyecto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proyecto");
                 });
 
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>
@@ -315,7 +366,9 @@ namespace Application.Migrations
                 {
                     b.HasOne("Application.Models.Item", "Item")
                         .WithMany("ItemXPedidoS")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Application.Models.Pedido", "Pedido")
                         .WithMany("ItemXPedidoS")
@@ -352,11 +405,27 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Application.Models.Pedido", b =>
                 {
+                    b.HasOne("Application.Models.AreaUsuaria", "AreaUsuaria")
+                        .WithMany()
+                        .HasForeignKey("AreaUsuariaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Application.Models.PedidoEstado", "PedidoEstado")
                         .WithMany("PedidoS")
                         .HasForeignKey("PedidoEstadoId");
 
+                    b.HasOne("Application.Models.Proyecto", "Proyecto")
+                        .WithMany()
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AreaUsuaria");
+
                     b.Navigation("PedidoEstado");
+
+                    b.Navigation("Proyecto");
                 });
 
             modelBuilder.Entity("Application.Models.SolicitudDeCotizacion", b =>

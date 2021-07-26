@@ -248,7 +248,9 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Nuevo(Pedido pedido)
         {
-            if (ModelState.IsValid && pedido.Prioridad !=null && pedido.ProyectoId!=null && pedido.AreaUsuariaId!=null)
+            if (ModelState.IsValid && pedido.Prioridad !=null && pedido.ProyectoId!=null &&
+                pedido.AreaUsuariaId!=null && pedido.EntregarA != null && pedido.ActividadOperativa != null
+                && pedido.Motivo != null)
             {
                 DateTime today = DateTime.Today;
                 pedido.Fecha = today;

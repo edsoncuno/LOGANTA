@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Models;
-
+using System.ComponentModel.DataAnnotations;
 using Application.DTO;
 
 namespace Application.Controllers
@@ -248,7 +248,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Nuevo(Pedido pedido)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && pedido.Prioridad !=null && pedido.ProyectoId!=null && pedido.AreaUsuariaId!=null)
             {
                 DateTime today = DateTime.Today;
                 pedido.Fecha = today;

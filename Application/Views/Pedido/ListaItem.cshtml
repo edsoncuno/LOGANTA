@@ -9,7 +9,7 @@
 <hr />  
 <p>
     <a asp-action="AgregarItem" asp-route-id="@ViewBag.PedidoId">Agregar nuevo Item</a>|
-    <a asp-action="ListaPedido">Terminar</a>
+    <a asp-action="ListarPendientes">Terminar</a>
 </p>
 <table class="table">
     <thead>
@@ -47,7 +47,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>|
-                <a asp-action="ListaItem" asp-route-id="@item.Id">Borrar</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
             </td>
         </tr>
         }

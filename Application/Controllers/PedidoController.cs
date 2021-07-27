@@ -255,6 +255,7 @@ namespace Application.Controllers
                 DateTime today = DateTime.Today;
                 pedido.Fecha = today;
                 pedido.TipoDeUso = "CONSUMO";
+                pedido.PedidoEstadoId = 1;
                 _context.Add(pedido);
                 await _context.SaveChangesAsync();
                 return Redirect("https://localhost:44348/Pedido/AgregarItem/" + pedido.Id);

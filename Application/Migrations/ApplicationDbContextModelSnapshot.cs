@@ -191,25 +191,21 @@ namespace Application.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActividadOperativa")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("AreaUsuariaId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("DireccionDeSolicitante")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EntregarA")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Motivo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observaciones1")
@@ -222,11 +218,9 @@ namespace Application.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Prioridad")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProyectoId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("TipoDeUso")
@@ -407,9 +401,7 @@ namespace Application.Migrations
                 {
                     b.HasOne("Application.Models.AreaUsuaria", "AreaUsuaria")
                         .WithMany()
-                        .HasForeignKey("AreaUsuariaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AreaUsuariaId");
 
                     b.HasOne("Application.Models.PedidoEstado", "PedidoEstado")
                         .WithMany("PedidoS")
@@ -417,9 +409,7 @@ namespace Application.Migrations
 
                     b.HasOne("Application.Models.Proyecto", "Proyecto")
                         .WithMany()
-                        .HasForeignKey("ProyectoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProyectoId");
 
                     b.Navigation("AreaUsuaria");
 

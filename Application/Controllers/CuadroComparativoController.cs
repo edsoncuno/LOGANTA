@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Models;
+using Application.ViewModels;
 
 namespace Application.Controllers
 {
@@ -28,9 +29,76 @@ namespace Application.Controllers
         {
             return View();
         }
+        public IActionResult Ver(int id)
+        {
+            return View();
+        }
         /*
          * GET
          */
+        public JsonResult ObtenerProveedoresCotizados(int id)
+        {
+            var resultadoDeLaBusquedaDeProveedor = from objProveedor in _context.Proveedor
+                                                   join objSolicitudDeCotizacion in _context.SolicitudDeCotizacion
+                                                   on objProveedor.Id equals objSolicitudDeCotizacion.ProveedorId
+                                                   join objPedido in _context.Pedido
+                                                   on objSolicitudDeCotizacion.PedidoId equals objPedido.Id
+                                                   where objPedido.Id == id
+                                                   && objSolicitudDeCotizacion.SolicitudDeCotizacionEstadoId == 2
+                                                   select new
+                                                   {
+                                                       proveedorId = objProveedor.Id,
+                                                       proveedorRuc = objProveedor.Ruc,
+                                                       proveedorNombre = objProveedor.Nombre
+                                                   };
+            return Json(resultadoDeLaBusquedaDeProveedor);
+        }
+        public JsonResult ObtenerItemsConSusCotizaciones(int id)
+        {
+            var resultadoDeLaBusquedaDeProveedor = from objProveedor in _context.Proveedor
+                                                   join objSolicitudDeCotizacion in _context.SolicitudDeCotizacion
+                                                   on objProveedor.Id equals objSolicitudDeCotizacion.ProveedorId
+                                                   join objPedido in _context.Pedido
+                                                   on objSolicitudDeCotizacion.PedidoId equals objPedido.Id
+                                                   where objPedido.Id == id
+                                                   && objSolicitudDeCotizacion.SolicitudDeCotizacionEstadoId == 2
+                                                   select objProveedor;
+            List<Proveedor> listaDeProveedoresCotizados = resultadoDeLaBusquedaDeProveedor.ToList();
+            var resultadoDeLaBusquedaDeItemPedido = from objItem in _context.Item
+                                                    join objItemXPedido in _context.ItemXPedido on objItem.Id equals objItemXPedido.ItemId
+                                                    join objPedido in _context.Pedido on objItemXPedido.PedidoId equals objPedido.Id
+                                                    where objPedido.Id == id
+                                                    select objItemXPedido;
+            List<ItemXPedido> listaDeItemPedido = resultadoDeLaBusquedaDeItemPedido.ToList();
+            List<SalidaItemConSusProveedoresCotizados> listaDeItemsConSusProveedores = new List<SalidaItemConSusProveedoresCotizados>();
+            foreach (ItemXPedido objItemPedidoActual in listaDeItemPedido)
+            {
+                SalidaItemConSusProveedoresCotizados objItemConSusProveedoresCotizados = new SalidaItemConSusProveedoresCotizados();
+                var objItemQueBusco = from objItem in _context.Item where objItem.Id == objItemPedidoActual.ItemId select objItem;
+                Item objItemQueEncontre = new Item();
+                objItemQueEncontre = objItemQueBusco.Single();
+                objItemConSusProveedoresCotizados.itemId = objItemQueEncontre.Id;
+                objItemConSusProveedoresCotizados.itemDescripcion = objItemQueEncontre.Descripcion;
+                objItemConSusProveedoresCotizados.itemUnidadDeMedida = objItemQueEncontre.UnidadDeMedida;
+                List<SalidaProveedorCotizadoDelItem> objListaDeProveedorCotizadoDelItemTemporal = new List<SalidaProveedorCotizadoDelItem>();
+                foreach (Proveedor objProvedorActual in listaDeProveedoresCotizados)
+                {
+                    var resultadoDeLaBusquedaItemProveedor = from objItemProveedor in _context.ItemXProveedor
+                                                             where objItemProveedor.ItemId == objItemPedidoActual.ItemId
+                                                             && objItemProveedor.ProveedorId == objProvedorActual.Id
+                                                             && objItemProveedor.Fecha < DateTime.Now
+                                                             select objItemProveedor;
+                    List<ItemXProveedor> listaResultanteDeLaBusqueda = resultadoDeLaBusquedaItemProveedor.ToList();
+                    SalidaProveedorCotizadoDelItem objProveedorCotizadoDelItem = new SalidaProveedorCotizadoDelItem();
+                    objProveedorCotizadoDelItem.proveedorId = objProvedorActual.Id;
+                    objProveedorCotizadoDelItem.ipPrecio = listaResultanteDeLaBusqueda.Last().Precio;
+                    objListaDeProveedorCotizadoDelItemTemporal.Add(objProveedorCotizadoDelItem);
+                }
+                objItemConSusProveedoresCotizados.listaDeProveedoresCotizados = objListaDeProveedorCotizadoDelItemTemporal;
+                listaDeItemsConSusProveedores.Add(objItemConSusProveedoresCotizados);
+            }
+            return Json(listaDeItemsConSusProveedores);
+        }
         public JsonResult ObtenerTodosLosItems()
         {
             var todosLosItems = from objItem in _context.Item select objItem;

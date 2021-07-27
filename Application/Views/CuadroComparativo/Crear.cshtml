@@ -26,8 +26,8 @@
     </div>
 </div>
 <div class="mb-3">
-    <button class="btn border-dark" id="botonObtenerGanador">Obtener Ganador</button>
-    <button class="btn border-dark">Guardar</button>
+    <button class="btn border-dark" id="botonCrear">Guardar</button>
+    <a class="btn border-dark" id="botonVerCuadroComparativo">Ver Cuadro Comparativo</a>
 </div>
 <table class="table table-hover">
     <thead>
@@ -66,7 +66,8 @@
     var pedidoHora = document.getElementById('pedidoHora');
     var jsonPedido;
     var jsonItems;
-    var jsonProveedoresDelasSolicitudesDeCotizacionRecividasDelPedido;
+    var jsonProveedores;
+    var jsonItemProveedor;
     var tabla = document.getElementById('tabla');
     /*
     * Inicializar
@@ -75,7 +76,7 @@
         obtenerPedido();
     });
     /*
-     * Obtener y mostrar datos del pedido
+     * Obtener y mostrar datos del pedido y el resto de json
      */
     function obtenerPedido() {
         fetch("/Pedido/ObtenerPedidoConPedidoId/" + obtenerIdDeUrl())
@@ -85,6 +86,10 @@
             .then(function (respuestaDelControladorConvertidoToJSON) {
                 jsonPedido = respuestaDelControladorConvertidoToJSON
                 mostrarPedido();
+                obtenerListaDeItemsDelPedido();
+                obtenerSolicitudesDeCotizacionRecividasConPedidoId();
+                obtenerItemsPorProveedorConPedidoId();
+                setTimeout(completarTabla, 500);
             });
     }
     function mostrarPedido() {
@@ -95,15 +100,6 @@
         pedidoMotivo.innerHTML = jsonPedido[0].motivo;
         pedidoFecha.innerHTML = convertirFechaJsonEnFecha(jsonPedido[0].fecha);
         pedidoHora.innerHTML = convertirFechaJsonEnHora(jsonPedido[0].fecha);
-    }
-    /*
-     * Llenar tabla con el formato para obtener y seleccionar el ganador
-     */
-    document.getElementById("botonObtenerGanador").onclick = obtenerListaConFormatoParaElGanador;
-    function obtenerListaConFormatoParaElGanador() {
-        obtenerListaDeItemsDelPedido();
-        obtenerSolicitudesDeCotizacionRecividasConPedidoId();
-        setTimeout(completarTabla, 500);
     }
     function obtenerListaDeItemsDelPedido() {
         fetch("/Pedido/ObtenerItemsConPedidoId/" + obtenerIdDeUrl()).then(function (respuestaDelControlador) {
@@ -117,21 +113,87 @@
         ).then(function (respuestaDelControlador) {
             return respuestaDelControlador.json();
         }).then(function (respuestaDelControladorConvertidoToJSON) {
-            jsonProveedoresDelasSolicitudesDeCotizacionRecividasDelPedido = respuestaDelControladorConvertidoToJSON;
+            jsonProveedores = respuestaDelControladorConvertidoToJSON;
+        });
+    }
+    function obtenerItemsPorProveedorConPedidoId() {
+        fetch("/OrdenDeCompra/ObtenerItemProveedorDeLosItemsDelPedidoConLosProveedoresCotizados/" + obtenerIdDeUrl()
+        ).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            jsonItemProveedor = respuestaDelControladorConvertidoToJSON;
         });
     }
     function completarTabla() {
         tabla.innerHTML = '';
         for (let i = 0; i < jsonItems.length; i++) {
             tr = document.createElement('tr');
+            let ipId = jsonItems[i].ipId;
+            let itemId = jsonItems[i].itemId;
+            let proveedorId;
+            tr.id = ipId;
             tr.innerHTML =
                 '<td>' + jsonItems[i].itemId + '</td>' +
                 '<td>' + jsonItems[i].itemDescripcion + '</td>' +
-                '<td>' + '<select id="proveedor' + i + '"></select>' + '</td>' +
-                '<td>' + '<label id="ruc' + i + '"></label>' + '</td>' +
-                '<td>' + '<label id="precio' + i +'"></label>' + '</td>';
-                //'<td>' + '<a class="btn border-dark" href="/Pedido/MostrarAprobadoPorElSolicitante/' + jsonPedidos[i].id + '">Ver Detalles</a>' + '</td>';
+                '<td>' + '<select id="proveedor' + ipId + '"></select>' + '</td>' +
+                '<td>' + '<label id="ruc' + ipId + '"></label>' + '</td>' +
+                '<td>' + '<label id="precio' + ipId + '"></label>' + '</td>';
             tabla.appendChild(tr);
+            let selectProveedor = document.getElementById('proveedor' + ipId);
+            let labelRuc = document.getElementById('ruc' + ipId);
+            let labelPrecio = document.getElementById('precio' + ipId);
+            llenarSelectConProveedores(selectProveedor);
+            selectProveedor.onchange = function () {
+                proveedorId = selectProveedor.value;
+                for (let i = 0; i < jsonProveedores.length; i++) {
+                    if (proveedorId == jsonProveedores[i].proveedorId) {
+                        labelRuc.innerHTML = jsonProveedores[i].proveedorRuc;
+                        break;
+                    }
+                }
+                for (let i = 0; i < jsonItemProveedor.length; i++) {
+                    if (jsonItemProveedor[i].proveedorId == proveedorId && jsonItemProveedor[i].itemId == itemId) {
+                        labelPrecio.innerHTML = jsonItemProveedor[i].precio;
+                        break;
+                    }
+                }
+            }
         }
+    }
+    function llenarSelectConProveedores(select) {
+        for (let i = 0; i < jsonProveedores.length; i++) {
+            let option = document.createElement("option");
+            option.value = jsonProveedores[i].proveedorId;
+            option.text = jsonProveedores[i].proveedorNombre;
+            select.appendChild(option);
+        }
+    }
+    /*
+     * Ahora
+     */
+    document.getElementById('botonVerCuadroComparativo').href = "/CuadroComparativo/Ver/" + obtenerIdDeUrl();
+    document.getElementById('botonVerCuadroComparativo').target = "_blank";
+    /*
+     Post
+     */
+    document.getElementById("botonCrear").onclick = crear;
+    function crear() {
+        fetch("/OrdenDeCompra/CrearOrdenDeCompra/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ parametro: 0 })
+        }).then(function (respuestaDelControlador) {
+            return respuestaDelControlador.json();
+        }).then(function (respuestaDelControladorConvertidoToJSON) {
+            if (respuestaDelControladorConvertidoToJSON.estado == 0) {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+                window.location.href = respuestaDelControladorConvertidoToJSON.newUrl;
+            }
+            else {
+                alert(respuestaDelControladorConvertidoToJSON.mensaje);
+            }
+        });
     }
 </script>

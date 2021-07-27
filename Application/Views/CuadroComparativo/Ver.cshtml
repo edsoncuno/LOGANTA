@@ -1,0 +1,84 @@
+﻿<div class="container w-100 text-center h1 mb-3">Cuadro Comparativo de Cotizaciones</div>
+<table class="table table-hover">
+    <thead id="tablahead"></thead>
+    <tbody id="tablabody"></tbody>
+</table>
+<script src="~/js/site.js"></script>
+<script>
+    /*
+     * Variables
+     */
+    var jsonProveedoresCotizados;
+    var jsonItemsConSusCotizaciones;
+    var tablahead = document.getElementById('tablahead');
+    var tablaBody = document.getElementById('tablabody');
+    /*
+     * Inicializar
+     */
+    window.addEventListener('load', function () {
+        obtenerProveedoresCotizados();
+        obtenerItemsConSusCotizaciones();
+        setTimeout(mostrar, 500);
+    });
+    /*
+     * Obtener los proveedores que completaron la cotizacion
+     */
+    function obtenerProveedoresCotizados() {
+        fetch("/CuadroComparativo/ObtenerProveedoresCotizados/" + obtenerIdDeUrl())
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonProveedoresCotizados = respuestaDelControladorConvertidoToJSON;
+            });
+    }
+    /*
+     *
+     */
+    function obtenerItemsConSusCotizaciones() {
+        fetch("/CuadroComparativo/ObtenerItemsConSusCotizaciones/" + obtenerIdDeUrl())
+            .then(function (respuestaDelControlador) {
+                return respuestaDelControlador.json();
+            })
+            .then(function (respuestaDelControladorConvertidoToJSON) {
+                jsonItemsConSusCotizaciones = respuestaDelControladorConvertidoToJSON;
+            });
+    }
+    /*
+     *
+     */
+    function mostrar() {
+        mostrarHead();
+        mostrarBody();
+    }
+    function mostrarHead() {
+        let filaHead = document.createElement('tr');
+        let datosParaFilaHead = ['Código del Item', 'Descripción','Unidad de medida'];
+        for (let i = 0; i < datosParaFilaHead.length;i++) {
+            let columnaHead = document.createElement('th');
+            columnaHead.appendChild(document.createTextNode(datosParaFilaHead[i]));
+            filaHead.appendChild(columnaHead);
+        }
+        for (let i = 0; i < jsonProveedoresCotizados.length; i++) {
+            let columnaHead = document.createElement('th');
+            columnaHead.appendChild(document.createTextNode('Proveedor ' + jsonProveedoresCotizados[i].proveedorId + ' - ' + jsonProveedoresCotizados[i].proveedorNombre + ' - Precio'));
+            filaHead.appendChild(columnaHead);
+        }
+        tablahead.appendChild(filaHead);
+    }
+    function mostrarBody() {
+        for (let i = 0; i < jsonItemsConSusCotizaciones.length; i++) {
+            let filaBody = document.createElement('tr');
+            filaBody.innerHTML =
+                '<td>' + jsonItemsConSusCotizaciones[i].itemId + '</td>' +
+                '<td>' + jsonItemsConSusCotizaciones[i].itemDescripcion + '</td>' +
+                '<td>' + jsonItemsConSusCotizaciones[i].itemUnidadDeMedida + '</td>';
+            for (let j = 0; j < jsonItemsConSusCotizaciones[i].listaDeProveedoresCotizados.length;j++) {
+                let columnaBody = document.createElement('td')
+                columnaBody.appendChild(document.createTextNode(jsonItemsConSusCotizaciones[i].listaDeProveedoresCotizados[j].ipPrecio));
+                filaBody.appendChild(columnaBody);
+            }
+            tablaBody.appendChild(filaBody);
+        }
+    }
+</script>

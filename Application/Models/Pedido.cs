@@ -9,13 +9,8 @@ namespace Application.Models
         public int Id { get; set; }
         public string DireccionDeSolicitante { get; set; }
         public string TipoDeUso { get; set; }
-        [Required(ErrorMessage = "Seleccione un campo valido")]
-        [Display(Name = "Entregar A")]
         public string EntregarA { get; set; }
-        [Required(ErrorMessage = "Seleccione un Actividad Operativa")]
-        [Display(Name = "Actividad Operativa")]
         public string ActividadOperativa { get; set; }
-        [Required(ErrorMessage = "Este campo es obligatorio")]
         public string Motivo { get; set; }
         public DateTime? Fecha { get; set; }
         public string Observaciones1 { get; set; }

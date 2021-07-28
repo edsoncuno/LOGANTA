@@ -50,7 +50,7 @@ namespace Application.Controllers
             }
             await _context.SaveChangesAsync();
             //return Ok();
-            return View("~/Views/Pedido/Index.cshtml");
+            return View("~/Views/Pedido/Listar.cshtml");
         }
         public IActionResult Index()
         {

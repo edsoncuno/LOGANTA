@@ -63,32 +63,32 @@ namespace Application.Controllers
         public JsonResult ObtenerTodosLosPedidosAprobadosPorElSolicitante()
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 2 select pedido;
-            return Json(todosLosPedidosPendientes);
+            return Json(todosLosPedidosPendientes.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerTodosLosPedidosAprobadosPorLogistica()
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 4 select pedido;
-            return Json(todosLosPedidosPendientes);
+            return Json(todosLosPedidosPendientes.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerTodosLosPedidosPendientes()
         {
             var todosLosPedidosPendientes = from pedido in _context.Pedido where pedido.PedidoEstadoId == 1 select pedido;
-            return Json(todosLosPedidosPendientes);
+            return Json(todosLosPedidosPendientes.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerTodosLosPedidos()
         {
             var todosLosPedidos = from objPedido in _context.Pedido join objPedidoEstado in _context.PedidoEstado on objPedido.PedidoEstadoId equals objPedidoEstado.Id select new { objPedido.Id, objPedido.DireccionDeSolicitante, objPedido.TipoDeUso, objPedido.EntregarA, objPedido.ActividadOperativa, objPedido.Motivo, objPedido.Fecha, objPedidoEstado.Descripcion };
-            return Json(todosLosPedidos);
+            return Json(todosLosPedidos.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerTodosLosPedidosConSolicitudesDeCotizacionEnviadas()
         {
             var todosLosPedidosConSolicitudesDeCotizacionEnviadas = from pedido in _context.Pedido where pedido.PedidoEstadoId == 6 select pedido;
-            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas);
+            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerTodosLosPedidosConSolicitudesDeCotizacionCompletas()
         {
             var todosLosPedidosConSolicitudesDeCotizacionEnviadas = from pedido in _context.Pedido where pedido.PedidoEstadoId == 7 select pedido;
-            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas);
+            return Json(todosLosPedidosConSolicitudesDeCotizacionEnviadas.OrderBy(x => x.Fecha));
         }
         public JsonResult ObtenerPedidoConPedidoId(int id)
         {
